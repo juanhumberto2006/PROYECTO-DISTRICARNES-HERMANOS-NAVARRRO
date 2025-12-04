@@ -1,0 +1,551 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+/* Reinicio y base */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #000000;
+    color: white;
+    font-family: 'Roboto Slab', serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    gap: 100px;
+    max-width: 1300px;
+    width: 100%;
+    padding: 10px;
+    align-items: center;
+}
+
+.logo-section {
+    flex: 1;
+    text-align: center;
+}
+
+.logo-section img {
+    max-width: 100%;
+    height: auto;
+    max-height: 270px;
+    object-fit: contain;
+}
+
+.logo-section .logo-text {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #b81111;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+}
+
+form {
+    flex: 1;
+    max-width: 550px;
+}
+
+
+/* Diseño en cuadrícula para los campos de entrada */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px 30px;
+}
+
+
+/* Estilizado de las etiquetas */
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+
+
+/* Estilizado de los campos de entrada */
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    background: #8a8a8a;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 35px 10px 20px;
+    width: 100%;
+    color: #1a1a1a;
+    font-family: 'Roboto Slab', serif;
+    font-size: 15px;
+    outline-offset: 2px;
+    outline-color: transparent;
+    transition: outline-color 0.2s ease;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+    color: #dcdcdc;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline-color: #b81111;
+}
+
+
+/* Email de confirmación a ancho completo */
+
+.input-confirm {
+    grid-column: 1 / 3;
+    position: relative;
+}
+
+
+/* Contenedor de inputs de contraseña para el icono */
+
+.input-password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+
+/* Icono del ojo */
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    fill: #1a1a1a;
+    width: 22px;
+    height: 22px;
+    user-select: none;
+}
+
+
+/* Checkbox and label wrapper */
+
+.term-accept {
+    display: flex;
+    align-items: center;
+    margin: 25px 0 30px 0;
+    gap: 12px;
+    font-size: 18px;
+    user-select: none;
+}
+
+
+/* Custom green checkmark */
+
+.checkbox-custom {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: 2px solid #198a00;
+    border-radius: 6px;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.checkbox-custom svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    fill: #198a00;
+    display: none;
+}
+
+input[type="checkbox"]:checked+.checkbox-custom svg {
+    display: block;
+}
+
+
+/* Hide native checkbox */
+
+input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+/* Submit button */
+
+button[type="submit"] {
+    width: 100%;
+    padding: 14px 12px;
+    background-color: #000000;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.09em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #000000;
+}
+
+
+/* Responsive */
+
+@media (max-width: 860px) {
+    .container {
+        flex-direction: column;
+        gap: 50px;
+        padding: 10px 0 20px 0;
+    }
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .input-confirm {
+        grid-column: 1 / 2;
+    }
+    form {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .logo-section img {
+        max-height: 200px;
+    }
+    .logo-section .logo-text {
+        font-size: 16px;
+    }
+    button[type="submit"] {
+        font-size: 18px;
+        padding: 12px 10px;
+    }
+}
+
+
+/*=====ESTILOS DE REGISTRO DE USUARIO======*/
+
+.register-header {
+    background: linear-gradient(135deg, #cc0303 20%, #000000 100%);
+    /* Fondo oscuro elegante */
+    color: #ffffff;
+    padding: 2rem 1.5rem;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.register-header h1 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 0.25rem;
+}
+
+.register-header h1 .bi {
+    font-size: 2rem;
+    margin-right: 0.5rem;
+    vertical-align: -0.1em;
+}
+
+.register-header p.lead {
+    font-size: 1rem;
+    color: #e0e0e0;
+    margin-bottom: 0;
+}
+
+.register-container-wrapper {
+    margin-top: 150px;
+    /* Espacio para el header fijo */
+    margin-bottom: 30px;
+    /* Espacio inferior */
+    width: 100%;
+    max-width: 700px;
+    /* Un poco más ancho para formularios con dos columnas */
+    padding: 1rem;
+}
+
+.register-form-card {
+    background-color: #000000;
+    padding: 2.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.register-form-card .form-title-main {
+    /* Título principal del card */
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fafafa;
+    margin-bottom: 0.5rem;
+}
+
+.register-form-card .form-title-main .highlight {
+    /* Para la parte naranja del título */
+    color: #ff0000;
+}
+
+.register-form-card .form-subtitle-main {
+    text-align: center;
+    color: #6c757d;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+
+/* Estilos para los campos del formulario */
+
+.register-form-card .form-label {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.register-form-card .input-group {
+    border-radius: 0.375rem;
+    border: 1px solid #ff0000;
+    margin-bottom: 1rem;
+}
+
+.register-form-card .input-group:focus-within {
+    border-color: #ff0000;
+    box-shadow: 0 0 0 0.25rem rgba(255, 37, 37, 0.35);
+}
+
+.register-form-card .input-group-text {
+    background-color: #000000;
+    border: none;
+    padding: 0.75rem 0.75rem;
+    border-top-left-radius: 0.375rem;
+    /* Redondeo para el span */
+    border-bottom-left-radius: 0.375rem;
+    border-right: 1px solid #ff0000;
+    /* Línea divisoria */
+}
+
+.register-form-card .input-group .form-control {
+    border: none;
+    border-top-right-radius: 0.375rem;
+    /* Redondeo para el input */
+    border-bottom-right-radius: 0.375rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    box-shadow: none;
+}
+
+.register-form-card .input-group .form-control:focus {
+    box-shadow: none;
+    border-color: transparent;
+}
+
+.register-form-card .input-group .bi {
+    color: #ff0000;
+    font-size: 1rem;
+}
+
+.register-form-card .input-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.register-form-card .input-group-half {
+    flex: 1 1 calc(50% - 0.75rem);
+    min-width: 200px;
+}
+
+.register-form-card .input-group-half .input-group {
+    margin-bottom: 0;
+}
+
+.form-txt-links {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.form-txt-links a {
+    color: #ffffff;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+}
+
+.form-txt-links a:hover {
+    text-decoration: underline;
+    color: #ff0000;
+}
+
+
+/* Botones con estilo de login.html */
+
+.btn-register-custom,
+.btn-login-link-custom {
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    transition: all 0.25s ease-in-out;
+    text-transform: uppercase;
+    width: 100%;
+    font-size: 1rem;
+    margin-top: 1rem;
+    /* Aumentado el margen superior */
+    display: flex;
+    /* Para alinear icono y texto */
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-register-custom .bi,
+.btn-login-link-custom .bi {
+    margin-right: 0.5rem;
+    /* Espacio entre icono y texto */
+}
+
+.btn-register-custom {
+    /* Botón principal de registro - Estilo Naranja */
+    background-color: red;
+    color: black;
+    border: 1px solid #e60000;
+}
+
+.btn-register-custom:hover,
+.btn-register-custom:focus {
+    background-color: rgb(255, 0, 0);
+    color: white;
+    border-color: #e60000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(218, 32, 32, 0.4);
+}
+
+.btn-login-link-custom {
+    /* Botón "Ya Tengo Cuenta" - Estilo Gris */
+    background-color: #000000;
+    color: white;
+    border: 1px solid #ff0000;
+    text-decoration: none;
+    display: flex;
+    /* Asegurar que se comporte como flex para el icono */
+}
+
+.btn-login-link-custom:hover,
+.btn-login-link-custom:focus {
+    background-color: #5a6268;
+    color: white;
+    border-color: #545b62;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.error-text {
+    /* Para mensajes de error del formulario */
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: none;
+    text-align: left;
+}
+
+.animation-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    z-index: 2000;
+    width: auto;
+    min-width: 280px;
+}
+
+.loading {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #ff0000;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1.5s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+.checkmark {
+    font-size: 2.5rem;
+    display: none;
+    color: #28a745;
+    margin-bottom: 0.5rem;
+}
+
+#successMessage {
+    font-size: 1.1rem;
+    display: none;
+    font-weight: 500;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 767px) {
+    .register-header h1 {
+        font-size: 1.8rem;
+    }
+    .register-header p.lead {
+        font-size: 0.9rem;
+    }
+    .register-form-card {
+        padding: 2rem 1.5rem;
+    }
+    .register-form-card .form-title-main {
+        font-size: 1.6rem;
+    }
+    .register-container-wrapper {
+        margin-top: 130px;
+        max-width: 100%;
+    }
+    .register-form-card .input-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    .register-form-card .input-group-half {
+        flex-basis: 100%;
+        margin-bottom: 1rem;
+    }
+    .register-form-card .input-group-half:last-child .input-group {
+        margin-bottom: 0;
+    }
+    .btn-register-custom,
+    .btn-login-link-custom {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.2rem;
+    }
+}

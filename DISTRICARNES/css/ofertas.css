@@ -1,0 +1,259 @@
+/* Estilos generales */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-image {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ff0d00;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.product-info {
+    padding: 15px;
+}
+
+.product-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.product-category {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.current-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.quantity-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.quantity-input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #555;
+    background-color: #2d2d2d;
+    color: white;
+    padding: 5px;
+    margin: 0 5px;
+}
+
+.add-to-cart {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart:hover {
+    background-color: #e60000;
+}
+
+/* Estilos específicos para el producto de "Lomo Fino de Res Limpio Premium Porcionado" */
+.special-product .product-image {
+    height: 180px;
+}
+
+.special-product .product-title {
+    font-size: 13px;
+}
+
+.special-product .product-category {
+    font-size: 11px;
+}
+
+.special-product .product-price {
+    justify-content: space-between;
+}
+
+.special-product .stars {
+    display: flex;
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.special-product .add-to-cart {
+    background-color: #ff0000;
+    padding: 8px 15px;
+    border-radius: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Media queries para dispositivos móviles */
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .product-card {
+        margin-bottom: 15px;
+    }
+
+    .product-image {
+        height: 180px;
+    }
+
+    .product-title {
+        font-size: 13px;
+    }
+
+    .product-category {
+        font-size: 11px;
+    }
+
+    .product-price {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .original-price {
+        font-size: 13px;
+    }
+
+    .current-price {
+        font-size: 16px;
+    }
+
+    .quantity-selector {
+        justify-content: center;
+    }
+
+    .quantity-btn {
+        width: 25px;
+        height: 25px;
+        font-size: 14px;
+    }
+
+    .quantity-input {
+        width: 30px;
+        font-size: 12px;
+    }
+
+    .add-to-cart {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-image {
+        height: 200px;
+    }
+
+    .product-title {
+        font-size: 12px;
+    }
+
+    .product-category {
+        font-size: 10px;
+    }
+
+    .product-price {
+        flex-direction: row;
+    }
+
+    .original-price {
+        font-size: 12px;
+    }
+
+    .current-price {
+        font-size: 14px;
+    }
+
+    .quantity-selector {
+        margin-bottom: 8px;
+    }
+
+    .quantity-btn {
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+    }
+
+    .quantity-input {
+        width: 25px;
+        font-size: 11px;
+    }
+
+    .add-to-cart {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+}

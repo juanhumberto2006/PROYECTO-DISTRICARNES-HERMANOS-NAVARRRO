@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DISTRICARNES - Sobre Nosotros</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="shortcut icon" href="./assets/icon/image-removebg-preview sin fondo (1).ico" type="image/x-icon">
+    <link rel="stylesheet" href="./static/css/header_en_general.css" />
+    <link rel="stylesheet" href="./css/sobre_nosotros.css" />
+    <link rel="stylesheet" href="./static/css/base.css" />
+    <link rel="stylesheet" href="./static/css/chatbot.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="./static/css/responsive.css" />
+
+</head>
+
+<body class=" bg-black text-white ">
+    <!-- Header -->
+    <header class="header ">
+        <div class="header-content ">
+            <div class="logo ">
+                <img src="./assets/icon/LOGO-DISTRICARNES.png " alt="DISTRICARNES Logo ">
+            </div>
+
+            <!-- Buscador central estilo ML y pill promocional -->
+            <div class="ml-search">
+                <form action="productos.php" method="get">
+                    <input type="search" name="q" id="site-search" placeholder="Buscar productos, marcas y más…" />
+                    <button type="submit" aria-label="Buscar"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+
+            <!-- Enlaces rápidos + botón de carrito (siempre visibles) -->
+            <div id="quickLinks" class="ml-actions">
+                <a id="cartButton" class="ml-icon-btn ml-icon-bounce" href="./carrito-de-compras/index.html" aria-label="Carrito">
+                    <i class="bi bi-cart"></i>
+                    <span class="ml-badge" id="cartCount">0</span>
+                </a>
+                <!-- Botones de acceso y registro -->
+                <div id="authButtons" class="flex gap-3">
+                    <a href="./login/login.html" class="block">
+                        <button style="background-color: rgb(255, 0, 0); border-radius: 50px; color: white; border: 2px solid red;" onmouseover="this.style.borderColor='red'; this.style.backgroundColor='black'; this.style.color='white';" onmouseout="this.style.borderColor='red'; this.style.backgroundColor='red'; this.style.color='white';"
+                            class="bg-red-700 hover:bg-red-800 transition text-white text-sm font-semibold px-4 py-2 rounded">
+                            <i class="bi bi-box-arrow-in-right" style="font-size: 1.5rem;"></i> INICAR SESIÓN
+                        </button>
+                    </a>
+                    <a href="./login/register.html" class="block">
+                        <button style="background-color: rgb(255, 0, 0); border-radius: 50px; color: white; border: 2px solid red;" onmouseover="this.style.borderColor='red'; this.style.backgroundColor='black'; this.style.color='white';" onmouseout="this.style.borderColor='red'; this.style.backgroundColor='red'; this.style.color='white';"
+                            class="bg-red-700 hover:bg-red-800 transition text-white text-sm font-semibold px-4 py-2 rounded">
+                            <i class="bi bi-person-plus-fill" style="font-size: 1.5rem;"></i>
+                            REGISTRARSE
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- Botones para usuario logueado (inicialmente ocultos) -->
+            <div id="userLoggedButtons" style="display: none; box-shadow: 0 0 20px rgba(0,0,0,0.8);">
+                <div class="user-profile-container">
+                    <button class="menu-button" onclick="toggleUserDropdown()" aria-expanded="false" aria-haspopup="true">
+                        <span class="user-avatar" id="userAvatar"></span>
+                        <span class="user-name" id="userName"></span>
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </button>
+
+                    <!-- User Dropdown Menu -->
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-info-dropdown">
+                            <div class="user-avatar-large" id="userAvatarLarge"></div>
+                            <div class="user-details">
+                                <h4 id="userFullName"></h4>
+                                <p id="userEmail"></p>
+                                <span class="user-role" id="userRole"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="menu-divider"></div>
+
+                        <div class="menu-items">
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-user"></i>
+                                <span>Mi Perfil</span>
+                            </a>
+
+
+                            <a href="./historial.html" class="menu-item">
+                                <i class="fas fa-clock"></i> Historial de compra
+                            </a>
+                            <a href="./favoritos.html" class="menu-item">
+                                <i class="fas fa-heart"></i> Mis favoritos
+                            </a>
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-edit"></i>
+                                <span>Editar Perfil</span>
+                            </a>
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-key"></i>
+                                <span>Cambiar Contraseña</span>
+                            </a>
+
+                            <a href="admin/admin_settings.html" class="menu-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Configuración</span>
+                            </a>
+
+
+                            <div class="menu-divider"></div>
+
+                            <a href="#" class="menu-item logout" onclick="logout()">
+                                <i class="fas fa-sign-out-alt" style="color: red;"></i>
+                                <span style="color: red;">Cerrar Sesión</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="nav-menu" id="navMenu">
+                <style>
+                    /* Contenedor centrado en la página */
+                    
+                    .nav-menu {
+                        display: flex;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 6rem;
+                        /* Increased spacing */
+                        width: 100%;
+                        max-width: 960px;
+                        /* ancho máximo del nav centrado */
+                        margin: 0 auto;
+                        /* centra horizontalmente dentro del header */
+                        box-sizing: border-box;
+                        padding: 0.25rem 0.5rem;
+                        text-align: center;
+                    }
+                    /* Asegura que los enlaces y botones queden centrados visualmente */
+                    
+                    .nav-menu>a,
+                    .nav-menu>div {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    
+                    .nav-menu a {
+                        text-decoration: none;
+                        color: inherit;
+                        padding: 0.35rem 0.75rem;
+                        font-family: 'Montserrat', sans-serif;
+                        /* Applied Montserrat font */
+                    }
+                    /* Mantener los botones de auth alineados y centrados */
+                    
+                    #authButtons {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        justify-content: center;
+                    }
+                    /* En móvil, permitir que los elementos se apilen centrados */
+                    
+                    @media (max-width: 768px) {
+                        .nav-menu {
+                            justify-content: center;
+                            padding: 0.5rem;
+                        }
+                        /* Hacer los botones más compactos en móvil */
+                        #authButtons {
+                            width: 100%;
+                            justify-content: center;
+                            gap: 0.5rem;
+                        }
+                    }
+                </style>
+
+                <!-- Botones de navegación -->
+                <a href="./index.html">Inicio</a>
+                <a href="./productos.php">Productos</a>
+                <a href="./promociones.html">Ofertas</a>
+                <a href="./contacto.html">Contacto</a>
+                <a href="./sobre_nosotros.html" class="active">Quienes Somos</a>
+
+
+
+                <!-- Estilos y funcionalidad mejorados PARA EL MENU DEL USUARIO LOGUEADO -->
+                <style>
+                    /* Contenedor principal con fondo negro y separación de bordes */
+                    
+                    #userLoggedButtons {
+                        background-color: #000000;
+                        padding: 1rem;
+                        border-radius: 10px;
+                        margin: 0.5rem;
+                    }
+                    
+                    .user-profile-container {
+                        position: relative;
+                        display: inline-block;
+                    }
+                    
+                    .menu-button {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        background: linear-gradient(135deg, #000000 0%, #000000 100%);
+                        border: 2px solid #000000;
+                        border-radius: 50px;
+                        padding: 0.75rem 1.5rem;
+                        color: #ffffff;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                    }
+                    
+                    .menu-button:hover {
+                        border-color: #ff0000;
+                        background: linear-gradient(135deg, #000000 0%, #000000 100%);
+                        box-shadow: 0 6px 25px rgba(255, 0, 0, 0.25);
+                        transform: translateY(-2px);
+                    }
+                    
+                    .menu-button:active {
+                        transform: translateY(0);
+                    }
+                    
+                    .user-avatar {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                        font-size: 1.1rem;
+                        color: white;
+                        box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
+                    }
+                    
+                    .user-name {
+                        font-size: 0.95rem;
+                        color: #f0f0f0;
+                        max-width: 120px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    
+                    .dropdown-arrow {
+                        margin-left: 0.5rem;
+                        transition: transform 0.3s ease;
+                        color: #ff0000;
+                    }
+                    
+                    .menu-button[aria-expanded="true"] .dropdown-arrow {
+                        transform: rotate(180deg);
+                    }
+                    
+                    .user-dropdown {
+                        position: absolute;
+                        top: calc(100% + 12px);
+                        right: 0;
+                        background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+                        border: 2px solid #333;
+                        border-radius: 16px;
+                        min-width: 280px;
+                        max-width: 320px;
+                        opacity: 0;
+                        visibility: hidden;
+                        transform: translateY(-10px);
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        z-index: 1000;
+                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                        backdrop-filter: blur(10px);
+                    }
+                    
+                    .user-dropdown.active {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateY(0);
+                    }
+                    
+                    .user-info-dropdown {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        padding: 1.5rem;
+                        border-bottom: 1px solid #333;
+                    }
+                    
+                    .user-avatar-large {
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                        font-size: 1.5rem;
+                        color: white;
+                        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+                    }
+                    
+                    .user-details h4 {
+                        color: #ffffff;
+                        margin: 0 0 0.25rem 0;
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                    }
+                    
+                    .user-details p {
+                        color: #cccccc;
+                        margin: 0 0 0.5rem 0;
+                        font-size: 0.85rem;
+                    }
+                    
+                    .user-role {
+                        background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+                        color: white;
+                        padding: 0.25rem 0.75rem;
+                        border-radius: 20px;
+                        font-size: 0.75rem;
+                        font-weight: 600;
+                        display: inline-block;
+                    }
+                    
+                    .menu-items {
+                        padding: 0.5rem 0;
+                    }
+                    
+                    .menu-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        padding: 0.875rem 1.5rem;
+                        color: #e0e0e0;
+                        text-decoration: none;
+                        transition: all 0.2s ease;
+                        border-radius: 8px;
+                        margin: 0 0.5rem;
+                    }
+                    
+                    .menu-item:hover {
+                        background: rgba(255, 0, 0, 0.1);
+                        color: #ffffff;
+                        transform: translateX(4px);
+                    }
+                    
+                    .menu-item.logout {
+                        color: #ff6b6b;
+                    }
+                    
+                    .menu-item.logout:hover {
+                        background: rgba(255, 0, 0, 0.15);
+                        color: #ff4444;
+                    }
+                    
+                    .menu-item i {
+                        width: 20px;
+                        text-align: center;
+                        color: #ff0000;
+                    }
+                    
+                    .menu-divider {
+                        height: 1px;
+                        background: linear-gradient(90deg, transparent 0%, #333 50%, transparent 100%);
+                        margin: 0.5rem 1.5rem;
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .user-dropdown {
+                            right: -10px;
+                            min-width: 260px;
+                        }
+                        .menu-button {
+                            padding: 0.625rem 1.25rem;
+                        }
+                        .user-name {
+                            max-width: 80px;
+                        }
+                    }
+                </style>
+
+                <script>
+                    // Función mejorada para toggle del dropdown
+                    function toggleUserDropdown() {
+                        const dropdown = document.getElementById('userDropdown');
+                        const button = document.querySelector('.menu-button');
+                        const isOpen = dropdown.classList.contains('active');
+
+                        // Cerrar todos los dropdowns primero
+                        document.querySelectorAll('.user-dropdown').forEach(d => d.classList.remove('active'));
+                        document.querySelectorAll('.menu-button').forEach(b => b.setAttribute('aria-expanded', 'false'));
+
+                        if (!isOpen) {
+                            dropdown.classList.add('active');
+                            button.setAttribute('aria-expanded', 'true');
+                        }
+                    }
+
+                    document.addEventListener('click', function(event) {
+                        const container = document.querySelector('.user-profile-container');
+                        if (!container.contains(event.target)) {
+                            const dd = document.getElementById('userDropdown');
+                            if (dd) dd.classList.remove('active');
+                            const btn = document.querySelector('.menu-button');
+                            if (btn) btn.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    document.addEventListener('keydown', function(event) {
+                        if (event.key === 'Escape') {
+                            const dd = document.getElementById('userDropdown');
+                            if (dd) dd.classList.remove('active');
+                            const btn = document.querySelector('.menu-button');
+                            if (btn) btn.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    function updateUserProfile(userData) {
+                        if (!userData) return;
+                        const name = userData.name || userData.nombres_completos || 'Usuario';
+                        const initials = (name.charAt(0) || 'U').toUpperCase();
+                        const avatar = document.getElementById('userAvatar');
+                        const userName = document.getElementById('userName');
+                        const avatarLarge = document.getElementById('userAvatarLarge');
+                        const fullName = document.getElementById('userFullName');
+                        const email = document.getElementById('userEmail');
+                        const role = document.getElementById('userRole');
+
+                        if (avatar) avatar.textContent = initials;
+                        if (userName) userName.textContent = name;
+                        if (avatarLarge) avatarLarge.textContent = initials;
+                        if (fullName) fullName.textContent = userData.fullName || name;
+                        if (email) email.textContent = userData.email || userData.correo_electronico || '';
+                        if (role) role.textContent = userData.role || userData.rol || 'Usuario';
+                    }
+
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // placeholder para posibles inicializaciones
+                    });
+
+                    // Modal y sesión
+                    function closeModal() {
+                        const modal = document.getElementById('welcomeModal');
+                        if (modal) modal.style.display = 'none';
+                    }
+
+                    window.addEventListener('load', function() {
+                        var modalEl = document.getElementById('welcomeModal');
+                        if (modalEl) modalEl.style.display = 'flex';
+                        if (window.AuthSystem && typeof AuthSystem.checkUserSession === 'function') {
+                            AuthSystem.checkUserSession();
+                        } else if (typeof checkUserSession === 'function') {
+                            checkUserSession();
+                        }
+                    });
+
+                    function checkUserSession() {
+                        const userData = localStorage.getItem('userData');
+                        const sessionData = sessionStorage.getItem('currentSession');
+
+                        if (userData || sessionData) {
+                            const raw = JSON.parse(userData || sessionData);
+                            if (raw && raw.isLoggedIn) {
+                                const currentUser = raw.user ? raw.user : raw;
+                                const authButtons = document.getElementById('authButtons');
+                                const userLoggedButtons = document.getElementById('userLoggedButtons');
+                                if (authButtons) authButtons.style.display = 'none';
+                                if (userLoggedButtons) userLoggedButtons.style.display = 'block';
+
+                                const displayName = currentUser.nombres_completos || currentUser.nombre || currentUser.correo_electronico || currentUser.email || 'Usuario';
+                                const displayEmail = currentUser.correo_electronico || currentUser.email || '';
+                                const displayRole = currentUser.rol || '';
+                                const initials = (displayName.charAt(0) || 'U').toUpperCase();
+
+                                const userAvatar = document.getElementById('userAvatar');
+                                const userName = document.getElementById('userName');
+                                const userAvatarLarge = document.getElementById('userAvatarLarge');
+                                const userFullName = document.getElementById('userFullName');
+                                const userEmail = document.getElementById('userEmail');
+                                const userRole = document.getElementById('userRole');
+
+                                if (userAvatar) userAvatar.textContent = initials;
+                                if (userName) userName.textContent = displayName;
+                                if (userAvatarLarge) userAvatarLarge.textContent = initials;
+                                if (userFullName) userFullName.textContent = displayName;
+                                if (userEmail) userEmail.textContent = displayEmail;
+                                if (userRole) userRole.textContent = displayRole ? displayRole.charAt(0).toUpperCase() + displayRole.slice(1) : '';
+                            }
+                        }
+                    }
+                </script>
+            </nav>
+
+            <button class="mobile-toggle " id="mobileToggle " aria-label="Toggle menu ">
+                <i class="fas fa-bars "></i>
+            </button>
+        </div>
+    </header>
+    <!-- Contenido Principal -->
+    <main style="background-color: #000000;" class="main-content">
+        <!-- Hero Section Ultra Moderno con Video -->
+        <section class="hero-ultra-modern">
+            <div class="hero-video-container">
+                <video autoplay muted loop class="hero-video">
+                    <source
+                        src="https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761"
+                        type="video/mp4">
+                </video>
+                <div class="hero-video-overlay"></div>
+            </div>
+
+            <div class="hero-content-ultra">
+                <div class="hero-badge-modern">
+                    <i class="fas fa-crown"></i>
+                    <span>QUIÉNES SOMOS</span>
+                </div>
+
+                <h1 class="hero-title-ultra">
+                    <span class="title-line-1">DISTRICARNES</span>
+                </h1>
+
+                <div class="hero-subtitle-container">
+                    <p class="hero-subtitle-ultra">Tradición familiar en carnes premium desde 1995. Conectamos la calidad artesanal con la innovación tecnológica para ofrecer la mejor experiencia cárnica de la región
+                    </p>
+                </div>
+
+                <div class="hero-cta-buttons">
+                    <button class="btn-primary-ultra">
+                        <span>Conoce Nuestra Historia</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn-secondary-ultra">
+                        <i class="fas fa-play"></i>
+                        <span>Ver Video</span>
+                    </button>
+                </div>
+
+                <!-- Floating Stats -->
+                <div class="floating-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number" data-target="28">0</span>
+                            <span class="stat-label">Años de Tradición</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number" data-target="8500">0</span>
+                            <span class="stat-label">Familias Atendidas</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-meat"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-number" data-target="100">0</span>
+                            <span class="stat-label">% Carnes Premium</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator">
+                <div class="scroll-mouse">
+                    <div class="scroll-wheel"></div>
+                </div>
+                <span>Scroll para descubrir más</span>
+            </div>
+        </section>
+
+        <!-- Our Story Section Ultra Interactive -->
+        <section class="our-story-ultra">
+            <div class="story-background-parallax">
+                <div class="parallax-layer layer-1"></div>
+                <div class="parallax-layer layer-2"></div>
+                <div class="parallax-layer layer-3"></div>
+            </div>
+
+            <div class="container">
+                <div class="story-header-ultra">
+                    <div class="story-badge-floating">
+                        <i class="fas fa-history"></i>
+                        <span>NUESTRA HISTORIA</span>
+                    </div>
+                    <h2 class="story-title-ultra">
+                        <span class="title-word" data-aos="fade-up" data-aos-delay="100">Tradición</span>
+                        <span class="title-word" data-aos="fade-up" data-aos-delay="200">familiar</span>
+                        <span class="title-word" data-aos="fade-up" data-aos-delay="300">en</span>
+                        <span class="title-word" data-aos="fade-up" data-aos-delay="400">carnes</span>
+                        <span class="title-word highlight-word" data-aos="fade-up" data-aos-delay="500">premium</span>
+                    </h2>
+
+                    <style>
+                        /* === FUENTES (importar desde Google Fonts) === */
+                        /* Agrega esto en el <head> de tu HTML:
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+*/
+                        /* === Estilos del título === */
+                        
+                        .story-title-ultra {
+                            font-family: 'Cormorant Garamond', serif;
+                            font-weight: 700;
+                            font-size: 3.2rem;
+                            line-height: 1.1;
+                            text-align: center;
+                            color: var(--color-black);
+                            margin: 0;
+                            letter-spacing: -0.5px;
+                        }
+                        
+                        .title-word {
+                            display: inline-block;
+                            opacity: 0;
+                            transform: translateY(15px);
+                            animation: fadeInUpWords 0.6s forwards;
+                        }
+                        /* Si usas AOS, puedes omitir la animación CSS, pero la dejamos como respaldo */
+                        
+                        @keyframes fadeInUpWords {
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
+                        }
+                        /* Retrasos progresivos (solo si no usas AOS) */
+                        
+                        .title-word:nth-child(1) {
+                            animation-delay: 0.1s;
+                        }
+                        
+                        .title-word:nth-child(2) {
+                            animation-delay: 0.2s;
+                        }
+                        
+                        .title-word:nth-child(3) {
+                            animation-delay: 0.3s;
+                        }
+                        
+                        .title-word:nth-child(4) {
+                            animation-delay: 0.4s;
+                        }
+                        
+                        .title-word:nth-child(5) {
+                            animation-delay: 0.5s;
+                        }
+                        /* Palabra destacada "premium" */
+                        
+                        .highlight-word {
+                            color: var(--color-red);
+                            position: relative;
+                            font-style: italic;
+                        }
+                        /* Subrayado fino y elegante */
+                        
+                        .highlight-word::after {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            bottom: -10px;
+                            width: 100%;
+                            height: 2px;
+                            background: var(--color-red);
+                            transform: scaleX(0);
+                            transform-origin: right;
+                            transition: transform 0.5s ease-in-out;
+                        }
+                        /* Animación del subrayado al aparecer */
+                        
+                        .highlight-word[style*="opacity: 1"]::after,
+                        .highlight-word[data-aos="fade-up"][data-aos-state="animated"]::after {
+                            transform: scaleX(1);
+                            transform-origin: left;
+                        }
+                        /* Responsive */
+                        
+                        @media (max-width: 992px) {
+                            .story-title-ultra {
+                                font-size: 2.6rem;
+                            }
+                        }
+                        
+                        @media (max-width: 768px) {
+                            .story-title-ultra {
+                                font-size: 2rem;
+                                line-height: 1.2;
+                            }
+                            .highlight-word::after {
+                                bottom: -8px;
+                                height: 1.5px;
+                            }
+                        }
+                    </style>
+                </div>
+
+                <div class="story-content-grid">
+                    <div class="story-text-section" data-aos="fade-right">
+                        <div class="story-description-ultra">
+                            <p class="story-paragraph">DISTRICARNES es una carnicería familiar fundada en 1995 en el corazón de la región, especializada en ofrecer las mejores carnes premium y productos cárnicos de la más alta calidad. Durante más de 28 años, hemos mantenido la
+                                tradición artesanal combinada con las mejores prácticas modernas.</p>
+
+                            <p class="story-paragraph">Nuestro compromiso con la excelencia nos ha convertido en la carnicería de confianza para más de 8,500 familias. Seleccionamos cuidadosamente cada corte, trabajamos con los mejores proveedores locales y garantizamos frescura
+                                y calidad en cada producto que ofrecemos.</p>
+                        </div>
+
+                        <div class="story-features-list">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <span>Carnes premium seleccionadas</span>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <span>28+ años de experiencia familiar</span>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <span>Proveedores locales certificados</span>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <span>Frescura garantizada diariamente</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story-visual-section" data-aos="fade-left">
+                        <div class="story-image-container">
+                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Team working together" class="story-main-image">
+                            <div class="image-overlay-interactive">
+                                <div class="overlay-content-modern">
+                                    <button class="play-button-ultra">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                    <span class="play-text">Watch Our Story</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Floating Stats Cards -->
+                        <div class="floating-stats-cards">
+                            <div class="floating-card card-1" data-aos="zoom-in" data-aos-delay="600">
+                                <div class="card-icon">
+                                    <i class="fas fa-meat"></i>
+                                </div>
+                                <div class="card-content">
+                                    <span class="card-number">150+</span>
+                                    <span class="card-label">Productos</span>
+                                </div>
+                            </div>
+
+                            <div class="floating-card card-2" data-aos="zoom-in" data-aos-delay="700">
+                                <div class="card-icon">
+                                    <i class="fas fa-truck"></i>
+                                </div>
+                                <div class="card-content">
+                                    <span class="card-number">24h</span>
+                                    <span class="card-label">Frescura</span>
+                                </div>
+                            </div>
+
+                            <div class="floating-card card-3" data-aos="zoom-in" data-aos-delay="800">
+                                <div class="card-icon">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <div class="card-content">
+                                    <span class="card-number">A+</span>
+                                    <span class="card-label">Calidad</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Who We Are Section Ultra Modern -->
+        <section class="who-we-are-ultra">
+            <div class="container">
+                <div class="who-header-ultra">
+                    <div class="who-badge-modern">
+                        <i class="fas fa-users"></i>
+                        <span>QUIÉNES SOMOS</span>
+                    </div>
+                    <h2 class="who-title-ultra">Ubicados en el corazón de la región, sirviendo a familias de toda la comunidad.
+                    </h2>
+                </div>
+
+                <div class="who-content-grid">
+                    <div class="who-text-section" data-aos="fade-right">
+                        <div class="facts-section">
+                            <h3 class="facts-title">DISTRICARNES Datos</h3>
+                            <div class="facts-list">
+                                <div class="fact-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Ubicados en la región</span>
+                                </div>
+                                <div class="fact-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Servicio a domicilio</span>
+                                </div>
+                                <div class="fact-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Carnes premium</span>
+                                </div>
+                                <div class="fact-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Tradición familiar</span>
+                                </div>
+                                <div class="fact-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Calidad certificada</span>
+                                </div>
+                                <div class="fact-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Atención personalizada</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="who-video-section" data-aos="fade-left">
+                        <div class="video-container-ultra">
+                            <video poster="./assets/icon/distri-carnes-img-actualizada.png" controls class="who-video">
+                                <source src="./assets/videos/video districarnes.mp4" type="video/mp4">
+                            </video>
+                            <div class="video-overlay-ultra">
+                                <button class="video-play-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Video Controls -->
+                        <div class="video-controls-ultra">
+                            <div class="control-item">
+                                <i class="fas fa-backward"></i>
+                            </div>
+                            <div class="control-item play-control">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-forward"></i>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-expand"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Misión y Visión Profesional -->
+        <section class="mission-vision-pro">
+            <div class="container-pro">
+                <div class="mv-wrapper">
+                    <div class="mv-card-pro mission-card-pro">
+                        <div class="mv-header">
+                            <div class="mv-icon-pro">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <h3 class="mv-title">Nuestra Misión</h3>
+                            <div class="mv-line"></div>
+                        </div>
+                        <div class="mv-content">
+                            <p>Proporcionar a hogares y empresas de nuestra comunidad <strong>productos cárnicos de
+                                    excelencia</strong>, respaldados por un sistema integral de gestión que garantiza frescura, trazabilidad y una experiencia de compra excepcional.</p>
+                            <ul class="mv-list">
+                                <li><i class="fas fa-check"></i> Calidad garantizada en cada producto</li>
+                                <li><i class="fas fa-check"></i> Servicio personalizado y profesional</li>
+                                <li><i class="fas fa-check"></i> Innovación constante en procesos</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mv-divider-vertical"></div>
+
+                    <div class="mv-card-pro vision-card-pro">
+                        <div class="mv-header">
+                            <div class="mv-icon-pro">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h3 class="mv-title">Nuestra Visión</h3>
+                            <div class="mv-line"></div>
+                        </div>
+                        <div class="mv-content">
+                            <p>Ser reconocidos como <strong>la empresa líder en el sector cárnico regional</strong>, distinguiéndonos por nuestra capacidad de innovación, responsabilidad social y compromiso con la sostenibilidad.</p>
+                            <ul class="mv-list">
+                                <li><i class="fas fa-check"></i> Liderazgo en el mercado regional</li>
+                                <li><i class="fas fa-check"></i> Innovación tecnológica continua</li>
+                                <li><i class="fas fa-check"></i> Responsabilidad social empresarial</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </div>
+        </section>
+
+        <!-- Valores Corporativos -->
+        <section class="values-section-pro">
+            <div class="container-pro">
+                <div class="section-header">
+                    <div class="section-badge">
+                        <i class="fas fa-gem"></i>
+                        <span>Nuestros Valores</span>
+                    </div>
+                    <h2 class="section-title">Principios que nos Guían</h2>
+                    <div class="section-underline"></div>
+                    <p class="section-description">Los valores fundamentales que definen nuestra cultura empresarial y compromiso con la excelencia</p>
+                </div>
+
+                <div class="values-grid-pro">
+                    <div class="value-card-pro">
+                        <div class="value-header">
+                            <div class="value-icon-pro">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <h4 class="value-title">Excelencia</h4>
+                        </div>
+                        <p class="value-description">Compromiso inquebrantable con la calidad superior en cada producto y servicio que ofrecemos</p>
+                        <div class="value-features">
+                            <span class="feature-tag">Productos Premium</span>
+                            <span class="feature-tag">Procesos Certificados</span>
+                        </div>
+                    </div>
+
+                    <div class="value-card-pro">
+                        <div class="value-header">
+                            <div class="value-icon-pro">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h4 class="value-title">Innovación</h4>
+                        </div>
+                        <p class="value-description">Integración de tecnología avanzada para optimizar procesos y mejorar la experiencia del cliente</p>
+                        <div class="value-features">
+                            <span class="feature-tag">Tecnología Digital</span>
+                            <span class="feature-tag">Mejora Continua</span>
+                        </div>
+                    </div>
+
+                    <div class="value-card-pro">
+                        <div class="value-header">
+                            <div class="value-icon-pro">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <h4 class="value-title">Confianza</h4>
+                        </div>
+                        <p class="value-description">Relaciones sólidas basadas en la transparencia, honestidad y compromiso con nuestros clientes</p>
+                        <div class="value-features">
+                            <span class="feature-tag">Transparencia Total</span>
+                            <span class="feature-tag">Servicio Confiable</span>
+                        </div>
+                    </div>
+
+                    <div class="value-card-pro">
+                        <div class="value-header">
+                            <div class="value-icon-pro">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <h4 class="value-title">Sostenibilidad</h4>
+                        </div>
+                        <p class="value-description">Compromiso con prácticas responsables que beneficien a nuestra comunidad y medio ambiente</p>
+                        <div class="value-features">
+                            <span class="feature-tag">Consumo Local</span>
+                            <span class="feature-tag">Responsabilidad Social</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Historia Empresarial -->
+        <section class="history-section-pro">
+            <div class="container-pro">
+                <div class="history-layout">
+                    <div class="history-content-pro">
+                        <div class="section-header">
+                            <div class="section-badge">
+                                <i class="fas fa-history"></i>
+                                <span>Nuestra Trayectoria</span>
+                            </div>
+                            <h2 class="section-title">Una Historia de Éxito</h2>
+                            <div class="section-underline"></div>
+                        </div>
+
+                        <div class="history-text-pro">
+                            <p class="lead-text">Fundada por los <strong>Hermanos Navarro</strong>, nuestra empresa representa la perfecta fusión entre tradición familiar y visión empresarial moderna.</p>
+
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4>Los Inicios</h4>
+                                    <p>Comenzamos como una carnicería tradicional con el sueño de ofrecer productos de calidad excepcional a nuestra comunidad local.</p>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4>Evolución Tecnológica</h4>
+                                    <p>Implementamos sistemas avanzados de gestión para optimizar procesos y mejorar la experiencia del cliente.</p>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <h4>Liderazgo Regional</h4>
+                                    <p>Hoy somos reconocidos como referentes en calidad y servicio en el sector cárnico regional.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="history-features-pro">
+                        <div class="feature-box-pro">
+                            <div class="feature-icon-large">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h4>Sistema Integral</h4>
+                            <div class="feature-list-pro">
+                                <div class="feature-item-pro">
+                                    <i class="fas fa-check"></i>
+                                    <span>Control de inventario en tiempo real</span>
+                                </div>
+                                <div class="feature-item-pro">
+                                    <i class="fas fa-check"></i>
+                                    <span>Gestión avanzada de ventas</span>
+                                </div>
+                                <div class="feature-item-pro">
+                                    <i class="fas fa-check"></i>
+                                    <span>Trazabilidad completa</span>
+                                </div>
+                                <div class="feature-item-pro">
+                                    <i class="fas fa-check"></i>
+                                    <span>Servicio a domicilio optimizado</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Stats Section Ultra Modern -->
+        <section class="interactive-stats-ultra">
+            <div class="stats-background-animated">
+                <div class="animated-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                    <div class="shape shape-3"></div>
+                    <div class="shape shape-4"></div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="stats-header-ultra">
+                    <div class="stats-badge-floating">
+                        <i class="fas fa-meat"></i>
+                        <span>¿Buscas Carnes Premium de Calidad?</span>
+                    </div>
+                </div>
+
+                <div class="stats-grid-ultra">
+                    <div class="stat-card-ultra card-green" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="stat-icon-ultra">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content-ultra">
+                            <span class="stat-number-animated" data-target="500">0</span>
+                            <span class="stat-label-ultra">Familias Atendidas</span>
+                        </div>
+                        <div class="stat-progress">
+                            <div class="progress-bar" data-progress="85"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-ultra card-blue" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="stat-icon-ultra">
+                            <i class="fas fa-meat"></i>
+                        </div>
+                        <div class="stat-content-ultra">
+                            <span class="stat-number-animated" data-target="150">0</span>
+                            <span class="stat-label-ultra">Productos Premium</span>
+                        </div>
+                        <div class="stat-progress">
+                            <div class="progress-bar" data-progress="92"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-ultra card-teal" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="stat-icon-ultra">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="stat-content-ultra">
+                            <span class="stat-number-animated" data-target="24">0</span>
+                            <span class="stat-label-ultra">Horas Frescura</span>
+                        </div>
+                        <div class="stat-progress">
+                            <div class="progress-bar" data-progress="78"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-ultra card-orange" data-aos="zoom-in" data-aos-delay="400">
+                        <div class="stat-icon-ultra">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="stat-content-ultra">
+                            <span class="stat-number-animated" data-target="28">0</span>
+                            <span class="stat-label-ultra">Años de Tradición</span>
+                        </div>
+                        <div class="stat-progress">
+                            <div class="progress-bar" data-progress="95"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience Section -->
+                <div class="experience-section-ultra" data-aos="fade-up" data-aos-delay="500">
+                    <div class="experience-content">
+                        <h3 class="experience-title">Experiencia Única en Carnes</h3>
+                        <p class="experience-description">Ofrecemos productos cárnicos premium con tradición familiar y un equipo altamente especializado en el sector.</p>
+
+                        <div class="experience-features">
+                            <div class="feature-ultra">
+                                <i class="fas fa-truck"></i>
+                                <span>Entrega Rápida</span>
+                            </div>
+                            <div class="feature-ultra">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Seguridad Garantizada</span>
+                            </div>
+                            <div class="feature-ultra">
+                                <i class="fas fa-headset"></i>
+                                <span>Soporte 24/7</span>
+                            </div>
+                            <div class="feature-ultra">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>Diseño Responsivo</span>
+                            </div>
+                        </div>
+
+                        <div class="experience-cta">
+                            <button class="btn-experience-ultra">
+                                <span>Descubre Más</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="advantages-section-pro">
+            <div class="container-pro">
+                <div class="section-header">
+                    <div class="section-badge">
+                        <i class="fas fa-trophy"></i>
+                        <span>Ventajas Competitivas</span>
+                    </div>
+                    <h2 class="section-title">¿Por Qué Somos Diferentes?</h2>
+                    <div class="section-underline"></div>
+                    <p class="section-description">Características distintivas que nos posicionan como líderes en el sector
+                    </p>
+                </div>
+
+                <div class="advantages-grid">
+                    <div class="advantage-card">
+                        <div class="advantage-number">01</div>
+                        <div class="advantage-content">
+                            <h4>Frescura Garantizada</h4>
+                            <p>Productos frescos diariamente con control de calidad riguroso</p>
+                        </div>
+                        <div class="advantage-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                    </div>
+
+                    <div class="advantage-card">
+                        <div class="advantage-number">02</div>
+                        <div class="advantage-content">
+                            <h4>Servicio Personalizado</h4>
+                            <p>Atención especializada y asesoramiento experto para cada cliente</p>
+                        </div>
+                        <div class="advantage-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                    </div>
+
+                    <div class="advantage-card">
+                        <div class="advantage-number">03</div>
+                        <div class="advantage-content">
+                            <h4>Tecnología Avanzada</h4>
+                            <p>Sistemas digitales que optimizan cada aspecto del servicio</p>
+                        </div>
+                        <div class="advantage-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                    </div>
+
+                    <div class="advantage-card">
+                        <div class="advantage-number">04</div>
+                        <div class="advantage-content">
+                            <h4>Entrega Confiable</h4>
+                            <p>Servicio a domicilio puntual con seguimiento en tiempo real</p>
+                        </div>
+                        <div class="advantage-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                    </div>
+
+                    <div class="advantage-card">
+                        <div class="advantage-number">05</div>
+                        <div class="advantage-content">
+                            <h4>Precios Competitivos</h4>
+                            <p>Tarifas justas con ofertas personalizadas y programas de fidelización</p>
+                        </div>
+                        <div class="advantage-icon">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                    </div>
+
+                    <div class="advantage-card">
+                        <div class="advantage-number">06</div>
+                        <div class="advantage-content">
+                            <h4>Experiencia Digital</h4>
+                            <p>Plataforma online intuitiva con seguimiento completo de pedidos</p>
+                        </div>
+                        <div class="advantage-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Profesional -->
+        <section class="cta-section-pro">
+            <div class="cta-overlay"></div>
+            <div class="container-pro">
+                <div class="cta-content-pro">
+                    <div class="cta-badge">
+                        <i class="fas fa-star"></i>
+                        <span>Calidad Premium</span>
+                    </div>
+                    <h3 class="cta-title">Experiencia la Diferencia de la Calidad Superior</h3>
+                    <p class="cta-description">Descubre por qué miles de clientes confían en nosotros para sus necesidades cárnicas</p>
+                    <div class="cta-buttons">
+                        <a href="./productos.php" class="cta-button-primary">
+                            <i class="fas fa-shopping-cart"></i> Ver Productos
+                        </a>
+                        <a href="./ contacto.html" class="cta-button-secondary">
+                            <i class="fas fa-phone"></i> Contactar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Innovación y Futuro -->
+        <section class="innovation-section-pro">
+            <div class="container-pro">
+                <div class="section-header">
+                    <div class="section-badge">
+                        <i class="fas fa-rocket"></i>
+                        <span>Innovación Continua</span>
+                    </div>
+                    <h2 class="section-title">El Futuro de la Experiencia Cárnica</h2>
+                    <div class="section-underline"></div>
+                    <p class="section-description">Proyectos en desarrollo que revolucionarán la forma de comprar productos cárnicos</p>
+                </div>
+
+                <div class="innovation-grid">
+                    <div class="innovation-card">
+                        <div class="innovation-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <div class="innovation-content">
+                            <h4>Plataforma Digital Avanzada</h4>
+                            <p>Sitio web interactivo con catálogo completo, promociones personalizadas y sistema de pedidos optimizado</p>
+                            <div class="innovation-status">
+                                <span class="status-badge in-development">En Desarrollo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="innovation-card">
+                        <div class="innovation-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="innovation-content">
+                            <h4>Aplicación Móvil</h4>
+                            <p>App nativa para gestión completa de compras, historial de pedidos y preferencias personalizadas
+                            </p>
+                            <div class="innovation-status">
+                                <span class="status-badge planned">Planificado</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="innovation-card">
+                        <div class="innovation-icon">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <div class="innovation-content">
+                            <h4>Programa de Fidelización</h4>
+                            <p>Sistema de recompensas inteligente con ofertas personalizadas basadas en preferencias de compra
+                            </p>
+                            <div class="innovation-status">
+                                <span class="status-badge planned">Planificado</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="innovation-card">
+                        <div class="innovation-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <div class="innovation-content">
+                            <h4>Integración Total</h4>
+                            <p>Ecosistema completo desde la gestión de inventario hasta la entrega final al cliente</p>
+                            <div class="innovation-status">
+                                <span class="status-badge active">Activo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mensaje Final Profesional -->
+        <section class="final-message-section-pro">
+            <div class="container-pro">
+                <div class="final-message-pro">
+                    <div class="final-message-content">
+                        <div class="final-badge">
+                            <i class="fas fa-heart"></i>
+                            <span>Nuestro Compromiso</span>
+                        </div>
+                        <h3 class="final-title">Districarnes Hermanos Navarro</h3>
+                        <div class="final-subtitle">Más que una carnicería, una experiencia completa</div>
+                        <div class="final-description">
+                            <p>Somos la promesa de frescura que se cumple cada día, el abrazo familiar que acompaña cada compra, y el paso firme hacia el futuro de la alimentación local responsable.</p>
+                        </div>
+                        <div class="final-values">
+                            <div class="final-value">
+                                <i class="fas fa-leaf"></i>
+                                <span>Frescura Garantizada</span>
+                            </div>
+                            <div class="final-value">
+                                <i class="fas fa-heart"></i>
+                                <span>Atención Familiar</span>
+                            </div>
+                            <div class="final-value">
+                                <i class="fas fa-rocket"></i>
+                                <span>Innovación Constante</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!--footer-->
+    <footer class="footer ">
+        <div class="footer-container ">
+
+            <!-- Columna 1: Información de Contacto -->
+            <div class="footer-column ">
+                <h4>INFORMACIÓN DE CONTACTO</h4>
+                <p><i class="fas fa-map-marker-alt "></i> Dirección: OLAYA HERRERA</p>
+                <p><i class="fas fa-phone "></i> Teléfono: 301 5210177</p>
+                <p><i class="fas fa-envelope "></i> Email: districarnesnavarro@gmail.com</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Columna 2: Información -->
+            <div class="footer-column ">
+                <h4>INFORMACIÓN</h4>
+                <ul>
+                    <li><i class="fas fa-info-circle "></i> Información Delivery</li>
+                    <li><i class="fas fa-shield-alt "></i> Políticas de Privacidad</li>
+                    <li><i class="fas fa-file-contract "></i> Términos y condiciones</li>
+                    <li><i class="fas fa-headset "></i> Contáctanos</li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Mi Cuenta -->
+            <div class="footer-column ">
+                <h4>MI CUENTA</h4>
+                <ul>
+                    <li><i class="fas fa-user "></i> Mi cuenta</li>
+                    <li><i class="fas fa-history "></i> Historial de ordenes</li>
+                    <li><i class="fas fa-heart "></i> Lista de deseos</li>
+                    <li><i class="fas fa-newspaper "></i> Boletín</li>
+                    <li><i class="fas fa-undo "></i> Reembolsos</li>
+                </ul>
+            </div>
+
+            <!-- Columna 4: Boletín Informativo -->
+            <div class="footer-column ">
+                <h4>BOLETÍN INFORMATIVO</h4>
+                <p>Suscríbete a nuestros boletines ahora y mantente al día con nuevas colecciones y ofertas exclusivas.
+                </p>
+                <form class="newsletter-form ">
+                    <input type="email " placeholder="Ingresa el correo aquí... " required />
+                    <button type="submit ">SUSCRÍBETE</button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Pie inferior -->
+        <div class="footer-bottom ">
+            <div class="footer-logo ">
+                <!-- ⚠️ REEMPLAZA ESTA IMAGEN CON TU LOGO REAL -->
+                <img src="./assets/icon/LOGO-DISTRICARNES.png " alt="Logo Districarnes " />
+                <span>DISTRICARNES HERMANOS NAVARROS</span>
+            </div>
+
+
+        </div>
+
+    </footer>
+
+    <!-- CHAT BOT -->
+    <div class="chatbot-toggle" onclick="toggleChatbot()" title="Abrir chat DISTRICARNES" aria-label="Abrir chat DISTRICARNES">
+        <i class="fas fa-robot"></i>
+    </div>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <div class="header-info">
+                <div class="bot-avatar"><i class="fas fa-robot"></i></div>
+                <h3>DISTRICARNES HERMANOS NAVARRO</h3>
+                <p>Asistente Virtual</p>
+                <p>Tu especialista en carnes premium</p>
+            </div>
+            <button class="close-btn" onclick="toggleChatbot()" aria-label="Cerrar chat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chatbot-messages">
+            <div class="message bot-message">
+                ¡Hola! 🥩 Soy tu asistente de DISTRICARNES. ¿En qué puedo ayudarte hoy?
+                <div class="menu-options">
+                    <div class="menu-option">
+                        <i class="fas fa-drumstick-bite"></i> Ver productos cárnicos
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-cut"></i> Tipos de cortes
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-clock"></i> Horarios y ubicación
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-tags"></i> Precios y ofertas
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-info-circle"></i> Sobre nosotros
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-phone"></i> Contactar
+                    </div>
+                </div>
+                <div class="message-timestamp">10:01 AM</div>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <div class="input-container">
+                <input type="text" class="chat-input" placeholder="¿Qué deseas saber sobre nuestras carnes?" onkeypress="handleKeyPress(event)" autocomplete="off" />
+                <button class="voice-btn" title="Entrada de voz (No implementado)">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="send-btn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="quick-actions">
+                <button class="quick-action" onclick="handleQuickAction('productos')">
+                    <i class="fas fa-drumstick-bite"></i> Ver Productos
+                </button>
+                <button class="quick-action" onclick="handleQuickAction('horarios')">
+                    <i class="fas fa-clock"></i> Horarios
+                </button>
+                <button class="quick-action" onclick="handleQuickAction('contacto')">
+                    <i class="fas fa-phone"></i> Contacto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de autenticación global -->
+    <script src="./static/js/header_actions.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./static/js/cart_badge.js"></script>
+    <script src="./static/js/history_favorites.js"></script>
+    <!-- Ultra Modern Sobre Nosotros JavaScript -->
+    <script src="./js/sobre_nosotros.js"></script>
+    <script src="./static/js/index.js"></script>
+    <script src="./static/js/chatbot.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.AuthSystem && typeof AuthSystem.checkUserSession === 'function') {
+                AuthSystem.checkUserSession();
+            }
+        });
+    </script>
+    <script src="./static/js/loader.js" defer></script>
+    <script src="./static/js/session_guard.js" defer></script>
+    <script src="./static/js/network_guard.js" defer></script>
+</body>
+
+</html>

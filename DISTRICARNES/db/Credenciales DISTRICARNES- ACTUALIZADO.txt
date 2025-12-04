@@ -1,0 +1,35 @@
+Credenciales DISTRICARNES 
+
+usuario:comprador@gmail.com
+clave:Comprador123#
+
+
+administrador:juanhumbertovega600@gmail.com
+clave:JuanHumberto2025#
+
+
+usuario:juanpiayola@gmail.com
+clave:Juanpi123#
+clave nueva: JuanPbalo2025#
+
+
+
+Empresas:
+METODO DE PAGO CON PAYPAL USUARIOS DE PRUEBA 
+usuario: sb-d8pfl45742180@business.example.com
+clave: W!Y?uY9i
+
+<---------------------LINK PAYPAL DEVELOPERS------------------------->
+https://developer.paypal.com/dashboard/accounts/edit/4830573798655996903?accountName=sb-dkqun45742788@personal.example.com
+
+Personal:
+METODO DE PAGO CON PAYPAL USUARIOS DE PRUEBA 
+usuario: sb-dkqun45742788@personal.example.com
+clave: 4@Lfel!N
+
+
+------------------------------------------------------------------------
+Gmail de districarnes y credencial 
+
+districarnesnavarro@gmail.com
+districarnes2025

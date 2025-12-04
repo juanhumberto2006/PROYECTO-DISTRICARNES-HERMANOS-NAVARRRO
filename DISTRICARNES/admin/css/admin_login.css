@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+a {
+    color: #757070;
+    /* Gris oscuro profesional */
+    text-decoration: none;
+    /* Quitamos el subrayado por defecto */
+    font-weight: 500;
+    /* Un poco más de énfasis sin ser agresivo */
+    transition: color 0.25s ease, border-bottom 0.25s ease;
+    /* Transición suave */
+    padding-bottom: 2px;
+    /* Espacio para el subrayado */
+    border-bottom: 1px solid transparent;
+    /* Subrayado invisible por defecto */
+}
+
+a:hover {
+    color: #e81a1a;
+    /* Azul profesional (como el de Google o LinkedIn) */
+    border-bottom-color: #e81a1abb;
+    /* Subrayado sutil al pasar el mouse */
+}
+
+a:focus {
+    outline: 2px solid #e81a1a;
+    /* Accesibilidad: contorno visible al enfocar */
+    outline-offset: 2px;
+}
+
+.admin-header {
+    background: #ff0000;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 20px;
+}
+
+.admin-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.admin-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.form-section {
+    border: 2px solid #ff000000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.btn-login {
+    background: linear-gradient(135deg, #ff0000, #ff0000) !important;
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #ff000083, #ff000069) !important;
+}
+
+.message-container {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    display: none;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message-container.show {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/*ESTILOS PARA EL FORMULARIO DE INICIO DE SESION COMO ADMINISTRADOR */

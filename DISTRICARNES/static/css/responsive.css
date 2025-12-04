@@ -1,0 +1,87 @@
+/*
+  Hoja global de estilos responsive para DISTRICARNES
+  - Pensada para complementar estilos existentes sin romperlos
+  - Se carga al final para tener prioridad en overrides
+*/
+
+/* Reglas base fluidas */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+.container, .container-pro, .main-content {
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
+
+/* Header & navegación */
+.header-content { flex-wrap: wrap; gap: 1rem; }
+.nav-menu { flex-wrap: wrap; }
+
+/* Tarjetas y grids comunes */
+.card { max-width: 100%; }
+.grid, .values-grid-pro, .stats-grid-ultra, .advantages-grid, .innovation-grid,
+.history-layout, .story-content-grid, .who-content-grid, .mv-wrapper,
+.contact-grid, .cards, .card-grid, .product-grid, .promotion-grid {
+  gap: 1rem;
+}
+
+/* Secciones de estadísticas */
+.floating-stats { flex-wrap: wrap; gap: 1rem; }
+.stat-card { min-width: 160px; }
+.stat-label, .stat-label-ultra { white-space: normal; overflow: visible; }
+
+/* Footer común */
+.footer-container { gap: 1rem; }
+.footer-column { min-width: 200px; }
+
+/* ===== Breakpoints ===== */
+@media (max-width: 1200px) {
+  .nav-menu { gap: 1rem; }
+  .header-content { padding-left: 1rem; padding-right: 1rem; }
+}
+
+@media (max-width: 992px) {
+  .nav-menu { justify-content: center; }
+  .grid, .values-grid-pro, .stats-grid-ultra, .advantages-grid, .innovation-grid,
+  .history-layout, .story-content-grid, .who-content-grid, .mv-wrapper,
+  .contact-grid, .cards, .card-grid, .product-grid, .promotion-grid,
+  .footer-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-menu { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+  .logo img { width: clamp(100px, 24vw, 140px); height: auto; }
+
+  /* Títulos y números grandes */
+  .hero-title-ultra { font-size: clamp(1.6rem, 5vw, 2.2rem); }
+  .hero-subtitle-ultra { font-size: clamp(0.95rem, 3.2vw, 1.2rem); }
+  .stat-number, .stat-number-animated { font-size: clamp(1.3rem, 7vw, 2.2rem); }
+
+  .grid, .values-grid-pro, .stats-grid-ultra, .advantages-grid, .innovation-grid,
+  .history-layout, .story-content-grid, .who-content-grid, .mv-wrapper,
+  .contact-grid, .cards, .card-grid, .product-grid, .promotion-grid,
+  .footer-container {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  body { padding-left: 0.5rem; padding-right: 0.5rem; }
+  .header { height: auto; }
+  .header-content { gap: 0.75rem; }
+  .nav-menu a { padding: 0.35rem 0.5rem; }
+}

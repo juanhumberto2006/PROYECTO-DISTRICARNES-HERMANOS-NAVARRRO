@@ -1,0 +1,1172 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes y Estadísticas - DistriCarnes Admin</title>
+    <link rel="icon" type="image/x-icon" href="../assets/icon/image-removebg-preview sin fondo (1).ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #000000 0%, #000000 100%);
+            padding: 20px;
+            z-index: 1000;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* Internet Explorer 10+ */
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none; /* Safari and Chrome */
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-240px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 50%;
+            margin-right: 15px;
+        }
+
+        .logo h2 {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+                .nav-link span {
+
+                    white-space: nowrap;
+
+                    overflow: hidden;
+
+                    text-overflow: ellipsis;
+
+                }
+
+                
+
+                .nav-link:hover,
+
+                .nav-link.active {
+            background:#ff0000;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 20px;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.expanded {
+            margin-left: 40px;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 20px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.8rem;
+        }
+
+        .filter-section {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .filter-select, .filter-input {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: white;
+            min-width: 150px;
+        }
+
+        .filter-select option {
+            background: #2d2d2d;
+            color: white;
+        }
+
+        .filter-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .report-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .report-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .report-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .report-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .report-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .icon-sales {
+            background: rgba(72, 187, 120, 0.2);
+            color: #48bb78;
+        }
+
+        .icon-products {
+            background: rgba(66, 153, 225, 0.2);
+            color: #4299e1;
+        }
+
+        .icon-customers {
+            background: rgba(159, 122, 234, 0.2);
+            color: #9f7aea;
+        }
+
+        .icon-inventory {
+            background: rgba(237, 137, 54, 0.2);
+            color: #ed8936;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 15px;
+        }
+
+        .chart-container.large {
+            height: 400px;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .table-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.8);
+        }
+
+        .table tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .trend-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-weight: 500;
+        }
+
+        .trend-up {
+            background: rgba(72, 187, 120, 0.2);
+            color: #48bb78;
+        }
+
+        .trend-down {
+            background: rgba(245, 101, 101, 0.2);
+            color: #f56565;
+        }
+
+        .trend-neutral {
+            background: rgba(237, 137, 54, 0.2);
+            color: #ed8936;
+        }
+
+        .export-section {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .export-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-export {
+            background: rgba(66, 153, 225, 0.2);
+            color: #4299e1;
+            border: 1px solid rgba(66, 153, 225, 0.3);
+        }
+
+        .btn-export:hover {
+            background: rgba(66, 153, 225, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-select, .filter-input {
+                min-width: auto;
+                width: 100%;
+            }
+
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .export-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+    <script>
+        (function(){
+            try {
+                var raw = localStorage.getItem('userData') || sessionStorage.getItem('currentSession');
+                var data = raw ? JSON.parse(raw) : null;
+                var user = data && data.user ? data.user : data;
+                if (!user || user.rol !== 'admin') {
+                    window.location.href = '../login/login.html';
+                }
+            } catch(e) {
+                window.location.href = '../login/login.html';
+            }
+        })();
+    </script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="logo">
+            <img src="../assets/icon/LOGO-DISTRICARNES.png" alt="DistriCarnes">
+        </div>
+        
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="./admin_dashboard.html" class="nav-link ">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_users.html" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                    <a href="./admin_products.html" class="nav-link">
+                    <i class="fas fa-box"></i>
+                    <span>Productos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                    <a href="./admin_categories.html" class="nav-link">
+                    <i class="fas fa-tags"></i>
+                    <span>Categorias</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_orders.html" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Pedidos</span>
+                </a>
+            </li>   
+            <li class="nav-item">
+                <a href="./admin_inventory.html" class="nav-link">
+                    <i class="fas fa-warehouse"></i>
+                    <span>Inventario</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_reports.html" class="nav-link active">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reportes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_promotions.html" class="nav-link">
+                    <i class="fas fa-percent"></i>
+                    <span>Promociones</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Reportes y Estadísticas</h1>
+            </div>
+            
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="generateReport()">
+                    <i class="fas fa-chart-line"></i>
+                    Generar Reporte
+                </button>
+                <a href="admin_dashboard.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Volver
+                </a>
+            </div>
+        </header>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-group">
+                <label for="dateRange">Período</label>
+                <select class="filter-select" id="dateRange">
+                    <option value="today">Hoy</option>
+                    <option value="week" selected>Esta Semana</option>
+                    <option value="month">Este Mes</option>
+                    <option value="quarter">Este Trimestre</option>
+                    <option value="year">Este Año</option>
+                    <option value="custom">Personalizado</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="startDate">Fecha Inicio</label>
+                <input type="date" class="filter-input" id="startDate">
+            </div>
+            
+            <div class="filter-group">
+                <label for="endDate">Fecha Fin</label>
+                <input type="date" class="filter-input" id="endDate">
+            </div>
+            
+            <div class="filter-group">
+                <label for="reportType">Tipo de Reporte</label>
+                <select class="filter-select" id="reportType">
+                    <option value="all">Todos</option>
+                    <option value="sales">Ventas</option>
+                    <option value="products">Productos</option>
+                    <option value="customers">Clientes</option>
+                    <option value="inventory">Inventario</option>
+                </select>
+            </div>
+            
+            <button class="btn btn-primary btn-sm" onclick="updateReports()">
+                <i class="fas fa-sync-alt"></i>
+                Actualizar
+            </button>
+        </div>
+
+        <!-- Reports Grid -->
+        <div class="reports-grid">
+            <!-- Sales Report -->
+            <div class="report-card">
+                <div class="report-header">
+                    <div class="report-title">
+                        <div class="report-icon icon-sales">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        Ventas
+                    </div>
+                    <button class="btn btn-sm btn-secondary" onclick="exportChart('salesChart')">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="salesChart"></canvas>
+                </div>
+                <div class="stats-summary">
+                    <div class="stat-item">
+                        <div class="stat-value" id="statTotalSales">$0</div>
+                        <div class="stat-label">Total Ventas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statOrdersCount">0</div>
+                        <div class="stat-label">Pedidos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statAvgOrder">$0</div>
+                        <div class="stat-label">Promedio</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Report -->
+            <div class="report-card">
+                <div class="report-header">
+                    <div class="report-title">
+                        <div class="report-icon icon-products">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        Productos
+                    </div>
+                    <button class="btn btn-sm btn-secondary" onclick="exportChart('productsChart')">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="productsChart"></canvas>
+                </div>
+                <div class="stats-summary">
+                    <div class="stat-item">
+                        <div class="stat-value" id="statTopProductSales">0</div>
+                        <div class="stat-label">Más Vendido</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statCategoriesCount">0</div>
+                        <div class="stat-label">Categorías</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statLowStock">0</div>
+                        <div class="stat-label">Stock Bajo</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Analytics -->
+            <div class="report-card">
+                <div class="report-header">
+                    <div class="report-title">
+                        <div class="report-icon icon-customers">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        Clientes
+                    </div>
+                    <button class="btn btn-sm btn-secondary" onclick="exportChart('customersChart')">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="customersChart"></canvas>
+                </div>
+                <div class="stats-summary">
+                    <div class="stat-item">
+                        <div class="stat-value" id="statNewCustomers">0</div>
+                        <div class="stat-label">Nuevos</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statReturningCustomers">0</div>
+                        <div class="stat-label">Recurrentes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statCustomerRetention">0%</div>
+                        <div class="stat-label">Retención</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Report -->
+            <div class="report-card">
+                <div class="report-header">
+                    <div class="report-title">
+                        <div class="report-icon icon-inventory">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        Inventario
+                    </div>
+                    <button class="btn btn-sm btn-secondary" onclick="exportChart('inventoryChart')">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="inventoryChart"></canvas>
+                </div>
+                <div class="stats-summary">
+                    <div class="stat-item">
+                        <div class="stat-value" id="statInventoryValue">$0</div>
+                        <div class="stat-label">Valor Total</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statTotalItems">0</div>
+                        <div class="stat-label">Total Items</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statTurnoverRate">0</div>
+                        <div class="stat-label">Rotación</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comprehensive Sales Trend -->
+            <div class="report-card full-width">
+                <div class="report-header">
+                    <div class="report-title">
+                        <div class="report-icon icon-sales">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        Tendencia de Ventas Detallada
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-sm btn-secondary" onclick="toggleChartType()">
+                            <i class="fas fa-exchange-alt"></i>
+                            Cambiar Vista
+                        </button>
+                        <button class="btn btn-sm btn-secondary" onclick="exportChart('salesTrendChart')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-container large">
+                    <canvas id="salesTrendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Top Products Table -->
+            <div class="report-card full-width">
+                <div class="report-header">
+                    <div class="report-title">
+                        <div class="report-icon icon-products">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        Productos Más Vendidos
+                    </div>
+                    <button class="btn btn-sm btn-secondary" onclick="exportTable('topProductsTable')">
+                        <i class="fas fa-file-excel"></i>
+                        Exportar
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="table" id="topProductsTable">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Unidades Vendidas</th>
+                                <th>Ingresos</th>
+                                <th>Tendencia</th>
+                                <th>Stock Actual</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lomo de Res Premium</td>
+                                <td>Carnes</td>
+                                <td>145</td>
+                                <td>$6,525,000</td>
+                                <td><span class="trend-indicator trend-up"><i class="fas fa-arrow-up"></i> +15%</span></td>
+                                <td>25</td>
+                            </tr>
+                            <tr>
+                                <td>Pechuga de Pollo</td>
+                                <td>Pollo</td>
+                                <td>89</td>
+                                <td>$1,602,000</td>
+                                <td><span class="trend-indicator trend-up"><i class="fas fa-arrow-up"></i> +8%</span></td>
+                                <td>8</td>
+                            </tr>
+                            <tr>
+                                <td>Costillas de Cerdo</td>
+                                <td>Cerdo</td>
+                                <td>67</td>
+                                <td>$1,474,000</td>
+                                <td><span class="trend-indicator trend-neutral"><i class="fas fa-minus"></i> 0%</span></td>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>Jamón Serrano</td>
+                                <td>Embutidos</td>
+                                <td>45</td>
+                                <td>$1,575,000</td>
+                                <td><span class="trend-indicator trend-down"><i class="fas fa-arrow-down"></i> -5%</span></td>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>Filete de Salmón</td>
+                                <td>Pescados</td>
+                                <td>38</td>
+                                <td>$1,064,000</td>
+                                <td><span class="trend-indicator trend-up"><i class="fas fa-arrow-up"></i> +12%</span></td>
+                                <td>20</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Section -->
+        <div class="export-section">
+            <h3 class="export-title">Exportar Reportes</h3>
+            <div class="export-buttons">
+                <button class="btn btn-export" onclick="exportReport('pdf')">
+                    <i class="fas fa-file-pdf"></i>
+                    Exportar PDF
+                </button>
+                <button class="btn btn-export" onclick="exportReport('excel')">
+                    <i class="fas fa-file-excel"></i>
+                    Exportar Excel
+                </button>
+                <button class="btn btn-export" onclick="exportReport('csv')">
+                    <i class="fas fa-file-csv"></i>
+                    Exportar CSV
+                </button>
+                <button class="btn btn-export" onclick="scheduleReport()">
+                    <i class="fas fa-clock"></i>
+                    Programar Reporte
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Toggle sidebar
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+        });
+
+        // Mobile sidebar toggle
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('collapsed');
+            mainContent.classList.add('expanded');
+            
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+        }
+
+        // Chart configurations
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'rgba(255, 255, 255, 0.8)'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 0.6)'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: 'rgba(255, 255, 255, 0.6)'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    }
+                }
+            }
+        };
+
+        // Sales Chart
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                datasets: [{
+                    label: 'Ventas Diarias',
+                    data: [320000, 450000, 380000, 520000, 610000, 480000, 390000],
+                    borderColor: '#48bb78',
+                    backgroundColor: 'rgba(72, 187, 120, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: chartOptions
+        });
+
+        // Products Chart
+        const productsCtx = document.getElementById('productsChart').getContext('2d');
+        const productsChart = new Chart(productsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Carnes', 'Pollo', 'Cerdo', 'Embutidos', 'Pescados'],
+                datasets: [{
+                    data: [35, 25, 20, 15, 5],
+                    backgroundColor: [
+                        '#c53030',
+                        '#4299e1',
+                        '#9f7aea',
+                        '#ed8936',
+                        '#48bb78'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.8)',
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+
+        // Customers Chart
+        const customersCtx = document.getElementById('customersChart').getContext('2d');
+        const customersChart = new Chart(customersCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Nuevos', 'Recurrentes', 'VIP'],
+                datasets: [{
+                    label: 'Clientes',
+                    data: [23, 67, 15],
+                    backgroundColor: [
+                        'rgba(159, 122, 234, 0.8)',
+                        'rgba(66, 153, 225, 0.8)',
+                        'rgba(237, 137, 54, 0.8)'
+                    ]
+                }]
+            },
+            options: chartOptions
+        });
+
+        // Inventory Chart
+        const inventoryCtx = document.getElementById('inventoryChart').getContext('2d');
+        const inventoryChart = new Chart(inventoryCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Stock Alto', 'Stock Medio', 'Stock Bajo', 'Sin Stock', 'Reabastecido'],
+                datasets: [{
+                    label: 'Estado del Inventario',
+                    data: [65, 25, 8, 2, 15],
+                    borderColor: '#ed8936',
+                    backgroundColor: 'rgba(237, 137, 54, 0.2)',
+                    pointBackgroundColor: '#ed8936'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'rgba(255, 255, 255, 0.8)'
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.6)'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        angleLines: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Sales Trend Chart
+        const salesTrendCtx = document.getElementById('salesTrendChart').getContext('2d');
+        let salesTrendChart = new Chart(salesTrendCtx, {
+            type: 'line',
+            data: {
+                labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                datasets: [
+                    {
+                        label: 'Ventas 2024',
+                        data: [1200000, 1350000, 1180000, 1420000, 1650000, 1580000, 1720000, 1890000, 1760000, 1950000, 2100000, 2250000],
+                        borderColor: '#48bb78',
+                        backgroundColor: 'rgba(72, 187, 120, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Ventas 2023',
+                        data: [980000, 1100000, 950000, 1200000, 1350000, 1280000, 1450000, 1520000, 1380000, 1600000, 1750000, 1850000],
+                        borderColor: '#4299e1',
+                        backgroundColor: 'rgba(66, 153, 225, 0.1)',
+                        fill: false,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: chartOptions
+        });
+
+        // Chart functions
+        function toggleChartType() {
+            const currentType = salesTrendChart.config.type;
+            const newType = currentType === 'line' ? 'bar' : 'line';
+            
+            salesTrendChart.destroy();
+            salesTrendChart = new Chart(salesTrendCtx, {
+                type: newType,
+                data: salesTrendChart.data,
+                options: chartOptions
+            });
+        }
+
+        function exportChart(chartId) {
+            alert(`Exportando gráfico: ${chartId}`);
+        }
+
+        function exportTable(tableId) {
+            alert(`Exportando tabla: ${tableId}`);
+        }
+
+        function exportReport(format) {
+            alert(`Exportando reporte en formato: ${format.toUpperCase()}`);
+        }
+
+        function scheduleReport() {
+            alert('Función de programación de reportes en desarrollo');
+        }
+
+        function generateReport() {
+            alert('Generando reporte personalizado...');
+        }
+
+        function updateReports() {
+            alert('Actualizando reportes con nuevos filtros...');
+            // Aquí iría la lógica para actualizar los gráficos con los filtros seleccionados
+        }
+
+        // Date range filter logic
+        document.getElementById('dateRange').addEventListener('change', function() {
+            const startDate = document.getElementById('startDate');
+            const endDate = document.getElementById('endDate');
+            
+            if (this.value === 'custom') {
+                startDate.style.display = 'block';
+                endDate.style.display = 'block';
+            } else {
+                startDate.style.display = 'none';
+                endDate.style.display = 'none';
+                
+                // Set dates based on selection
+                const today = new Date();
+                let start, end;
+                
+                switch(this.value) {
+                    case 'today':
+                        start = end = today;
+                        break;
+                    case 'week':
+                        start = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+                        end = today;
+                        break;
+                    case 'month':
+                        start = new Date(today.getFullYear(), today.getMonth(), 1);
+                        end = today;
+                        break;
+                    case 'quarter':
+                        const quarter = Math.floor(today.getMonth() / 3);
+                        start = new Date(today.getFullYear(), quarter * 3, 1);
+                        end = today;
+                        break;
+                    case 'year':
+                        start = new Date(today.getFullYear(), 0, 1);
+                        end = today;
+                        break;
+                }
+                
+                if (start && end) {
+                    startDate.value = start.toISOString().split('T')[0];
+                    endDate.value = end.toISOString().split('T')[0];
+                }
+            }
+        });
+
+        // Initialize with current week
+        document.getElementById('dateRange').dispatchEvent(new Event('change'));
+    </script>
+    <!-- Lógica dinámica de reportes (JS en tiempo real) -->
+    <script src="./js/admin_reports.js"></script>
+</body>
+<script src="../static/js/session_guard.js" defer></script>
+<script src="../static/js/network_guard.js" defer></script>
+</html>

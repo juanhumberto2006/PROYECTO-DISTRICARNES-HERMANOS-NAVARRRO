@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DISTRICARNES - Login Administrador</title>
+    <link rel="stylesheet" href="../login/css/login.css">
+    <link rel="stylesheet" href="./css/admin_login.css">
+    <link rel="shortcut icon" href="../assets/icon/image-removebg-preview sin fondo (1).ico" type="image/x-icon">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js "></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet " href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css ">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="container" role="main">
+        <section class="logo-section" aria-label="Logotipo de DistriCarnes Hermanos Navarro">
+            <div class="logo-container">
+                <img src="../assets/icon/LOGO-DISTRICARNES.png" style="width: 100%; height: auto;" alt="imagen de logo DISTRICARNES">
+            </div>
+        </section>
+
+        <section class="form-section" aria-label="Formulario de inicio de sesión de administrador">
+            <div class="admin-header">
+                <h2>
+                    <svg class="admin-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+          </svg> Acceso de Administrador
+                </h2>
+                <p style="margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.9;">Panel de administración DISTRICARNES</p>
+            </div>
+
+            <div id="messageContainer" class="message-container"></div>
+
+
+
+
+
+            <form id="loginForm" action="../backend/php/login_verify.php" method="POST" novalidate style="background-color: black; padding: 20px; font-family: Arial, sans-serif; color: white;">
+
+                <div class="mb-3">
+                    <label for="email" class="form-label" style="font-weight: bold; display: block; margin-bottom: 5px;">Correo Electrónico</label>
+                    <div class="input-group" style="display: flex; align-items: center; border: 2px solid #ff0000; border-radius: 8px; overflow: hidden;">
+                        <span class="input-group-text" style="background-color: black; color: #ff0000; padding: 10px; display: flex; align-items: center; justify-content: center; border-right: 2px solid #ff0000;">
+                <i class="bi bi-envelope-fill" style="font-size: 1.2em;"></i>
+            </span>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="tu.correo@example.com" required style="background-color: black; color: white; border: none; padding: 10px; flex: 1; font-size: 16px;">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label" style="font-weight: bold; display: block; margin-bottom: 5px;">Contraseña</label>
+                    <div class="input-group" style="display: flex; align-items: center; border: 2px solid #ff0000; border-radius: 8px; overflow: hidden;">
+                        <span class="input-group-text" style="background-color: black; color: #ff0000; padding: 10px; display: flex; align-items: center; justify-content: center; border-right: 2px solid #ff0000;">
+                <i class="bi bi-lock-fill" style="font-size: 1.2em;"></i>
+            </span>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required style="background-color: black; color: white; border: none; padding: 10px; flex: 1; font-size: 16px;">
+                    </div>
+                    <div id="passwordError" class="error-text" style="color: #ff0000; font-size: 14px; margin-top: 5px; display: none;"></div>
+                </div>
+
+                <button type="submit" class="btn btn-login-custom" id="loginButton" style="background-color: #ff0000; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 20px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+    </button>
+
+            </form>
+
+
+
+            <div style="padding: 0 20px 20px 20px; text-align: center;">
+                <p style="margin: 15px 0 5px 0; color: #bbbbbb; font-size: 0.9rem;">
+                    ¿No eres administrador?
+                </p>
+
+                <a href="../login/login.html" class="btn btn-login-link-custom "><i class="bi bi-box-arrow-in-right "></i>  Volver al login de usuarios  </a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const togglePassword1 = document.getElementById('togglePassword1');
+        const passwordInput1 = document.getElementById('password');
+        if (togglePassword1 && passwordInput1) {
+            togglePassword1.addEventListener('click', () => {
+                const type = passwordInput1.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput1.setAttribute('type', type);
+                togglePassword1.style.opacity = type === 'text' ? '1' : '0.7';
+            });
+        }
+    </script>
+</body>
+<script src="../admin/js/admin_login.js"></script>
+<script src="../static/js/session_guard.js" defer></script>
+<script src="../static/js/network_guard.js" defer></script>
+
+</html>

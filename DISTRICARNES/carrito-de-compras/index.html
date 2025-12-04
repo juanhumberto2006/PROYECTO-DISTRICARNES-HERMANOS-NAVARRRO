@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="../static/css/cart.css">
+    <!-- Estilos globales del sitio para header unificado -->
+    <link rel="stylesheet" href="../static/css/header_en_general.css" />
+    <link rel="stylesheet" href="../static/css/base.css" />
+    <link rel="stylesheet" href="../static/css/chatbot.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../static/css/responsive.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    <!-- app.js antiguo deshabilitado en la nueva vista CRUD -->
+    <link rel="stylesheet" href="../static/css/responsive.css" />
+    <link rel="icon" type="image/x-icon" href="../assets/icon/image-removebg-preview sin fondo (1).ico" />
+
+</head>
+
+<body class=" bg-black text-white ">
+    <!-- Header -->
+    <header class="header ">
+        <div class="header-content ">
+            <div class="logo ">
+                <img src="../assets/icon/LOGO-DISTRICARNES.png " alt="DISTRICARNES Logo ">
+            </div>
+
+            <!-- Buscador central estilo ML y pill promocional -->
+            <div class="ml-search">
+                <form action="productos.php" method="get">
+                    <input type="search" name="q" id="site-search" placeholder="Buscar productos, marcas y más…" />
+                    <button type="submit" aria-label="Buscar"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+
+            <!-- Enlaces rápidos + botón de carrito (siempre visibles) -->
+            <div id="quickLinks" class="ml-actions">
+                <a id="cartButton" class="ml-icon-btn ml-icon-bounce" href="../carrito-de-compras/index.html " class="active" aria-label="Carrito">
+                    <i class="bi bi-cart"></i>
+                    <span class="ml-badge" id="cartCount">0</span>
+                </a>
+                <!-- Botones de acceso y registro -->
+                <div id="authButtons" class="flex gap-3">
+                    <a href="../login/login.html" class="block">
+                        <button style="background-color: rgb(255, 0, 0); border-radius: 50px; color: white; border: 2px solid red; padding: 5px 15px;" onmouseover="this.style.borderColor='red'; this.style.backgroundColor='black'; this.style.color='white';" onmouseout="this.style.borderColor='red'; this.style.backgroundColor='red'; this.style.color='white';"
+                            class="bg-red-700 hover:bg-red-800 transition text-white text-sm font-semibold px-4 py-2 rounded">
+                            <i class="bi bi-box-arrow-in-right" style="font-size: 1.5rem;"></i> INICAR SESIÓN 
+                        </button>
+                    </a>
+                    <a href="../login/register.html" class="block">
+                        <button style="background-color: rgb(255, 0, 0); border-radius: 50px; color: white; border: 2px solid red; padding: 5px 15px;" onmouseover="this.style.borderColor='red'; this.style.backgroundColor='black'; this.style.color='white';" onmouseout="this.style.borderColor='red'; this.style.backgroundColor='red'; this.style.color='white';"
+                            class="bg-red-700 hover:bg-red-800 transition text-white text-sm font-semibold px-4 py-2 rounded">
+                            <i class="bi bi-person-plus-fill" style="font-size: 1.5rem;"></i>
+                            REGISTRARSE
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- Botones para usuario logueado (inicialmente ocultos) -->
+            <div id="userLoggedButtons" style="display: none; box-shadow: 0 0 20px rgba(0,0,0,0.8);">
+                <div class="user-profile-container">
+                    <button class="menu-button" onclick="toggleUserDropdown()" aria-expanded="false" aria-haspopup="true">
+                        <span class="user-avatar" id="userAvatar"></span>
+                        <span class="user-name" id="userName"></span>
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </button>
+
+                    <!-- User Dropdown Menu -->
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-info-dropdown">
+                            <div class="user-avatar-large" id="userAvatarLarge"></div>
+                            <div class="user-details">
+                                <h4 id="userFullName"></h4>
+                                <p id="userEmail"></p>
+                                <span class="user-role" id="userRole"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="menu-divider"></div>
+
+                        <div class="menu-items">
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-user"></i>
+                                <span>Mi Perfil</span>
+                            </a>
+
+
+                            <a href="./historial.html" class="menu-item">
+                                <i class="fas fa-clock"></i> Historial de compra
+                            </a>
+                            <a href="./favoritos.html" class="menu-item">
+                                <i class="fas fa-heart"></i> Mis favoritos
+                            </a>
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-edit"></i>
+                                <span>Editar Perfil</span>
+                            </a>
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-key"></i>
+                                <span>Cambiar Contraseña</span>
+                            </a>
+
+                            <a href="admin/admin_settings.html" class="menu-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Configuración</span>
+                            </a>
+
+
+                            <div class="menu-divider"></div>
+
+                            <a href="#" class="menu-item logout" onclick="logout()">
+                                <i class="fas fa-sign-out-alt" style="color: red;"></i>
+                                <span style="color: red;">Cerrar Sesión</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="nav-menu" id="navMenu">
+                <style>
+                    /* Contenedor centrado en la página */
+                    
+                    .nav-menu {
+                        display: flex;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 6rem;
+                        /* Increased spacing */
+                        width: 100%;
+                        max-width: 960px;
+                        /* ancho máximo del nav centrado */
+                        margin: 0 auto;
+                        /* centra horizontalmente dentro del header */
+                        box-sizing: border-box;
+                        padding: 0.25rem 0.5rem;
+                        text-align: center;
+                    }
+                    /* Asegura que los enlaces y botones queden centrados visualmente */
+                    
+                    .nav-menu>a,
+                    .nav-menu>div {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    
+                    .nav-menu a {
+                        text-decoration: none;
+                        color: inherit;
+                        padding: 0.35rem 0.75rem;
+                        font-family: 'Montserrat', sans-serif;
+                        /* Applied Montserrat font */
+                    }
+                    /* Mantener los botones de auth alineados y centrados */
+                    
+                    #authButtons {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        justify-content: center;
+                    }
+                    /* En móvil, permitir que los elementos se apilen centrados */
+                    
+                    @media (max-width: 768px) {
+                        .nav-menu {
+                            justify-content: center;
+                            padding: 0.5rem;
+                        }
+                        /* Hacer los botones más compactos en móvil */
+                        #authButtons {
+                            width: 100%;
+                            justify-content: center;
+                            gap: 0.5rem;
+                        }
+                    }
+                </style>
+
+                <!-- Botones de navegación -->
+                <a href="../index.html">Inicio</a>
+                <a href="../productos.php">Productos</a>
+                <a href="../promociones.html">Ofertas</a>
+                <a href="../contacto.html">Contacto</a>
+                <a href="../sobre_nosotros.html">Quienes Somos</a>
+
+
+
+                <!-- Estilos y funcionalidad mejorados PARA EL MENU DEL USUARIO LOGUEADO -->
+                <style>
+                    /* Contenedor principal con fondo negro y separación de bordes */
+                    
+                    #userLoggedButtons {
+                        background-color: #000000;
+                        padding: 1rem;
+                        border-radius: 10px;
+                        margin: 0.5rem;
+                    }
+                    
+                    .user-profile-container {
+                        position: relative;
+                        display: inline-block;
+                    }
+                    
+                    .menu-button {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        background: linear-gradient(135deg, #000000 0%, #000000 100%);
+                        border: 2px solid #000000;
+                        border-radius: 50px;
+                        padding: 0.75rem 1.5rem;
+                        color: #ffffff;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                    }
+                    
+                    .menu-button:hover {
+                        border-color: #ff0000;
+                        background: linear-gradient(135deg, #000000 0%, #000000 100%);
+                        box-shadow: 0 6px 25px rgba(255, 0, 0, 0.25);
+                        transform: translateY(-2px);
+                    }
+                    
+                    .menu-button:active {
+                        transform: translateY(0);
+                    }
+                    
+                    .user-avatar {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                        font-size: 1.1rem;
+                        color: white;
+                        box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
+                    }
+                    
+                    .user-name {
+                        font-size: 0.95rem;
+                        color: #f0f0f0;
+                        max-width: 120px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    
+                    .dropdown-arrow {
+                        margin-left: 0.5rem;
+                        transition: transform 0.3s ease;
+                        color: #ff0000;
+                    }
+                    
+                    .menu-button[aria-expanded="true"] .dropdown-arrow {
+                        transform: rotate(180deg);
+                    }
+                    
+                    .user-dropdown {
+                        position: absolute;
+                        top: calc(100% + 12px);
+                        right: 0;
+                        background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+                        border: 2px solid #333;
+                        border-radius: 16px;
+                        min-width: 280px;
+                        max-width: 320px;
+                        opacity: 0;
+                        visibility: hidden;
+                        transform: translateY(-10px);
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        z-index: 1000;
+                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                        backdrop-filter: blur(10px);
+                    }
+                    
+                    .user-dropdown.active {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateY(0);
+                    }
+                    
+                    .user-info-dropdown {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        padding: 1.5rem;
+                        border-bottom: 1px solid #333;
+                    }
+                    
+                    .user-avatar-large {
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                        font-size: 1.5rem;
+                        color: white;
+                        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+                    }
+                    
+                    .user-details h4 {
+                        color: #ffffff;
+                        margin: 0 0 0.25rem 0;
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                    }
+                    
+                    .user-details p {
+                        color: #cccccc;
+                        margin: 0 0 0.5rem 0;
+                        font-size: 0.85rem;
+                    }
+                    
+                    .user-role {
+                        background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+                        color: white;
+                        padding: 0.25rem 0.75rem;
+                        border-radius: 20px;
+                        font-size: 0.75rem;
+                        font-weight: 600;
+                        display: inline-block;
+                    }
+                    
+                    .menu-items {
+                        padding: 0.5rem 0;
+                    }
+                    
+                    .menu-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        padding: 0.875rem 1.5rem;
+                        color: #e0e0e0;
+                        text-decoration: none;
+                        transition: all 0.2s ease;
+                        border-radius: 8px;
+                        margin: 0 0.5rem;
+                    }
+                    
+                    .menu-item:hover {
+                        background: rgba(255, 0, 0, 0.1);
+                        color: #ffffff;
+                        transform: translateX(4px);
+                    }
+                    
+                    .menu-item.logout {
+                        color: #ff6b6b;
+                    }
+                    
+                    .menu-item.logout:hover {
+                        background: rgba(255, 0, 0, 0.15);
+                        color: #ff4444;
+                    }
+                    
+                    .menu-item i {
+                        width: 20px;
+                        text-align: center;
+                        color: #ff0000;
+                    }
+                    
+                    .menu-divider {
+                        height: 1px;
+                        background: linear-gradient(90deg, transparent 0%, #333 50%, transparent 100%);
+                        margin: 0.5rem 1.5rem;
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .user-dropdown {
+                            right: -10px;
+                            min-width: 260px;
+                        }
+                        .menu-button {
+                            padding: 0.625rem 1.25rem;
+                        }
+                        .user-name {
+                            max-width: 80px;
+                        }
+                    }
+                </style>
+
+                <script>
+                    // Función mejorada para toggle del dropdown
+                    function toggleUserDropdown() {
+                        const dropdown = document.getElementById('userDropdown');
+                        const button = document.querySelector('.menu-button');
+                        const isOpen = dropdown.classList.contains('active');
+
+                        // Cerrar todos los dropdowns primero
+                        document.querySelectorAll('.user-dropdown').forEach(d => d.classList.remove('active'));
+                        document.querySelectorAll('.menu-button').forEach(b => b.setAttribute('aria-expanded', 'false'));
+
+                        if (!isOpen) {
+                            dropdown.classList.add('active');
+                            button.setAttribute('aria-expanded', 'true');
+                        }
+                    }
+
+                    document.addEventListener('click', function(event) {
+                        const container = document.querySelector('.user-profile-container');
+                        if (!container.contains(event.target)) {
+                            const dd = document.getElementById('userDropdown');
+                            if (dd) dd.classList.remove('active');
+                            const btn = document.querySelector('.menu-button');
+                            if (btn) btn.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    document.addEventListener('keydown', function(event) {
+                        if (event.key === 'Escape') {
+                            const dd = document.getElementById('userDropdown');
+                            if (dd) dd.classList.remove('active');
+                            const btn = document.querySelector('.menu-button');
+                            if (btn) btn.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    function updateUserProfile(userData) {
+                        if (!userData) return;
+                        const name = userData.name || userData.nombres_completos || 'Usuario';
+                        const initials = (name.charAt(0) || 'U').toUpperCase();
+                        const avatar = document.getElementById('userAvatar');
+                        const userName = document.getElementById('userName');
+                        const avatarLarge = document.getElementById('userAvatarLarge');
+                        const fullName = document.getElementById('userFullName');
+                        const email = document.getElementById('userEmail');
+                        const role = document.getElementById('userRole');
+
+                        if (avatar) avatar.textContent = initials;
+                        if (userName) userName.textContent = name;
+                        if (avatarLarge) avatarLarge.textContent = initials;
+                        if (fullName) fullName.textContent = userData.fullName || name;
+                        if (email) email.textContent = userData.email || userData.correo_electronico || '';
+                        if (role) role.textContent = userData.role || userData.rol || 'Usuario';
+                    }
+
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // placeholder para posibles inicializaciones
+                    });
+
+                    // Modal y sesión
+                    function closeModal() {
+                        const modal = document.getElementById('welcomeModal');
+                        if (modal) modal.style.display = 'none';
+                    }
+
+                    window.addEventListener('load', function() {
+                        var modalEl = document.getElementById('welcomeModal');
+                        if (modalEl) modalEl.style.display = 'flex';
+                        if (window.AuthSystem && typeof AuthSystem.checkUserSession === 'function') {
+                            AuthSystem.checkUserSession();
+                        } else if (typeof checkUserSession === 'function') {
+                            checkUserSession();
+                        }
+                    });
+
+                    function checkUserSession() {
+                        const userData = localStorage.getItem('userData');
+                        const sessionData = sessionStorage.getItem('currentSession');
+
+                        if (userData || sessionData) {
+                            const raw = JSON.parse(userData || sessionData);
+                            if (raw && raw.isLoggedIn) {
+                                const currentUser = raw.user ? raw.user : raw;
+                                const authButtons = document.getElementById('authButtons');
+                                const userLoggedButtons = document.getElementById('userLoggedButtons');
+                                if (authButtons) authButtons.style.display = 'none';
+                                if (userLoggedButtons) userLoggedButtons.style.display = 'block';
+
+                                const displayName = currentUser.nombres_completos || currentUser.nombre || currentUser.correo_electronico || currentUser.email || 'Usuario';
+                                const displayEmail = currentUser.correo_electronico || currentUser.email || '';
+                                const displayRole = currentUser.rol || '';
+                                const initials = (displayName.charAt(0) || 'U').toUpperCase();
+
+                                const userAvatar = document.getElementById('userAvatar');
+                                const userName = document.getElementById('userName');
+                                const userAvatarLarge = document.getElementById('userAvatarLarge');
+                                const userFullName = document.getElementById('userFullName');
+                                const userEmail = document.getElementById('userEmail');
+                                const userRole = document.getElementById('userRole');
+
+                                if (userAvatar) userAvatar.textContent = initials;
+                                if (userName) userName.textContent = displayName;
+                                if (userAvatarLarge) userAvatarLarge.textContent = initials;
+                                if (userFullName) userFullName.textContent = displayName;
+                                if (userEmail) userEmail.textContent = displayEmail;
+                                if (userRole) userRole.textContent = displayRole ? displayRole.charAt(0).toUpperCase() + displayRole.slice(1) : '';
+                            }
+                        }
+                    }
+                </script>
+            </nav>
+
+            <button class="mobile-toggle " id="mobileToggle " aria-label="Toggle menu ">
+                <i class="fas fa-bars "></i>
+            </button>
+        </div>
+    </header>
+    <main class="cart-page">
+        <section class="cart-list">
+            <h2 style="color:#fff; margin:0 0 8px 0; display:flex; align-items:center; gap:10px;">
+                <i class="bi bi-cart-fill" style="color:#e50914; font-size:1.4em;"></i>
+                <span>Carrito de Compras – DISTRICARNES</span>
+            </h2>
+            <div id="cartRows"></div>
+            <div class="empty-cart" id="emptyCart" style="display:none;">
+                Tu carrito está vacío. <a href="../productos.php" style="color:#e50914;">Ver productos</a>
+            </div>
+        </section>
+        <aside class="cart-summary">
+            <div class="session-info hidden" id="sessionInfo">No has iniciado sesión.</div>
+            <div class="summary-row"><span>Subtotal</span><span id="subtotal">$0</span></div>
+            <div class="summary-row"><span>Envío estimado</span><span id="shipping">$0</span></div>
+            <div class="summary-row summary-total"><span>Total</span><span id="total">$0</span></div>
+            <button id="btnCheckout" class="btn-primary" style="margin-top:8px;">Continuar compra</button>
+            <button id="btnClear" class="btn-secondary" style="margin-top:8px;">Vaciar carrito</button>
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+
+            <!-- Columna 1: Información de Contacto -->
+            <div class="footer-column">
+                <h4>INFORMACIÓN DE CONTACTO</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Dirección: OLAYA HERRERA</p>
+                <p><i class="fas fa-phone"></i> Teléfono: 12345678</p>
+                <p><i class="fas fa-envelope"></i> Email: districarnes@gmail.com</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Columna 2: Información -->
+            <div class="footer-column">
+                <h4>INFORMACIÓN</h4>
+                <ul>
+                    <li><i class="fas fa-info-circle"></i> Información Delivery</li>
+                    <li><i class="fas fa-shield-alt"></i> Políticas de Privacidad</li>
+                    <li><i class="fas fa-file-contract"></i> Términos y condiciones</li>
+                    <li><i class="fas fa-headset"></i> Contáctanos</li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Mi Cuenta -->
+            <div class="footer-column">
+                <h4>MI CUENTA</h4>
+                <ul>
+                    <li><i class="fas fa-user"></i> Mi cuenta</li>
+                    <li><i class="fas fa-history"></i> Historial de ordenes</li>
+                    <li><i class="fas fa-heart"></i> Lista de deseos</li>
+                    <li><i class="fas fa-newspaper"></i> Boletín</li>
+                    <li><i class="fas fa-undo"></i> Reembolsos</li>
+                </ul>
+            </div>
+
+            <!-- Columna 4: Boletín Informativo -->
+            <div class="footer-column">
+                <h4>BOLETÍN INFORMATIVO</h4>
+                <p>Suscríbete a nuestros boletines ahora y mantente al día con nuevas colecciones y ofertas exclusivas.
+                </p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Ingresa el correo aquí..." required />
+                    <button type="submit">SUSCRÍBETE</button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Pie inferior -->
+        <div class="footer-bottom">
+            <div class="footer-logo">
+                <img src="../assets/icon/LOGO-DISTRICARNES.png" alt="Logo Districarnes" />
+                <span>DISTRICARNES HERMANOS NAVARROS</span>
+            </div>
+            <div class="payment-logos">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Visa_logo.png" alt="Visa" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="MasterCard" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg" alt="American Express" />
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Discover_Card_logo.svg" alt="Discover" />
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- CHAT BOT -->
+    <div class="chatbot-toggle" onclick="toggleChatbot()" title="Abrir chat DISTRICARNES" aria-label="Abrir chat DISTRICARNES">
+        <i class="fas fa-robot"></i>
+    </div>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <div class="header-info">
+                <div class="bot-avatar"><i class="fas fa-robot"></i></div>
+                <h3>DISTRICARNES HERMANOS NAVARRO</h3>
+                <p>Asistente Virtual</p>
+                <p>Tu especialista en carnes premium</p>
+            </div>
+            <button class="close-btn" onclick="toggleChatbot()" aria-label="Cerrar chat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chatbot-messages">
+            <div class="message bot-message">
+                ¡Hola! 🥩 Soy tu asistente de DISTRICARNES. ¿En qué puedo ayudarte hoy?
+                <div class="menu-options">
+                    <div class="menu-option">
+                        <i class="fas fa-drumstick-bite"></i> Ver productos cárnicos
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-cut"></i> Tipos de cortes
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-clock"></i> Horarios y ubicación
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-tags"></i> Precios y ofertas
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-info-circle"></i> Sobre nosotros
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-phone"></i> Contactar
+                    </div>
+                </div>
+                <div class="message-timestamp">10:01 AM</div>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <div class="input-container">
+                <input type="text" class="chat-input" placeholder="¿Qué deseas saber sobre nuestras carnes?" onkeypress="handleKeyPress(event)" autocomplete="off" />
+                <button class="voice-btn" title="Entrada de voz (No implementado)">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="send-btn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            <div class="quick-actions">
+                <button class="quick-action" onclick="handleQuickAction('productos')">
+                    <i class="fas fa-drumstick-bite"></i> Ver Productos
+                </button>
+                <button class="quick-action" onclick="handleQuickAction('horarios')">
+                    <i class="fas fa-clock"></i> Horarios
+                </button>
+                <button class="quick-action" onclick="handleQuickAction('contacto')">
+                    <i class="fas fa-phone"></i> Contacto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SweetAlert para feedback -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Scripts del carrito CRUD -->
+    <script src="../static/js/cart_utils.js"></script>
+    <script src="../static/js/cart_page.js"></script>
+    <!-- Scripts del header -->
+    <script src="../static/js/header_actions.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../static/js/index.js"></script>
+    <script src="../static/js/chatbot.js"></script>
+    <script src="../static/js/cart_badge.js"></script>
+    <script src="../static/js/history_favorites.js"></script>
+    <script src="../static/js/loader.js" defer></script>
+    <script src="../static/js/session_guard.js" defer></script>
+    <script src="../static/js/network_guard.js" defer></script>
+</body>
+
+</html>

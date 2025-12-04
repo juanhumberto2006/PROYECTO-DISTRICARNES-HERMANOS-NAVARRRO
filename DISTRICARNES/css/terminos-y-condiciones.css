@@ -1,0 +1,268 @@
+/* Reset */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body,
+html {
+    height: 100%;
+    min-height: 100vh; /* Ensure background covers full height */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #030201;
+    color: white;
+    /* Removed flex centering and overflow: hidden to allow natural scrolling */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto; /* Center the container */
+    padding: 20px;
+    padding-top: 150px; /* Adjust for fixed header */
+    width: 100%;
+    /* Removed flex properties from here to allow content to flow naturally */
+}
+
+
+/* ESTILOS DEL HEADER DE ACCESO DISTRICARNES */
+
+.login-header {
+    background: linear-gradient(135deg, #cc0303 20%, #000000 100%);
+    /* Fondo oscuro elegante */
+    color: #ffffff;
+    padding: 2rem 1.5rem;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.login-header h1 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 0.25rem;
+}
+
+.login-header h1 .bi {
+    font-size: 2rem;
+    margin-right: 0.5rem;
+    vertical-align: -0.1em;
+    /* Ajuste fino de alineación vertical */
+}
+
+.login-header p.lead {
+    font-size: 1rem;
+    color: #e0e0e0;
+    margin-bottom: 0;
+}
+
+/* Content specific styles */
+.content-section {
+    background-color: #1a1a1a; /* Darker background for content */
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.content-section h2 {
+    color: #ff0000;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.content-section h2 .bi {
+    margin-right: 10px;
+}
+
+.content-section h3 {
+    color: #e0e0e0;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+.content-section p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.content-section ul, .content-section ol {
+    margin-left: 25px;
+    margin-bottom: 15px;
+}
+
+.content-section ul li, .content-section ol li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.highlight-box {
+    background-color: #331f1f;
+    border-left: 4px solid #ff0000;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.highlight-box strong {
+    color: #ff0000;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.highlight-box .bi {
+    margin-right: 5px;
+}
+
+.last-updated {
+    font-size: 0.9rem;
+    color: #aaaaaa;
+    text-align: right;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.last-updated .bi {
+    margin-right: 5px;
+}
+
+.contact-box {
+    background-color: #2a2a2a;
+    padding: 25px;
+    border-radius: 8px;
+    margin-top: 30px;
+    border: 1px solid #333;
+}
+
+.contact-box h3 {
+    color: #ff0000;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.contact-box h3 .bi {
+    margin-right: 10px;
+}
+
+.contact-info p {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.contact-info p .bi {
+    margin-right: 10px;
+    color: #ff0000;
+    min-width: 20px; /* Align text properly */
+}
+
+.acceptance-section {
+    background-color: #1a2a1a;
+    padding: 20px;
+    border-left: 4px solid #00ff00; /* Green highlight for acceptance */
+    margin-top: 30px;
+    border-radius: 4px;
+}
+
+.acceptance-section h3 {
+    color: #00ff00;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.acceptance-section h3 .bi {
+    margin-right: 10px;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ff0000;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 30px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #cc0000;
+}
+
+.btn-back .bi {
+    margin-right: 8px;
+}
+
+.site-footer {
+    padding: 2rem 0;
+    color: #666;
+    text-align: center;
+    border-top: 1px solid #333;
+    margin-top: 30px;
+}
+
+.site-footer p {
+    margin: 0.5rem 0;
+}
+
+.site-footer .bi {
+    color: #ff0000;
+    margin-right: 5px;
+}
+
+/* Ajustes responsivos para pantallas más pequeñas */
+
+@media (max-width: 820px) {
+    .container {
+        padding: 20px;
+        padding-top: 120px; /* Adjust for fixed header */
+    }
+    .login-header {
+        padding: 1.5rem 1rem;
+    }
+    .login-header h1 {
+        font-size: 1.8rem;
+    }
+    .login-header p.lead {
+        font-size: 0.9rem;
+    }
+    .content-section {
+        padding: 20px;
+    }
+    .content-section h2 {
+        font-size: 1.5rem;
+    }
+    .content-section h3 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-header h1 {
+        font-size: 1.6rem;
+    }
+    .login-header p.lead {
+        font-size: 0.8rem;
+    }
+    .last-updated {
+        justify-content: center;
+    }
+}

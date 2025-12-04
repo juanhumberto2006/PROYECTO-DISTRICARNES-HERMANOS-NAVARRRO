@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil - DistriCarnes Admin</title>
+    <link rel="icon" type="image/x-icon" href="../assets/icon/image-removebg-preview sin fondo (1).ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: #000000;
+            padding: 20px;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .sidebar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .sidebar.collapsed {
+            transform: translateX(-240px);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 50%;
+            margin-right: 15px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 10px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-weight: 400;
+            margin-bottom: 2px;
+        }
+        
+        .nav-link span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: #ff0000;
+            color: white;
+        }
+        
+        .nav-link i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            padding: 20px;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-content.expanded {
+            margin-left: 40px;
+        }
+        
+        .header {
+            background: #1a1a1a;
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.4rem;
+            margin-right: 16px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+        
+        .menu-toggle:hover {
+            background: #333;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+            position: relative;
+        }
+        
+        .user-profile:hover {
+            background: #333;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 280px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+            margin-top: 8px;
+        }
+        
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .user-info-dropdown {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar-large {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .user-details h4 {
+            margin: 0;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .user-details p {
+            margin: 5px 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .user-info-dropdown .user-details {
+            min-width: 0;
+        }
+
+        .user-info-dropdown .user-details h4,
+        .user-info-dropdown .user-details p {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .user-role {
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .menu-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 20px;
+        }
+        
+        .menu-items {
+            padding: 10px 0;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .menu-item:hover {
+            background: #333;
+            color: white;
+        }
+        
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        #userMenuArrow {
+            transition: transform 0.3s ease;
+        }
+        
+        #userMenuArrow.rotated {
+            transform: rotate(180deg);
+        }
+
+        .profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 20px;
+        }
+
+        .profile-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #333;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .profile-body {
+            padding: 30px;
+        }
+
+        .profile-body .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            color: white;
+        }
+
+        .profile-footer {
+            background: #0f0f0f;
+            padding: 20px 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            border-top: 1px solid #333;
+        }
+
+        .action-btn-profile {
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            background: #0f0f0f;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff0000;
+        }
+
+        .form-group .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 41px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .action-btn-profile.save {
+            background: #48bb78;
+        }
+        .action-btn-profile.save:hover {
+            background: #38a169;
+        }
+        .action-btn-profile.cancel {
+            background: #6c757d;
+        }
+        .action-btn-profile.cancel:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="logo">
+            <img src="../assets/icon/LOGO-DISTRICARNES.png" alt="DistriCarnes">
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="./admin_dashboard.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_users.html" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_products.html" class="nav-link">
+                    <i class="fas fa-box"></i>
+                    <span>Productos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_categories.html" class="nav-link">
+                    <i class="fas fa-tags"></i>
+                    <span>Categorias</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_orders.html" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Pedidos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_inventory.html" class="nav-link">
+                    <i class="fas fa-warehouse"></i>
+                    <span>Inventario</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_reports.html" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reportes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_promotions.html" class="nav-link">
+                    <i class="fas fa-percent"></i>
+                    <span>Promociones</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>Editar Perfil</h1>
+            </div>
+
+            <div class="header-right">
+                <div class="user-profile" onclick="toggleUserMenu()">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <span id="userName">Administrador</span>
+                    <i class="fas fa-chevron-down" id="userMenuArrow"></i>
+
+                    <!-- User Dropdown Menu -->
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-info-dropdown">
+                            <div class="user-avatar-large" id="userAvatarLarge">A</div>
+                            <div class="user-details">
+                                <h4 id="userFullNameDropdown">Administrador</h4>
+                                <p id="userEmailDropdown">admin@districarnes.com</p>
+                                <span class="user-role" id="userRoleDropdown">Administrador</span>
+                            </div>
+                        </div>
+
+                        <div class="menu-divider"></div>
+
+                        <div class="menu-items">
+                            <a href="./admin_profile.html" class="menu-item">
+                                <i class="fas fa-user"></i>
+                                <span>Mi Perfil</span>
+                            </a>
+                            <a href="./admin_profile_edit.html" class="menu-item">
+                                <i class="fas fa-edit"></i>
+                                <span>Editar Perfil</span>
+                            </a>
+                            <a href="./admin_password_change.html" class="menu-item">
+                                <i class="fas fa-key"></i>
+                                <span>Cambiar Contraseña</span>
+                            </a>
+                            <a href="admin_settings.html" class="menu-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Configuración</span>
+                            </a>
+                            <div class="menu-divider"></div>
+                            <a href="#" class="menu-item logout" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Cerrar Sesión</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Edit Profile Section -->
+        <section class="profile-container">
+            <form id="editProfileForm" class="profile-card" novalidate>
+                <div class="profile-body">
+                    <h3 class="section-title">Editar Información del Perfil</h3>
+                    <div class="form-grid">
+                        <!-- Full Name -->
+                        <div class="form-group">
+                            <label for="fullName">Nombre Completo</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                            <div class="input-icon"><i class="fas fa-user"></i></div>
+                        </div>
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" required>
+                            <div class="input-icon"><i class="fas fa-envelope"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-footer">
+                    <a href="./admin_profile.html" class="action-btn-profile cancel">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                    <button type="submit" class="action-btn-profile save">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        // Variables globales
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+            initializePage();
+            handleFormSubmit();
+        });
+
+        function checkAuthentication() {
+            const userData = localStorage.getItem('userData');
+            if (!userData) {
+                window.location.href = '../login/login.html';
+                return;
+            }
+
+            try {
+                const parsedData = JSON.parse(userData);
+                currentUser = parsedData.user ? parsedData.user : parsedData;
+
+                if (!currentUser || currentUser.rol !== 'admin') {
+                    window.location.href = '../index.html';
+                    return;
+                }
+                updateUserInterface();
+            } catch (error) {
+                console.error('Error al parsear datos de usuario:', error);
+                window.location.href = '../login/login.html';
+            }
+        }
+
+        function updateUserInterface() {
+            if (!currentUser) return;
+
+            const name = currentUser.nombre || 'Administrador';
+            const email = currentUser.email || 'admin@districarnes.com';
+            const initials = getInitials(name);
+
+            // Header and dropdown
+            document.getElementById('userAvatar').textContent = initials;
+            document.getElementById('userName').textContent = name;
+            document.getElementById('userAvatarLarge').textContent = initials;
+            document.getElementById('userFullNameDropdown').textContent = name;
+            document.getElementById('userEmailDropdown').textContent = email;
+            document.getElementById('userRoleDropdown').textContent = 'Administrador';
+
+            // Form fields
+            document.getElementById('fullName').value = name;
+            document.getElementById('email').value = email;
+        }
+
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        }
+        
+        function handleFormSubmit() {
+            const form = document.getElementById('editProfileForm');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const fullName = document.getElementById('fullName').value.trim();
+                const email = document.getElementById('email').value.trim();
+
+                if (!fullName || !email) {
+                    Swal.fire({title: 'Error', text: 'Por favor completa todos los campos.', icon: 'error', background: '#1a1a1a', color: '#ffffff'});
+                    return;
+                }
+
+                Swal.fire({
+                    title: 'Guardando...',
+                    text: 'Por favor espera.',
+                    background: '#1a1a1a',
+                    color: '#ffffff',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                const formData = new FormData();
+                formData.append('action', 'update_profile');
+                formData.append('fullName', fullName);
+                formData.append('email', email);
+
+                fetch('../backend/php/admin_profile_manage.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Guardado!',
+                            text: data.message,
+                            background: '#1a1a1a',
+                            color: '#ffffff'
+                        }).then(() => {
+                            // Update local storage for immediate UI update across pages
+                            currentUser.nombre = fullName;
+                            currentUser.email = email;
+                            
+                            let userData = JSON.parse(localStorage.getItem('userData'));
+                            if (userData.user) {
+                                userData.user = currentUser;
+                            } else {
+                                userData = currentUser;
+                            }
+                            localStorage.setItem('userData', JSON.stringify(userData));
+
+                            window.location.href = './admin_profile.html';
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message || 'No se pudo actualizar el perfil. Inténtalo de nuevo.',
+                            background: '#1a1a1a',
+                            color: '#ffffff'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error de Conexión',
+                        text: 'No se pudo comunicar con el servidor.',
+                        background: '#1a1a1a',
+                        color: '#ffffff'
+                    });
+                });
+            });
+        }
+
+        function initializePage() {
+            document.getElementById('menuToggle').addEventListener('click', function() {
+                const sidebar = document.getElementById('sidebar');
+                const mainContent = document.getElementById('mainContent');
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.toggle('active');
+                } else {
+                    sidebar.classList.toggle('collapsed');
+                    mainContent.classList.toggle('expanded');
+                }
+            });
+
+            document.addEventListener('click', function(event) {
+                const userProfile = document.querySelector('.user-profile');
+                const userDropdown = document.getElementById('userDropdown');
+                if (userProfile && !userProfile.contains(event.target)) {
+                    userDropdown.classList.remove('show');
+                    document.getElementById('userMenuArrow').classList.remove('rotated');
+                }
+            });
+        }
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            const arrow = document.getElementById('userMenuArrow');
+            dropdown.classList.toggle('show');
+            arrow.classList.toggle('rotated');
+        }
+
+        function logout() {
+            Swal.fire({
+                title: '¿Cerrar Sesión?',
+                text: '¿Estás seguro de que deseas cerrar sesión?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#ff0000',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, cerrar sesión',
+                cancelButtonText: 'Cancelar',
+                background: '#1a1a1a',
+                color: '#ffffff',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('userData');
+                    sessionStorage.clear();
+                    window.location.href = '../login/login.html';
+                }
+            });
+        }
+    </script>
+</body>
+<script src="../static/js/session_guard.js" defer></script>
+<script src="../static/js/network_guard.js" defer></script>
+</html>

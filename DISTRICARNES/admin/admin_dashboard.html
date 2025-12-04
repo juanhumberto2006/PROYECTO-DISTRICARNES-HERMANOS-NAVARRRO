@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrativo - DistriCarnes</title>
+    <link rel="icon" type="image/x-icon" href="../assets/icon/image-removebg-preview sin fondo (1).ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: #000000;
+            padding: 20px;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .sidebar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .sidebar.collapsed {
+            transform: translateX(-240px);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 50%;
+            margin-right: 15px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 10px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-weight: 400;
+            margin-bottom: 2px;
+        }
+        
+        .nav-link span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: #ff0000;
+            color: white;
+        }
+        
+        .nav-link i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            padding: 20px;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-content.expanded {
+            margin-left: 40px;
+        }
+        
+        .header {
+            background: #1a1a1a;
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.4rem;
+            margin-right: 16px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+        
+        .menu-toggle:hover {
+            background: #333;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box input {
+            background: #0f0f0f;
+            border: 1px solid #333;
+            padding: 10px 40px 10px 12px;
+            border-radius: 6px;
+            color: white;
+            width: 280px;
+            transition: all 0.2s ease;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #ff0000;
+            background: #1a1a1a;
+        }
+        
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .notifications {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notifications i {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.3s ease;
+        }
+        
+        .notifications:hover i {
+            color: #ff0000;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff0000;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+            position: relative;
+        }
+        
+        .user-profile:hover {
+            background: #333;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 280px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+            margin-top: 8px;
+        }
+        
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .user-info-dropdown {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar-large {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .user-details h4 {
+            margin: 0;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .user-details p {
+            margin: 5px 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        .user-info-dropdown .user-details {
+            min-width: 0;
+        }
+        
+        .user-info-dropdown .user-details h4,
+        .user-info-dropdown .user-details p {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .user-role {
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .menu-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 20px;
+        }
+        
+        .menu-items {
+            padding: 10px 0;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .menu-item:hover {
+            background: #333;
+            color: white;
+        }
+        
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .menu-item.logout {
+            color: #e61515;
+        }
+        
+        .menu-item.logout:hover {
+            background: rgba(255, 107, 107, 0.1);
+            border-left-color: #e61515;
+        }
+        
+        #userMenuArrow {
+            transition: transform 0.3s ease;
+        }
+        
+        #userMenuArrow.rotated {
+            transform: rotate(180deg);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #ff0000;
+        }
+        
+        .stat-card:hover {
+            border-color: #e61515;
+            transform: translateY(-2px);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stat-title {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .stat-icon.sales {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+        }
+        
+        .stat-icon.orders {
+            background: linear-gradient(45deg, #4299e1, #3182ce);
+        }
+        
+        .stat-icon.inventory {
+            background: linear-gradient(45deg, #ed8936, #dd6b20);
+        }
+        
+        .stat-icon.customers {
+            background: linear-gradient(45deg, #9f7aea, #805ad5);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .stat-change {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+        }
+        
+        .stat-change.positive {
+            color: #48bb78;
+        }
+        
+        .stat-change.negative {
+            color: #ff0000;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-container,
+        .activity-feed {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: #ff0000;
+        }
+        
+        .chart-placeholder {
+            height: 300px;
+            background: #0f0f0f;
+            border-radius: 6px;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        
+        .activity-icon.sale {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+        }
+        
+        .activity-icon.order {
+            background: linear-gradient(45deg, #4299e1, #3182ce);
+        }
+        
+        .activity-icon.user {
+            background: linear-gradient(45deg, #9f7aea, #805ad5);
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            color: white;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+        
+        .activity-time {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .action-btn {
+            background: #e61515;
+            color: white;
+            padding: 16px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        
+        .action-btn:hover {
+            background: #e6151560;
+            transform: translateY(-1px);
+        }
+        
+        .action-btn i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .search-box input {
+                width: 200px;
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="logo">
+            <img src="../assets/icon/LOGO-DISTRICARNES.png" alt="DistriCarnes">
+        </div>
+
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="./admin_dashboard.html" class="nav-link active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_users.html" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_products.html" class="nav-link">
+                    <i class="fas fa-box"></i>
+                    <span>Productos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_categories.html" class="nav-link">
+                    <i class="fas fa-tags"></i>
+                    <span>Categorias</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_orders.html" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Pedidos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_inventory.html" class="nav-link">
+                    <i class="fas fa-warehouse"></i>
+                    <span>Inventario</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_reports.html" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reportes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_promotions.html" class="nav-link">
+                    <i class="fas fa-percent"></i>
+                    <span>Promociones</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>DistriCarnes</h1>
+            </div>
+
+            <div class="header-right">
+                <div class="search-box">
+                    <input type="text" placeholder="Buscar...">
+                    <i class="fas fa-search"></i>
+                </div>
+
+                <div class="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationBadge">0</span>
+                    <!-- Notifications Dropdown -->
+                    <div class="user-dropdown" id="notificationsDropdown" style="width:360px;">
+                        <div class="user-info-dropdown" style="padding: 12px 16px;">
+                            <div class="user-details">
+                                <h4 style="margin:0;">Notificaciones</h4>
+                                <p style="margin:4px 0; color: rgba(255,255,255,0.7);">Eventos recientes del sistema</p>
+                            </div>
+                        </div>
+                        <div class="menu-divider"></div>
+                        <div class="menu-items" id="notificationsList" style="max-height: 320px; overflow-y:auto;"></div>
+                    </div>
+                </div>
+
+                <div class="user-profile" onclick="toggleUserMenu()">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <span id="userName">Administrador</span>
+                    <i class="fas fa-chevron-down" id="userMenuArrow"></i>
+
+                    <!-- User Dropdown Menu -->
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-info-dropdown">
+                            <div class="user-avatar-large" id="userAvatarLarge">A</div>
+                            <div class="user-details">
+                                <h4 id="userFullName">Administrador</h4>
+                                <p id="userEmail">admin@districarnes.com</p>
+                                <span class="user-role" id="userRole">Administrador</span>
+                            </div>
+                        </div>
+
+                        <div class="menu-divider"></div>
+
+                        <div class="menu-items">
+                            <a href="./admin_profile.html" class="menu-item">
+                                <i class="fas fa-user"></i>
+                                <span>Mi Perfil</span>
+                            </a>
+                            <a href="./admin_profile_edit.html" class="menu-item">
+                                <i class="fas fa-edit"></i>
+                                <span>Editar Perfil</span>
+                            </a>
+                            <a href="./admin_password_change.html" class="menu-item">
+                                <i class="fas fa-key"></i>
+                                <span>Cambiar Contraseña</span>
+                            </a>
+                            <a href="./admin_settings.html" class="menu-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Configuración</span>
+                            </a>
+                            <div class="menu-divider"></div>
+                            <a href="../login/login.html" class="menu-item logout" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Cerrar Sesión</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions" style="padding: 40px 30px 0 30px;">
+            <a href="./admin_products.html" class="action-btn">
+                <i class="fas fa-plus"></i> Agregar Producto
+            </a>
+            <a href="./admin_users.html" class="action-btn">
+                <i class="fas fa-user-plus"></i> Nuevo Usuario
+            </a>
+            <a href="./admin_orders.html" class="action-btn">
+                <i class="fas fa-list"></i> Ver Pedidos
+            </a>
+            <a href="./admin_reports.html" class="action-btn">
+                <i class="fas fa-chart-bar"></i> Generar Reporte
+            </a>
+        </section>
+        <br><br>
+
+        <!-- Stats Grid -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Ventas Hoy</div>
+                    <div class="stat-icon sales">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="salesToday">$2,450,000</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>+12% vs ayer</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Pedidos en Ruta</div>
+                    <div class="stat-icon orders">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="ordersInRoute">24</div>
+                <div class="stat-change negative">
+                    <i class="fas fa-clock"></i>
+                    <span>3 retrasos</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Stock Bajo</div>
+                    <div class="stat-icon inventory">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="lowStockItems">8</div>
+                <div class="stat-change negative">
+                    <i class="fas fa-arrow-down"></i>
+                    <span>Requiere atención</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-title">Clientes Activos</div>
+                    <div class="stat-icon customers">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="activeCustomers">156</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>+23 esta semana</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Grid -->
+        <section class="dashboard-grid">
+            <div class="chart-container">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-line"></i> Ventas del Mes
+                </h2>
+                <div class="chart-placeholder">
+                    Gráfico de ventas - Integrar con Chart.js
+                </div>
+            </div>
+
+            <div class="activity-feed">
+                <h2 class="section-title">
+                    <i class="fas fa-clock"></i> Actividad Reciente
+                </h2>
+
+                <div class="activity-item">
+                    <div class="activity-icon sale">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Nueva venta realizada</div>
+                        <div class="activity-time">Hace 5 minutos</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon order">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Pedido #1234 enviado</div>
+                        <div class="activity-time">Hace 15 minutos</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon user">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Nuevo usuario registrado</div>
+                        <div class="activity-time">Hace 1 hora</div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon sale">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Pago procesado - $125,000</div>
+                        <div class="activity-time">Hace 2 horas</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Variables globales
+        let currentUser = null;
+
+        // Verificar autenticación al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+            initializeDashboard();
+        });
+
+        // Verificar si el usuario está autenticado
+        function checkAuthentication() {
+            const userData = localStorage.getItem('userData');
+            if (!userData) {
+                window.location.href = '../login/login.html';
+                return;
+            }
+
+            try {
+                const parsedData = JSON.parse(userData);
+                // Verificar si los datos tienen la estructura correcta
+                if (parsedData.user) {
+                    currentUser = parsedData.user;
+                } else {
+                    currentUser = parsedData;
+                }
+
+                // Verificar rol de admin
+                if (!currentUser || currentUser.rol !== 'admin') {
+                    console.log('Usuario no es admin:', currentUser);
+                    window.location.href = '../index.html';
+                    return;
+                }
+
+                console.log('Usuario autenticado como admin:', currentUser);
+                updateUserInterface();
+            } catch (error) {
+                console.error('Error al parsear datos de usuario:', error);
+                window.location.href = '../login/login.html';
+            }
+        }
+
+        // Actualizar interfaz con datos del usuario
+        function updateUserInterface() {
+            if (!currentUser) return;
+
+            const initials = getInitials(currentUser.nombre || 'Admin');
+            document.getElementById('userAvatar').textContent = initials;
+            document.getElementById('userAvatarLarge').textContent = initials;
+            document.getElementById('userName').textContent = currentUser.nombre || 'Administrador';
+            document.getElementById('userFullName').textContent = currentUser.nombre || 'Administrador';
+            document.getElementById('userEmail').textContent = currentUser.email || 'admin@districarnes.com';
+            document.getElementById('userRole').textContent = 'Administrador';
+        }
+
+        // Obtener iniciales del nombre
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+        }
+
+        // Inicializar dashboard
+        function initializeDashboard() {
+            // Toggle sidebar (responsive)
+            document.getElementById('menuToggle').addEventListener('click', function() {
+                const sidebar = document.getElementById('sidebar');
+                const mainContent = document.getElementById('mainContent');
+
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.toggle('active');
+                } else {
+                    sidebar.classList.toggle('collapsed');
+                    mainContent.classList.toggle('expanded');
+                }
+            });
+
+            // Cerrar dropdown al hacer clic fuera
+            document.addEventListener('click', function(event) {
+                const userProfile = document.querySelector('.user-profile');
+                const userDropdown = document.getElementById('userDropdown');
+                const notif = document.querySelector('.notifications');
+                const notifDropdown = document.getElementById('notificationsDropdown');
+
+                if (!userProfile.contains(event.target)) {
+                    userDropdown.classList.remove('show');
+                    document.getElementById('userMenuArrow').classList.remove('rotated');
+                }
+                if (!notif.contains(event.target)) {
+                    notifDropdown.classList.remove('show');
+                }
+            });
+
+            // Cargar estadísticas y notificaciones
+            loadDashboardStats();
+            loadNotifications();
+            // Refrescar en tiempo real periódicamente
+            setInterval(loadDashboardStats, 5000);
+            setInterval(loadNotifications, 7000);
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            const arrow = document.getElementById('userMenuArrow');
+
+            dropdown.classList.toggle('show');
+            arrow.classList.toggle('rotated');
+        }
+
+        // Toggle notifications dropdown
+        (function() {
+            const notif = document.querySelector('.notifications');
+            const dropdown = document.getElementById('notificationsDropdown');
+            if (notif && dropdown) {
+                notif.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('show');
+                });
+            }
+        })();
+
+        // Cargar estadísticas del dashboard
+        function loadDashboardStats() {
+            fetch('../backend/php/dashboard_stats.php', {
+                    cache: 'no-store'
+                })
+                .then(function(resp) {
+                    return resp.json();
+                })
+                .then(function(data) {
+                    var fmtCOP = function(n) {
+                        try {
+                            return new Intl.NumberFormat('es-CO', {
+                                style: 'currency',
+                                currency: 'COP',
+                                maximumFractionDigits: 0
+                            }).format(Number(n || 0));
+                        } catch (e) {
+                            return '$' + (Number(n || 0).toLocaleString('es-CO'));
+                        }
+                    };
+                    document.getElementById('salesToday').textContent = fmtCOP(data.salesToday);
+                    document.getElementById('ordersInRoute').textContent = (data.ordersInRoute ?? 0).toString();
+                    document.getElementById('lowStockItems').textContent = (data.lowStockItems ?? 0).toString();
+                    document.getElementById('activeCustomers').textContent = (data.activeCustomers ?? 0).toString();
+                })
+                .catch(function(err) {
+                    console.error('Error al cargar estadísticas:', err);
+                });
+        }
+
+        // Cargar notificaciones recientes
+        async function loadNotifications() {
+            try {
+                const resp = await fetch('../backend/php/notifications_list.php', {
+                    cache: 'no-store'
+                });
+                const data = await resp.json();
+                const badge = document.getElementById('notificationBadge');
+                const list = document.getElementById('notificationsList');
+
+                badge.textContent = (data.unread_count ?? 0).toString();
+
+                const items = Array.isArray(data.notifications) ? data.notifications : [];
+                if (items.length === 0) {
+                    list.innerHTML = '<div class="menu-item"><span>No hay notificaciones</span></div>';
+                    return;
+                }
+
+                const iconFor = function(type) {
+                    switch (type) {
+                        case 'sale':
+                            return 'fa-shopping-cart';
+                        case 'order':
+                            return 'fa-truck';
+                        case 'user':
+                            return 'fa-user';
+                        case 'inventory':
+                            return 'fa-exclamation-triangle';
+                        default:
+                            return 'fa-bell';
+                    }
+                };
+
+                const relTime = function(ts) {
+                    const d = new Date(ts);
+                    const now = new Date();
+                    const diffMs = now - d;
+                    const mins = Math.floor(diffMs / 60000);
+                    if (isNaN(mins)) return '';
+                    if (mins < 1) return 'Hace unos segundos';
+                    if (mins < 60) return 'Hace ' + mins + ' min';
+                    const hrs = Math.floor(mins / 60);
+                    if (hrs < 24) return 'Hace ' + hrs + ' h';
+                    const days = Math.floor(hrs / 24);
+                    return 'Hace ' + days + ' d';
+                };
+
+                list.innerHTML = items.map(n => {
+                    const icon = iconFor(n.type);
+                    const href = n.link || '#';
+                    const title = n.title || 'Notificación';
+                    const message = n.message || '';
+                    const time = relTime(n.created_at);
+                    return (
+                        '<a href="' + href + '" class="menu-item">' +
+                        '<i class="fas ' + icon + '"></i>' +
+                        '<span>' + title + (message ? ' — ' + message : '') + '</span>' +
+                        '<small style="margin-left:auto;color:rgba(255,255,255,0.6);">' + time + '</small>' +
+                        '</a>'
+                    );
+                }).join('');
+            } catch (err) {
+                console.error('Error al cargar notificaciones:', err);
+            }
+        }
+
+        // Función de logout
+        function logout() {
+            Swal.fire({
+                title: '¿Cerrar Sesión?',
+                text: '¿Estás seguro de que deseas cerrar sesión?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#ff0000',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, cerrar sesión',
+                cancelButtonText: 'Cancelar',
+                background: '#1a1a1a',
+                color: '#ffffff',
+                customClass: {
+                    popup: 'swal-dark-theme'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Sesión Cerrada',
+                        text: 'Has cerrado sesión exitosamente',
+                        icon: 'success',
+                        timer: 1500,
+                        showConfirmButton: false,
+                        background: '#1a1a1a',
+                        color: '#ffffff',
+                        customClass: {
+                            popup: 'swal-dark-theme'
+                        }
+                    }).then(() => {
+                        localStorage.removeItem('userData');
+                        sessionStorage.clear();
+                        window.location.href = '../login/login.html';
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+<script src="../static/js/session_guard.js" defer></script>
+<script src="../static/js/network_guard.js" defer></script>
+
+</html>

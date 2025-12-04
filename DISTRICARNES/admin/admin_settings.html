@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - DistriCarnes Admin</title>
+    <link rel="icon" type="image/x-icon" href="../assets/icon/image-removebg-preview sin fondo (1).ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: #000;
+            padding: 20px;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        
+        .sidebar.collapsed {
+            transform: translateX(-240px);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 50%;
+            margin-right: 15px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-link span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: #ff0000;
+            color: white;
+        }
+        
+        .nav-link i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-content.expanded {
+            margin-left: 40px;
+        }
+        
+        .header {
+            background: #1a1a1a;
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            color: #ff0000;
+        }
+        
+        .user-profile {
+            /* styles for user profile */
+        }
+        
+        .settings-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .settings-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .tab-link {
+            flex-grow: 1;
+            padding: 12px 20px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .tab-link:hover {
+            background: #333;
+            color: white;
+        }
+        
+        .tab-link.active {
+            background: #ff0000;
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .settings-card {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+        
+        .settings-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            background: #0f0f0f;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: white;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked+.slider {
+            background-color: #ff0000;
+        }
+        
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+        
+        .btn-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #4299e1;
+            text-decoration: none;
+        }
+        
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+        
+        .warning {
+            background: rgba(237, 137, 54, 0.1);
+            color: #ed8936;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 3px solid #ed8936;
+        }
+        
+        .settings-footer {
+            margin-top: 30px;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .action-btn-profile {
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .action-btn-profile.save {
+            background: #48bb78;
+        }
+        .action-btn-profile.save:hover {
+            background: #38a169;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="logo">
+            <img src="../assets/icon/LOGO-DISTRICARNES.png" alt="DistriCarnes">
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="./admin_dashboard.html" class="nav-link"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+            <li class="nav-item"><a href="./admin_users.html" class="nav-link"><i class="fas fa-users"></i><span>Usuarios</span></a></li>
+            <li class="nav-item"><a href="./admin_products.html" class="nav-link"><i class="fas fa-box"></i><span>Productos</span></a></li>
+            <li class="nav-item"><a href="./admin_categories.html" class="nav-link"><i class="fas fa-tags"></i><span>Categorias</span></a></li>
+            <li class="nav-item"><a href="./admin_orders.html" class="nav-link"><i class="fas fa-shopping-cart"></i><span>Pedidos</span></a></li>
+            <li class="nav-item"><a href="./admin_inventory.html" class="nav-link"><i class="fas fa-warehouse"></i><span>Inventario</span></a></li>
+            <li class="nav-item"><a href="./admin_reports.html" class="nav-link"><i class="fas fa-chart-bar"></i><span>Reportes</span></a></li>
+            <li class="nav-item"><a href="./admin_promotions.html" class="nav-link"><i class="fas fa-percent"></i><span>Promociones</span></a></li>
+            <li class="nav-item"><a href="./admin_settings.html" class="nav-link active"><i class="fas fa-cog"></i><span>Configuración</span></a></li>
+            <li class="nav-item"><a href="#" class="nav-link" onclick="logout()"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <header class="header">
+            <h1>Configuración</h1>
+        </header>
+
+        <div class="settings-container">
+            <div class="settings-tabs">
+                <button class="tab-link active" onclick="openTab(event, 'general')"><i class="fas fa-cogs"></i> General</button>
+                <button class="tab-link" onclick="openTab(event, 'security')"><i class="fas fa-shield-alt"></i> Seguridad</button>
+                <button class="tab-link" onclick="openTab(event, 'payments')"><i class="fas fa-credit-card"></i> Pagos</button>
+                <button class="tab-link" onclick="openTab(event, 'advanced')"><i class="fas fa-tools"></i> Avanzada</button>
+            </div>
+
+            <!-- General Tab -->
+            <div id="general" class="tab-content active">
+                <div class="settings-card">
+                    <h3>Información de la Empresa</h3>
+                    <div class="form-group">
+                        <label for="siteName">Nombre del Sitio</label>
+                        <input type="text" id="siteName" placeholder="DistriCarnes">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Email de Contacto</label>
+                        <input type="email" id="contactEmail" placeholder="admin@districarnes.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="logoUpload">Logo de la Empresa</label>
+                        <input type="file" id="logoUpload">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Tab -->
+            <div id="security" class="tab-content">
+                <div class="settings-card">
+                    <h3>Seguridad de la Cuenta</h3>
+                    <div class="setting-item">
+                        <h4>Autenticación de Dos Factores (2FA)</h4>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="twoFactorAuth">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <a href="./admin_password_change.html" class="btn-link">Cambiar mi contraseña</a>
+                </div>
+            </div>
+
+            <!-- Payments Tab -->
+            <div id="payments" class="tab-content">
+                <div class="settings-card">
+                    <h3>Pasarelas de Pago</h3>
+                    <p class="warning">Maneje esta información con cuidado. No exponga sus claves de API.</p>
+                    <h4>PayPal</h4>
+                    <div class="form-group">
+                        <label for="paypalClientId">PayPal Client ID</label>
+                        <input type="password" id="paypalClientId">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Tab -->
+            <div id="advanced" class="tab-content">
+                <div class="settings-card">
+                    <h3>Configuración Avanzada</h3>
+                    <div class="setting-item">
+                        <h4>Modo Mantenimiento</h4>
+                        <p>Desactiva el acceso público a la tienda.</p>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="maintenanceMode">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Respaldo de Base de Datos</label>
+                        <button class="btn-secondary" onclick="backupDatabase()">Crear Respaldo</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-footer">
+                <button class="action-btn-profile save" onclick="saveAllSettings()">
+                    <i class="fas fa-save"></i> Guardar Toda la Configuración
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Init first tab
+            document.querySelector('.tab-link').click();
+            loadSettings();
+        });
+
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        function loadSettings() {
+            fetch('../backend/php/admin_settings_manage.php?action=get_settings')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.settings) {
+                        const settings = data.settings;
+                        document.getElementById('siteName').value = settings.siteName || '';
+                        document.getElementById('contactEmail').value = settings.contactEmail || '';
+                        document.getElementById('twoFactorAuth').checked = !!settings.twoFactorAuth;
+                        document.getElementById('paypalClientId').value = settings.paypalClientId || '';
+                        document.getElementById('maintenanceMode').checked = !!settings.maintenanceMode;
+                    }
+                })
+                .catch(error => console.error('Error al cargar la configuración:', error));
+        }
+
+        function saveAllSettings() {
+            const settings = {
+                siteName: document.getElementById('siteName').value,
+                contactEmail: document.getElementById('contactEmail').value,
+                twoFactorAuth: document.getElementById('twoFactorAuth').checked,
+                paypalClientId: document.getElementById('paypalClientId').value,
+                maintenanceMode: document.getElementById('maintenanceMode').checked
+            };
+
+            Swal.fire({
+                title: 'Guardando...',
+                text: 'Por favor espera.',
+                background: '#1a1a1a',
+                color: '#ffffff',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            fetch('../backend/php/admin_settings_manage.php?action=save_settings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(settings),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Guardado!',
+                        text: data.message,
+                        background: '#1a1a1a',
+                        color: '#ffffff'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message || 'No se pudo guardar la configuración.',
+                        background: '#1a1a1a',
+                        color: '#ffffff'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de Conexión',
+                    text: 'No se pudo comunicar con el servidor.',
+                    background: '#1a1a1a',
+                    color: '#ffffff'
+                });
+            });
+        }
+
+        function backupDatabase() {
+             fetch('../backend/php/admin_settings_manage.php?action=backup_database', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire('Respaldo', data.message, 'info');
+                    } else {
+                        Swal.fire('Error', data.message, 'error');
+                    }
+                });
+        }
+
+        function logout() {
+             Swal.fire({
+                title: '¿Cerrar Sesión?',
+                text: '¿Estás seguro de que deseas cerrar sesión?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#ff0000',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, cerrar sesión',
+                cancelButtonText: 'Cancelar',
+                background: '#1a1a1a',
+                color: '#ffffff',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    localStorage.removeItem('userData');
+                    sessionStorage.clear();
+                    window.location.href = '../login/login.html';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

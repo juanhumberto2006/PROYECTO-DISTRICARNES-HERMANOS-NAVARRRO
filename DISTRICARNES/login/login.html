@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DISTRICARNES - Login</title>
+    <link rel="stylesheet" href="../login/css/login.css">
+    <link rel="shortcut icon" href="../assets/icon/image-removebg-preview sin fondo (1).ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js"></script>
+    <!-- Google GSI -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body>
+    <div class="login-header">
+        <h1><i class="bi bi-box-arrow-in-right"></i> Acceso Districarnes </h1>
+        <p class="lead">Ingresa tus datos para acceder a tu cuenta y comenzar a comprar en DistriCarnes Hermanos Navarro.</p>
+    </div>
+    <div class="container " role="main ">
+        <section class="logo-section " aria-label="Logotipo de DistriCarnes Hermanos Navarro ">
+            <div class="logo-container ">
+                <img src="../assets/icon/LOGO-DISTRICARNES.png" style="width: 100%; height: auto; " alt="imagen de logo DISTRICARNES ">
+            </div>
+        </section>
+
+        <!--formulario de inicio de sesion -->
+        <section class="form-section " aria-label="Formulario de inicio de sesión de DistriCarnes ">
+            <div id="messageContainer " class="message-container "></div>
+            <div class="login-container-wrapper">
+                <div class="login-form-card">
+                    <h2 class="form-title">Iniciar <span class="highlight">Sesión</span></h2>
+                    <p class="form-subtitle">Bienvenido de nuevo. ¡Te estábamos esperando!</p>
+
+                    <form id="loginForm" action="../backend/php/login_verify.php" method="POST" novalidate>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                                <input style="background-color: black; color: white;" type="email" class="form-control" id="email" name="email" placeholder="tu.correo@example.com" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                <input style="background-color: black; color: white;" type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+                            </div>
+                            <div id="passwordError" class="error-text"></div>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-login-custom" id="loginButton"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</button>
+                    </form>
+
+                    <div class="text-center my-3" style="display: flex; flex-direction: column; align-items: center;">
+                        <p>o</p>
+                        <div class="text-center my-3">
+                            <button type="button" class="btn btn-phone-custom w-100" id="phoneLoginBtn"><i class="bi bi-phone"></i> Continuar con número de teléfono</button>
+                        </div>
+                        <p style="margin-top: 10px;">o</p>
+                        <div id="g_id_onload" data-client_id="1089395533199-070ohtiul6msdderh593mlp8m7v7lv3j.apps.googleusercontent.com" data-callback="handleCredentialResponse" data-auto_prompt="false">
+                        </div>
+                        <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
+                        </div>
+                    </div>
+
+
+                    <div class="login-links">
+                        <p>¿No tienes una cuenta? <a href="../login/register.html">Regístrate aquí</a></p>
+                    </div>
+                    <div class="login-links">
+                        <p>¿Olvidaste tu contraseña? <a href="restablecer_contrasena.html">Recupérala aquí</a></p>
+                    </div>
+
+                </div>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+
+            <div class="admin-access-container ">
+                <a href="../admin/admin_login.html" class="admin-button ">
+                    <svg class="admin-icon " viewBox="0 0 24 24 " width="16 " height="16 ">
+            <path fill="currentColor " d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z "/>
+          </svg> Acceso Administrador
+                </a>
+            </div>
+
+
+        </section>
+    </div>
+
+
+</body>
+<script src="../login/js/login.js"></script>
+<script src="../static/js/loader.js" defer></script>
+<script src="../static/js/network_guard.js" defer></script>
+
+</html>

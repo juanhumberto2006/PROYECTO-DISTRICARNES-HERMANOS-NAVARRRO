@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout – Dirección y Pago | DISTRICARNES</title>
+    <link rel="icon" href="../assets/icon/image-removebg-preview sin fondo (1).ico" />
+    <link rel="stylesheet" href="../static/css/header_en_general.css" />
+    <link rel="stylesheet" href="../static/css/base.css" />
+    <link rel="stylesheet" href="../static/css/cart.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../static/css/responsive.css" />
+    <style>
+         :root {
+            --brand: #e50914;
+            --ok: #2ecc71;
+            --gray: #f4f6f8;
+            --text: #222;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, 'Helvetica Neue', Arial;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 22px auto;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 20px;
+        }
+        
+        .card {
+            background: #ffffffef;
+            border: 1px solid #e6e6e6;
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .03);
+            margin-bottom: 14px;
+        }
+        
+        .card header {
+            border-bottom: 1px solid #eee;
+            padding: 14px 18px;
+            font-weight: 600;
+        }
+        
+        .card .content {
+            padding: 14px 18px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px;
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .option input {
+            margin-top: 3px;
+        }
+        
+        .option .title {
+            font-weight: 600;
+        }
+        
+        .option .desc {
+            color: #666;
+            font-size: .95em;
+        }
+        
+        .price-tag {
+            color: #2ecc71;
+            font-weight: 600;
+        }
+        
+        .muted-link {
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: .95em;
+        }
+        
+        .muted-link:hover {
+            text-decoration: underline;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 12px 18px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: #fafafa;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: var(--brand);
+            color: #fff;
+            border: none;
+        }
+        
+        .btn-primary:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+        
+        .summary {
+            background: #fff;
+            border: 1px solid #e6e6e6;
+            border-radius: 10px;
+            padding: 16px;
+            height: max-content;
+        }
+        
+        .summary h3 {
+            margin: 0 0 10px;
+            font-size: 1.05rem;
+        }
+        
+        .summary-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+        }
+        
+        .badge-free {
+            color: #2ecc71;
+            font-weight: 600;
+        }
+        
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        .radio {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        
+        .address-list .address {
+            padding: 12px;
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        
+        .address strong {
+            display: block;
+        }
+        
+        .inline {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .inline input {
+            flex: 1;
+        }
+        
+        .map-box {
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 280px;
+            margin-bottom: 10px;
+        }
+        
+        .schedule-item {
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .payment-method {
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .payment-method img {
+            width: 28px;
+            height: 28px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* ====== Overrides para tema negro en header y footer ====== */
+        
+        .header {
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+        
+        .nav-menu {
+            background-color: #000 !important;
+        }
+        
+        .header a {
+            color: #fff !important;
+        }
+        
+        .ml-action-link,
+        .ml-icon-btn {
+            color: #fff !important;
+        }
+        
+        .ml-search input {
+            background: #111;
+            color: #fff;
+            border: 1px solid #333;
+        }
+        
+        .ml-search button {
+            background: #ff000d;
+            color: #fff;
+            border: 1px solid #e50914;
+        }
+        
+        .ml-promo-pill {
+            background: #111;
+            color: #fff;
+            border: 1px solid #333;
+        }
+        
+        .user-dropdown {
+            background: #111;
+            color: #fff;
+            border: 1px solid #333;
+        }
+        
+        .user-dropdown .menu-item {
+            color: #fff;
+        }
+        
+        .user-dropdown .menu-item.logout {
+            color: #fff;
+        }
+        
+        .footer {
+            background-color: #000;
+            color: #fff;
+        }
+        
+        .footer h4,
+        .footer p,
+        .footer li,
+        .footer a {
+            color: #fff;
+        }
+        
+        .footer .newsletter-form input {
+            background: #111;
+            color: #fff;
+            border: 1px solid #333;
+        }
+        
+        .footer .newsletter-form button {
+            background: #ff000d;
+            color: #fff;
+            border: 1px solid #e50914;
+        }
+        /* ====== Estilo del menú desplegable del usuario (como el resto) ====== */
+        
+        .user-dropdown {
+            border-radius: 14px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, .65);
+        }
+        
+        .user-info-dropdown {
+            background: #111;
+        }
+        
+        .user-avatar,
+        .user-avatar-large {
+            background: #ff000d !important;
+            color: #fff !important;
+        }
+        
+        .user-details h4 {
+            color: #fff;
+        }
+        
+        .user-details p {
+            color: #ccc;
+        }
+        
+        .user-role {
+            display: inline-block;
+            background: #ff000d;
+            color: #fff;
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: .78rem;
+            font-weight: 700;
+        }
+        
+        .menu-divider {
+            border-top: 1px solid #222;
+        }
+        
+        .menu-items .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            color: #fff;
+        }
+        
+        .menu-items .menu-item i {
+            color: #ff000d;
+        }
+        
+        .menu-items .menu-item:hover {
+            background: #1a1a1a;
+        }
+        
+        .menu-items .menu-item.logout i {
+            color: #ff000d !important;
+        }
+        /* ====== Hover en links del menú: rojo con subrayado ====== */
+        
+        .nav-menu a {
+            text-decoration: none;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--brand) !important;
+            text-decoration: underline;
+            text-decoration-color: var(--brand);
+            text-decoration-thickness: 2px;
+            text-underline-offset: 2px;
+        }
+        /* Legibilidad en fondos blancos y coherencia con la marca */
+        
+        .card a,
+        .summary a {
+            color: #111;
+            text-decoration: none;
+        }
+        
+        .card a:hover,
+        .summary a:hover {
+            color: var(--brand);
+            text-decoration: underline;
+            text-decoration-color: var(--brand);
+            text-decoration-thickness: 2px;
+            text-underline-offset: 2px;
+        }
+        
+        .muted-link {
+            color: var(--brand);
+            text-decoration: none;
+        }
+        
+        .muted-link:hover {
+            text-decoration: underline;
+            text-decoration-color: var(--brand);
+        }
+    </style>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Carga dinámica del SDK de PayPal (se inyecta al elegir PayPal) -->
+    <script src="../static/js/paypal_loader.js"></script>
+</head>
+
+<body class="bg-black text-white">
+    <!-- Header unificado -->
+    <header class="header ">
+        <div class="header-content ">
+            <div class="logo ">
+                <img src="../assets/icon/LOGO-DISTRICARNES.png" alt="DISTRICARNES Logo ">
+            </div>
+
+            <!-- Buscador central estilo ML y pill promocional -->
+            <div class="ml-search">
+                <form action="../productos.php" method="get">
+                    <input type="search" name="q" id="site-search" placeholder="Buscar productos, marcas y más…" />
+                    <button type="submit" aria-label="Buscar"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+            <a href="../promociones.html" class="ml-promo-pill" style="border:2px solid #e50914;">ENVÍO GRATIS <span
+          style="opacity:.8;font-weight:500;">en tu primera compra</span></a>
+
+            <nav class="nav-menu" id="navMenu">
+
+                <!-- Botones de navegación -->
+                <a href="../index.html">Inicio</a>
+                <a href="../productos.php">Productos</a>
+                <a href="../promociones.html">Promociones</a>
+                <a href="../contacto.html">Contacto</a>
+                <a href="../sobre_nosotros.html ">Quienes Somos</a>
+
+
+
+                <!-- Enlaces rápidos + botón de carrito (siempre visibles) -->
+                <div id="quickLinks" class="ml-actions">
+                    <a id="cartButton" class="ml-icon-btn ml-icon-bounce" href="../carrito-de-compras/index.html" aria-label="Carrito">
+                        <i class="bi bi-cart"></i>
+                        <span class="ml-badge" id="cartCount">0</span>
+                    </a>
+                    <!-- Botones de acceso y registro -->
+                    <div id="authButtons" class="flex gap-3">
+                        <a href="../login/login.html" class="block">
+                            <button style="background-color: rgb(255, 0, 0); padding: 4px 10px;  border-radius: 50px; color: white; border: 2px solid red;" onmouseover="this.style.borderColor='red'; this.style.backgroundColor='black'; this.style.color='white';" onmouseout="this.style.borderColor='red'; this.style.backgroundColor='red'; this.style.color='white';"
+                                class="bg-red-700 hover:bg-red-800 transition text-white text-sm font-semibold px-4 py-2 rounded">
+                <i class="bi bi-box-arrow-in-right" style="font-size: 1.5rem;"></i> Iniciar sesión
+              </button>
+                        </a>
+                        <a href="../login/register.html" class="block">
+                            <button style="background-color: rgb(255, 0, 0); padding: 4px 10px; border-radius: 50px; color: white; border: 2px solid red;" onmouseover="this.style.borderColor='red'; this.style.backgroundColor='black'; this.style.color='white';" onmouseout="this.style.borderColor='red'; this.style.backgroundColor='red'; this.style.color='white';"
+                                class="bg-red-700 hover:bg-red-800 transition text-white text-sm font-semibold px-4 py-2 rounded">
+                <i class="bi bi-person-plus-fill" style="font-size: 1.5rem;"></i>
+                REGISTRARSE
+              </button>
+                        </a>
+                    </div>
+                    <a href="../historial.html" class="ml-action-link">
+                        <i class="fas fa-clock"></i> Historial de compra
+                    </a>
+                    <a href="../favoritos.html" class="ml-action-link">
+                        <i class="fas fa-heart"></i> Mis favoritos
+                    </a>
+                </div>
+                <!-- Botones para usuario logueado (inicialmente ocultos) -->
+                <div id="userLoggedButtons" style="display: none; box-shadow: 0 0 20px rgba(0,0,0,0.8);">
+                    <div class="user-profile-container">
+                        <button class="menu-button" onclick="toggleUserDropdown()" aria-expanded="false" aria-haspopup="true">
+              <span class="user-avatar" id="userAvatar"></span>
+              <span class="user-name" id="userName"></span>
+              <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </button>
+
+                        <!-- User Dropdown Menu -->
+                        <div class="user-dropdown" id="userDropdown">
+                            <div class="user-info-dropdown">
+                                <div class="user-avatar-large" id="userAvatarLarge"></div>
+                                <div class="user-details">
+                                    <h4 id="userFullName"></h4>
+                                    <p id="userEmail"></p>
+                                    <span class="user-role" id="userRole"></span>
+                                </div>
+                            </div>
+
+                            <div class="menu-divider"></div>
+
+                            <div class="menu-items">
+                                <a href="#" class="menu-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Mi Perfil</span>
+                                </a>
+                                <a href="#" class="menu-item">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Editar Perfil</span>
+                                </a>
+                                <a href="#" class="menu-item">
+                                    <i class="fas fa-key"></i>
+                                    <span>Cambiar Contraseña</span>
+                                </a>
+                                <a href="admin/admin_settings.html" class="menu-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Configuración</span>
+                                </a>
+
+                                <div class="menu-divider"></div>
+
+                                <a href="admin/admin_reports.html" class="menu-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Ver Reportes</span>
+                                </a>
+                                <a href="admin/admin_settings.html" class="menu-item">
+                                    <i class="fas fa-tools"></i>
+                                    <span>Configuración Avanzada</span>
+                                </a>
+
+                                <div class="menu-divider"></div>
+
+                                <a href="#" class="menu-item logout" onclick="logout()">
+                                    <i class="fas fa-sign-out-alt" style="color: red;"></i>
+                                    <span style="color: red;">Cerrar Sesión</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Estilos y funcionalidad mejorados PARA EL MENU DEL USUARIO LOGUEADO -->
+                <style>
+                    /* Contenedor principal con fondo negro y separación de bordes */
+                    
+                    #userLoggedButtons {
+                        background-color: #000000;
+                        padding: 1rem;
+                        border-radius: 10px;
+                        margin: 0.5rem;
+                    }
+                    
+                    .user-profile-container {
+                        position: relative;
+                        display: inline-block;
+                    }
+                    /* Botón de menú con estilo mejorado */
+                    
+                    .menu-button {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        background: linear-gradient(135deg, #000000 0%, #000000 100%);
+                        border: 2px solid #000000;
+                        border-radius: 50px;
+                        padding: 0.75rem 1.5rem;
+                        color: #ffffff;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                    }
+                    
+                    .menu-button:hover {
+                        border-color: #ff0000;
+                        background: linear-gradient(135deg, #000000 0%, #000000 100%);
+                        box-shadow: 0 6px 25px rgba(255, 0, 0, 0.25);
+                        transform: translateY(-2px);
+                    }
+                    
+                    .menu-button:active {
+                        transform: translateY(0);
+                    }
+                    /* Avatar de usuario */
+                    
+                    .user-avatar {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                        font-size: 1.1rem;
+                        color: white;
+                        box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
+                    }
+                    /* Nombre de usuario */
+                    
+                    .user-name {
+                        font-size: 0.95rem;
+                        color: #f0f0f0;
+                        max-width: 120px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    /* Flecha desplegable */
+                    
+                    .dropdown-arrow {
+                        margin-left: 0.5rem;
+                        transition: transform 0.3s ease;
+                        color: #ff0000;
+                    }
+                    
+                    .menu-button[aria-expanded="true"] .dropdown-arrow {
+                        transform: rotate(180deg);
+                    }
+                    /* Menú desplegable mejorado */
+                    
+                    .user-dropdown {
+                        position: absolute;
+                        top: calc(100% + 12px);
+                        right: 0;
+                        background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+                        border: 2px solid #333;
+                        border-radius: 16px;
+                        min-width: 280px;
+                        max-width: 320px;
+                        opacity: 0;
+                        visibility: hidden;
+                        transform: translateY(-10px);
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        z-index: 1000;
+                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                        backdrop-filter: blur(10px);
+                    }
+                    
+                    .user-dropdown.active {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateY(0);
+                    }
+                    /* Información del usuario */
+                    
+                    .user-info-dropdown {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        padding: 1.5rem;
+                        border-bottom: 1px solid #333;
+                    }
+                    
+                    .user-avatar-large {
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                        font-size: 1.5rem;
+                        color: white;
+                        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+                    }
+                    
+                    .user-details h4 {
+                        color: #ffffff;
+                        margin: 0 0 0.25rem 0;
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                    }
+                    
+                    .user-details p {
+                        color: #cccccc;
+                        margin: 0 0 0.5rem 0;
+                        font-size: 0.85rem;
+                    }
+                    
+                    .user-role {
+                        background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+                        color: white;
+                        padding: 0.25rem 0.75rem;
+                        border-radius: 20px;
+                        font-size: 0.75rem;
+                        font-weight: 600;
+                        display: inline-block;
+                    }
+                    /* Elementos del menú */
+                    
+                    .menu-items {
+                        padding: 0.5rem 0;
+                    }
+                    
+                    .menu-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        padding: 0.875rem 1.5rem;
+                        color: #e0e0e0;
+                        text-decoration: none;
+                        transition: all 0.2s ease;
+                        border-radius: 8px;
+                        margin: 0 0.5rem;
+                    }
+                    
+                    .menu-item:hover {
+                        background: rgba(255, 0, 0, 0.1);
+                        color: #ffffff;
+                        transform: translateX(4px);
+                    }
+                    
+                    .menu-item.logout {
+                        color: #ff6b6b;
+                    }
+                    
+                    .menu-item.logout:hover {
+                        background: rgba(255, 0, 0, 0.15);
+                        color: #ff4444;
+                    }
+                    
+                    .menu-item i {
+                        width: 20px;
+                        text-align: center;
+                        color: #ff0000;
+                    }
+                    
+                    .menu-divider {
+                        height: 1px;
+                        background: linear-gradient(90deg, transparent 0%, #333 50%, transparent 100%);
+                        margin: 0.5rem 1.5rem;
+                    }
+                    /* Responsive */
+                    
+                    @media (max-width: 768px) {
+                        .user-dropdown {
+                            right: -10px;
+                            min-width: 260px;
+                        }
+                        .menu-button {
+                            padding: 0.625rem 1.25rem;
+                        }
+                        .user-name {
+                            max-width: 80px;
+                        }
+                    }
+                </style>
+
+                <script>
+                    // Función mejorada para toggle del dropdown
+                    function toggleUserDropdown() {
+                        const dropdown = document.getElementById('userDropdown');
+                        const button = document.querySelector('.menu-button');
+                        const isOpen = dropdown.classList.contains('active');
+
+                        // Cerrar todos los dropdowns primero
+                        document.querySelectorAll('.user-dropdown').forEach(d => d.classList.remove('active'));
+                        document.querySelectorAll('.menu-button').forEach(b => b.setAttribute('aria-expanded', 'false'));
+
+                        if (!isOpen) {
+                            dropdown.classList.add('active');
+                            button.setAttribute('aria-expanded', 'true');
+                        }
+                    }
+
+                    // Cerrar dropdown al hacer clic fuera
+                    document.addEventListener('click', function(event) {
+                        const container = document.querySelector('.user-profile-container');
+                        if (!container.contains(event.target)) {
+                            document.getElementById('userDropdown').classList.remove('active');
+                            document.querySelector('.menu-button').setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    // Cerrar dropdown con Escape
+                    document.addEventListener('keydown', function(event) {
+                        if (event.key === 'Escape') {
+                            document.getElementById('userDropdown').classList.remove('active');
+                            document.querySelector('.menu-button').setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    // Función para actualizar datos del usuario
+                    function updateUserProfile(userData) {
+                        document.getElementById('userAvatar').textContent = userData.name.charAt(0).toUpperCase();
+                        document.getElementById('userName').textContent = userData.name;
+                        document.getElementById('userAvatarLarge').textContent = userData.name.charAt(0).toUpperCase();
+                        document.getElementById('userFullName').textContent = userData.fullName || userData.name;
+                        document.getElementById('userEmail').textContent = userData.email;
+                        document.getElementById('userRole').textContent = userData.role || 'Usuario';
+                    }
+
+                    // Inicializar cuando el DOM esté listo
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Aquí puedes llamar a updateUserProfile con los datos del usuario
+                        // updateUserProfile({
+                        //     name: 'Admin',
+                        //     fullName: 'Administrador Principal',
+                        //     email: 'admin@districarnes.com',
+                        //     role: 'Administrador'
+                        // });
+                    });
+                </script>
+                <style>
+                    /* Permitir scroll dentro del menú cuando el cursor está encima */
+                    
+                    .user-dropdown {
+                        max-height: 70vh;
+                        overflow-y: auto;
+                    }
+                    
+                    .user-dropdown::-webkit-scrollbar {
+                        width: 0;
+                        /* oculta la barra de scroll */
+                    }
+                    
+                    .user-dropdown::-webkit-scrollbar-thumb {
+                        background: transparent;
+                        /* oculta el color rojo */
+                        border-radius: 3px;
+                    }
+                    
+                    .user-dropdown::-webkit-scrollbar-track {
+                        background: #222;
+                    }
+                </style>
+                <script>
+                    // Función para cerrar el modal
+                    function closeModal() {
+                        document.getElementById('welcomeModal').style.display = 'none';
+                    }
+
+                    // Mostrar el modal al cargar la página
+                    window.onload = function() {
+                        const modalEl = document.getElementById('welcomeModal');
+                        if (modalEl) modalEl.style.display = 'flex';
+                        if (window.AuthSystem && typeof AuthSystem.checkUserSession === 'function') {
+                            AuthSystem.checkUserSession(); // Verificar sesión del usuario con AuthSystem
+                        } else {
+                            // Fallback temporal si AuthSystem aún no está disponible
+                            if (typeof checkUserSession === 'function') {
+                                checkUserSession();
+                            }
+                        }
+                    };
+
+                    // Verificar si el usuario está logueado y poblar datos del header
+                    function checkUserSession() {
+                        const userData = localStorage.getItem('userData');
+                        const sessionData = sessionStorage.getItem('currentSession');
+
+                        if (userData || sessionData) {
+                            const raw = JSON.parse(userData || sessionData);
+                            if (raw && raw.isLoggedIn) {
+                                const currentUser = raw.user ? raw.user : raw;
+
+                                // Ocultar elementos de autenticación en el header
+                                const authButtons = document.getElementById('authButtons');
+                                const userLoggedButtons = document.getElementById('userLoggedButtons');
+                                if (authButtons) authButtons.style.display = 'none';
+                                if (userLoggedButtons) userLoggedButtons.style.display = 'block';
+
+                                // Nombre y correo desde la BD
+                                const displayName = currentUser.nombres_completos || currentUser.nombre || currentUser.correo_electronico || currentUser.email || 'Usuario';
+                                const displayEmail = currentUser.correo_electronico || currentUser.email || '';
+                                const displayRole = currentUser.rol || '';
+                                const initials = (displayName.charAt(0) || 'U').toUpperCase();
+
+                                // Poblar elementos del menú
+                                const userAvatar = document.getElementById('userAvatar');
+                                const userName = document.getElementById('userName');
+                                const userAvatarLarge = document.getElementById('userAvatarLarge');
+                                const userFullName = document.getElementById('userFullName');
+                                const userEmail = document.getElementById('userEmail');
+                                const userRole = document.getElementById('userRole');
+
+                                if (userAvatar) userAvatar.textContent = initials;
+                                if (userName) userName.textContent = displayName;
+                                if (userAvatarLarge) userAvatarLarge.textContent = initials;
+                                if (userFullName) userFullName.textContent = displayName;
+                                if (userEmail) userEmail.textContent = displayEmail;
+                                if (userRole) userRole.textContent = displayRole ? displayRole.charAt(0).toUpperCase() + displayRole.slice(1) : '';
+
+                                // Mensaje de bienvenida
+                                const welcomeElement = document.getElementById('userWelcome');
+                                if (welcomeElement) {
+                                    welcomeElement.textContent = `¡Bienvenido, ${displayName}!`;
+                                }
+                            }
+                        }
+                    }
+
+                    // Función para cerrar sesión
+                    function logout() {
+                        // Limpiar datos de sesión
+                        localStorage.removeItem('userData');
+                        sessionStorage.removeItem('currentSession');
+
+                        // Mostrar elementos de login en el header
+                        document.getElementById('authButtons').style.display = 'block';
+                        document.getElementById('userLoggedButtons').style.display = 'none';
+
+                        // Ocultar elementos al lado de la imagen
+                        const heroButtons = document.getElementById('userLoggedButtonsHero');
+                        if (heroButtons) {
+                            heroButtons.style.display = 'none';
+                        }
+
+                        // Opcional: redirigir a login
+                        // window.location.href = './login/login.html';
+                    }
+                </script>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Paso 1: Forma de entrega -->
+        <section class="card step active" id="stepDelivery">
+            <header style="color: #000000;">Elige la forma de entrega</header>
+            <div class="content">
+                <div class="option">
+                    <label class="radio">
+            <input type="radio" name="delivery" value="domicilio" checked />
+            <div>
+              <div class="title" style="color: #000000;">Enviar a domicilio</div>
+              <div class="desc" id="deliveryAddressPreview">Avenida Calle cartagena SN 23 - 11 de noviembre, Bolívar
+              </div>
+              <div class="desc">Residencial</div>
+              <a href="#" class="muted-link" id="btnEditAddress">Modificar domicilio o elegir otro</a>
+            </div>
+          </label>
+                    <div class="price-tag">Gratis</div>
+                </div>
+
+                <div class="option">
+                    <label class="radio">
+            <input type="radio" name="delivery" value="punto" />
+            <div>
+              <div class="title" style="color: #000000;">Retiro en un punto de entrega</div>
+              <div class="desc">Agencia Mercado Libre – EFACTY PASEO DE BOLÍVAR – CRA 17 51-43 – Paseo De Bolívar</div>
+              <div class="desc">Lu a Sá: 8:30 a 12:30 hs. Lu a Vi: 14:30 a 19:30 hs. Sá: 14:30 a 17 hs. Do: 10 a 13 hs.
+              </div>
+              <a href="#" class="muted-link">Ver punto en el mapa o elegir otro</a>
+            </div>
+          </label>
+                    <div class="price-tag">Gratis</div>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" id="toStep2">Continuar</button>
+            </div>
+        </section>
+
+        <!-- Paso 2: Elegir dirección -->
+        <section class="card step" id="stepAddress">
+            <header style="color: #000000;">Elige dónde recibir tu compra</header>
+            <div class="content">
+                <div style="color: #000000;" class="address-list" id="addressList">
+                    <!-- Direcciones cargadas dinámicamente -->
+                </div>
+                <div class="actions" style="justify-content:flex-start;">
+                    <button class="btn" id="btnAddAddress">Agregar nuevo domicilio</button>
+                    <button class="btn btn-primary" id="toStep3">Continuar</button>
+                </div>
+
+                <!-- Formulario nuevo domicilio -->
+                <div id="newAddressForm" class="card hidden" style="margin-top:10px;">
+                    <header>Nuevo domicilio</header>
+                    <div class="content">
+                        <div class="inline">
+                            <input type="text" id="addrStreet" placeholder="Calle y número" />
+                            <input type="text" id="addrCity" placeholder="Ciudad" />
+                        </div>
+                        <div class="inline">
+                            <input type="text" id="addrDept" placeholder="Departamento" />
+                            <input type="text" id="addrZip" placeholder="Código postal (opcional)" />
+                        </div>
+                        <input type="text" id="addrNotes" placeholder="Indicaciones (opcional)" />
+                    </div>
+                    <div class="actions">
+                        <button class="btn" id="cancelNewAddress">Cancelar</button>
+                        <button class="btn btn-primary" id="saveNewAddress">Guardar y continuar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Paso 3: Revisar dirección con mapa -->
+        <section class="card step" id="stepMap">
+            <header style="color: #000000;">Revisa la dirección</header>
+            <div class="content">
+                <div class="map-box">
+                    <iframe id="mapFrame" width="100%" height="100%" style="border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Cartagena%20De%20Indias&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+                </div>
+                <div class="desc">Asegúrate de que el pin esté en el lugar correcto</div>
+            </div>
+            <div class="actions">
+                <button class="btn" id="skipMap">Omitir</button>
+                <button class="btn btn-primary" id="toStep4">Guardar dirección</button>
+            </div>
+        </section>
+
+        <!-- Paso 4: Calendario de entrega -->
+        <section class="card step" id="stepSchedule">
+            <header style="color: #000000;">Revisa cuándo llega tu compra</header>
+            <div style="color: #000000;" class="content">
+                <div style="color: #000000;" class="schedule-item">
+                    <label class="radio">
+            <input type="radio" name="schedule1" value="sabado" checked />
+            <div>
+              <strong>Envío 1</strong> <span style="color:#00c853; font-weight:700; margin-left:6px;">FULL</span>
+              <div class="desc">Sábado</div>
+            </div>
+          </label>
+                    <div class="price-tag">Gratis</div>
+                </div>
+                <div class="schedule-item">
+                    <label class="radio">
+            <input type="radio" name="schedule2" value="lunes" checked />
+            <div>
+              <strong>Envío 2</strong>
+              <div class="desc">Lunes</div>
+            </div>
+          </label>
+                    <div class="price-tag">Gratis</div>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" id="toStep5">Continuar</button>
+            </div>
+        </section>
+
+        <!-- Paso 5: Pago -->
+        <section class="card step" id="stepPayment">
+            <header style="color: #000000;">Elige cómo pagar</header>
+            <div style="color: #000000;" class="content">
+                <div class="payment-method">
+                    <input type="radio" name="pay" value="credit" id="payCredit" />
+                    <i class="fab fa-cc-visa" style="font-size:24px; margin-right:8px; color:#1A1F71;"></i>
+                    <i class="fab fa-cc-mastercard" style="font-size:24px; margin-right:8px; color:#EB001B;"></i>
+                    <i class="fab fa-cc-amex" style="font-size:24px; margin-right:8px; color:#2E77BC;"></i>
+                    <i class="fab fa-cc-discover" style="font-size:24px; margin-right:8px; color:#FF6000;"></i>
+                    <div>
+                        <div class="title">Tarjeta de crédito</div>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <input type="radio" name="pay" value="pse" id="payPse" />
+                    <i class="fas fa-university" style="font-size:24px; margin-right:8px; color:#0C2D83;"></i>
+                    <div>
+                        <div class="title">Transferencia con PSE</div>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <input type="radio" name="pay" value="efecty" id="payEfecty" />
+                    <i class="fas fa-money-bill-wave" style="font-size:24px; margin-right:8px; color:#FFC90E;"></i>
+                    <div>
+                        <div class="title">Efecty</div>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <input type="radio" name="pay" value="paypal" id="payPaypal" />
+                    <i class="fab fa-paypal" style="font-size:24px; margin-right:8px; color:#003087;"></i>
+                    <div>
+                        <div class="title">PayPal</div>
+                    </div>
+                </div>
+
+                <div id="paypalButtons" class="hidden" style="margin-top:12px;"></div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" id="finishCheckout">Continuar</button>
+            </div>
+        </section>
+
+        <!-- Resumen -->
+        <aside class="summary">
+            <h3 style="color: #000000ef;">Resumen de compra</h3>
+            <div class="summary-row">
+                <span style="color:#000;">Productos (<span id="itemsCount" style="color:#000;">0</span>)</span>
+                <span style="color:#000;" id="summarySubtotal">$0</span>
+            </div>
+            <div class="summary-row">
+                <span style="color:#000;">Envío</span>
+                <span class="badge-free">Gratis</span>
+            </div>
+            <div class="summary-row">
+                <span style="color:#000;">Total</span>
+                <span style="color:#000;" id="summaryTotal">$0</span>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        // Utilidad de moneda
+        function formatCurrency(n) {
+            return Number(n || 0).toLocaleString('es-ES', {
+                style: 'currency',
+                currency: 'USD'
+            });
+        }
+
+        function safeParsePrice(str) {
+            if (typeof str === 'number') return Number(str) || 0;
+            if (typeof str !== 'string') return 0;
+            const num = Number(str.replace(/[^0-9.,-]/g, '').replace(',', '.'));
+            return isNaN(num) ? 0 : num;
+        }
+
+        // Leer carrito (persistencia por usuario)
+        function getUserKey() {
+            try {
+                const rawStr = localStorage.getItem('userData') || sessionStorage.getItem('currentSession');
+                if (!rawStr) return null;
+                const raw = JSON.parse(rawStr);
+                const user = raw && raw.user ? raw.user : raw;
+                const email = (user && (user.correo_electronico || user.email)) || '';
+                const id = (user && (user.id_usuario || user.id)) || '';
+                const key = email || String(id || '').trim();
+                return key || null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function getCartKey() {
+            const userKey = getUserKey();
+            return userKey ? ('cart_items:' + userKey) : null;
+        }
+
+        function getCart() {
+            const key = getCartKey();
+            if (!key) return [];
+            try {
+                return JSON.parse(localStorage.getItem(key) || '[]');
+            } catch (e) {
+                return [];
+            }
+        }
+
+        // Estado de checkout (en memoria)
+        const CheckoutState = {
+            delivery: 'domicilio',
+            address: {
+                street: 'Avenida Calle cartagena SN 23',
+                city: 'Cartagena De Indias',
+                dept: 'Bolívar',
+                zip: '',
+                notes: ''
+            },
+            schedule: {
+                envio1: 'sabado',
+                envio2: 'lunes'
+            },
+            payMethod: null,
+            orderTotal: 0
+        };
+
+        // Navegación de pasos
+        function showStep(id) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        // Utilidad: verificar si el usuario inició sesión
+        function isLoggedIn() {
+            try {
+                const userData = localStorage.getItem('userData');
+                const sessionData = sessionStorage.getItem('currentSession');
+                const raw = userData ? JSON.parse(userData) : (sessionData ? JSON.parse(sessionData) : null);
+                if (!raw) return false;
+                return !!(raw.isLoggedIn || raw.user || raw.email || raw.correo_electronico);
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Cargar direcciones existentes
+        function loadAddresses() {
+            const list = document.getElementById('addressList');
+            list.innerHTML = '';
+            const addr = CheckoutState.address;
+            const el = document.createElement('div');
+            el.className = 'address';
+            el.innerHTML = `
+        <input type="radio" name="address" checked />
+        <div>
+          <strong>${addr.street}</strong>
+          <div>${addr.city}, ${addr.dept}${addr.zip ? (', ' + addr.zip) : ''}</div>
+          <div class="desc">${addr.notes || ''}</div>
+          <div class="muted-link" id="editInline">Editar dirección</div>
+        </div>
+      `;
+            list.appendChild(el);
+        }
+
+        // Totales
+        function recalcSummary() {
+            const items = getCart();
+            const subtotal = items.reduce((sum, i) => {
+                const price = (typeof i.price === 'string') ? safeParsePrice(i.price) : Number(i.price || 0);
+                const qty = Number(i.qty || i.quantity || 1);
+                return sum + (price * qty);
+            }, 0);
+            const shipping = 0; // Gratis según pantallas
+            const total = subtotal + shipping;
+            document.getElementById('itemsCount').textContent = String(items.length);
+            document.getElementById('summarySubtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('summaryTotal').textContent = formatCurrency(total);
+            CheckoutState.orderTotal = total;
+        }
+
+        // Map URL según dirección
+        function refreshMap() {
+            const a = CheckoutState.address;
+            const q = encodeURIComponent(`${a.street}, ${a.city}, ${a.dept}`);
+            document.getElementById('mapFrame').src = `https://maps.google.com/maps?q=${q}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+        }
+
+        // PayPal: usa endpoints backend para crear/capturar y guardar pedido
+        async function loadPayPalSdk() {
+            if (window.paypal) return true;
+            if (window.__paypalLoading) return new Promise((res) => {
+                const i = setInterval(() => {
+                    if (window.paypal) {
+                        clearInterval(i);
+                        res(true);
+                    }
+                }, 120);
+                setTimeout(() => {
+                    clearInterval(i);
+                    res(!!window.paypal);
+                }, 6000);
+            });
+            try {
+                window.__paypalLoading = true;
+                const confRes = await fetch('../backend/php/get_paypal_client.php');
+                const conf = await confRes.json();
+                const clientId = conf.client_id;
+                const currency = conf.currency || 'USD';
+                const components = conf.components || 'buttons';
+                const funding = conf.enable_funding || 'card,venmo,paylater';
+                const script = document.createElement('script');
+                const params = new URLSearchParams({
+                    'client-id': clientId,
+                    currency,
+                    components,
+                    'enable-funding': funding,
+                    intent: 'capture'
+                });
+                script.src = `https://www.paypal.com/sdk/js?${params.toString()}`;
+                script.async = true;
+                script.setAttribute('data-namespace', 'paypal');
+                document.head.appendChild(script);
+                await new Promise((resolve, reject) => {
+                    script.onload = () => resolve(true);
+                    script.onerror = () => reject(new Error('SDK PayPal no cargó'));
+                });
+                return !!window.paypal;
+            } catch (e) {
+                return false;
+            }
+        }
+        async function saveOrder(capture) {
+            try {
+                const items = getCart();
+                const payload = {
+                    paypal_id: (capture && capture.id) || null,
+                    status: (capture && capture.status) || 'COMPLETED',
+                    total: CheckoutState.orderTotal,
+                    delivery: CheckoutState.delivery,
+                    address: CheckoutState.address,
+                    schedule: CheckoutState.schedule,
+                    items,
+                    user: (function() {
+                        try {
+                            const rawStr = localStorage.getItem('userData') || sessionStorage.getItem('currentSession');
+                            if (!rawStr) return null;
+                            const raw = JSON.parse(rawStr);
+                            const u = raw && raw.user ? raw.user : raw;
+                            return {
+                                email: u.correo_electronico || u.email || '',
+                                name: u.nombres_completos || u.nombre || u.name || ''
+                            };
+                        } catch (e) {
+                            return null;
+                        }
+                    })()
+                };
+                const res = await fetch('../backend/php/orders_save.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                return data;
+            } catch (e) {
+                return {
+                    ok: false,
+                    error: String(e)
+                };
+            }
+        }
+
+        function ensurePayPal() {
+            const el = document.getElementById('paypalButtons');
+            el.classList.remove('hidden');
+            if (el.dataset.rendered === '1') return;
+            // Cargar SDK si no está presente
+            (async function() {
+                const ok = await loadPayPalSdk();
+                if (!ok || !window.paypal) {
+                    const isBrave = (navigator.brave && (await navigator.brave.isBrave())) || /Brave/i.test(navigator.userAgent);
+                    const text = isBrave ?
+                        'Tu navegador está bloqueando el SDK. En Brave desactiva Shields para localhost o añade una excepción para paypal.com.' :
+                        'Sin conexión o Client ID inválido. Verifica tu Internet y credenciales.';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'PayPal no cargó',
+                        text
+                    });
+                    return;
+                }
+                paypal.Buttons({
+                    style: {
+                        layout: 'vertical',
+                        color: 'blue',
+                        shape: 'pill',
+                        label: 'paypal'
+                    },
+                    createOrder: async function() {
+                        try {
+                            const res = await fetch('../backend/php/create_paypal_order.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    amount: (CheckoutState.orderTotal || 0).toFixed(2)
+                                })
+                            });
+                            const out = await res.json();
+                            if (out && out.id) return out.id;
+                            throw new Error((out && out.error) || 'No se pudo crear la orden');
+                        } catch (err) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error creando la orden',
+                                text: String(err.message || err)
+                            });
+                            throw err;
+                        }
+                    },
+                    onApprove: async function(data) {
+                        try {
+                            const res = await fetch('../backend/php/capture_paypal_order.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    orderID: data.orderID
+                                })
+                            });
+                            const out = await res.json();
+                            if (out && (out.status === 'COMPLETED' || (out.raw && out.raw.status === 'COMPLETED'))) {
+                                const saved = await saveOrder(out.raw || {
+                                    id: data.orderID,
+                                    status: 'COMPLETED'
+                                });
+                                const orderId = (saved && saved.order_id) ? saved.order_id : null;
+                                // Enviar factura al correo del usuario (si hay email)
+                                try {
+                                    const rawStr = localStorage.getItem('userData') || sessionStorage.getItem('currentSession');
+                                    const raw = rawStr ? JSON.parse(rawStr) : null;
+                                    const u = raw && raw.user ? raw.user : raw;
+                                    const email = (u && (u.correo_electronico || u.email)) || null;
+                                    if (orderId && email) {
+                                        await fetch('../backend/php/send_invoice_email.php', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify({
+                                                order_id: orderId,
+                                                to: email
+                                            })
+                                        });
+                                    }
+                                } catch (e) {}
+
+                                // Mostrar opciones: imprimir/descargar y ver historial
+                                const html = `
+                  <div style="text-align:center;">
+                    <div style="font-size:42px;color:#28a745;">✓</div>
+                    <h2 style="margin:6px 0 12px 0;">Pago aprobado</h2>
+                    <p>¡Gracias por tu compra! Tu factura fue enviada al correo asociado.</p>
+                    <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
+                      <a class="swal2-confirm swal2-styled" href="../backend/php/order_invoice.php?order_id=${orderId}" target="_blank">Imprimir factura</a>
+                      <a class="swal2-confirm swal2-styled" href="../backend/php/order_invoice.php?order_id=${orderId}&print=1" target="_blank">Descargar PDF</a>
+                      <a class="swal2-cancel swal2-styled" href="../historial.html">Ver historial</a>
+                    </div>
+                  </div>`;
+                                Swal.fire({
+                                    html,
+                                    showConfirmButton: false,
+                                    showCancelButton: false
+                                });
+                                try {
+                                    const key = getCartKey();
+                                    if (key) {
+                                        localStorage.setItem(key, JSON.stringify([]));
+                                        window.dispatchEvent(new CustomEvent('cart:updated', {
+                                            detail: {
+                                                items: []
+                                            }
+                                        }));
+                                    }
+                                } catch (e) {}
+                            } else {
+                                Swal.fire({
+                                    icon: 'info',
+                                    title: 'Pago no completado',
+                                    text: 'Verifica tu método de pago.'
+                                });
+                            }
+                        } catch (err) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error al capturar pago',
+                                text: String(err.message || err)
+                            });
+                        }
+                    },
+                    onError: function(err) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error de PayPal',
+                            text: String(err)
+                        });
+                    }
+                }).render('#paypalButtons');
+                el.dataset.rendered = '1';
+            })();
+        }
+
+        // Eventos
+        document.addEventListener('DOMContentLoaded', function() {
+            recalcSummary();
+            loadAddresses();
+            refreshMap();
+            // Escuchar cambios del carrito en tiempo real
+            window.addEventListener('cart:updated', recalcSummary);
+            window.addEventListener('storage', function(e) {
+                if (e && e.key && e.key.startsWith('cart_items')) {
+                    recalcSummary();
+                }
+            });
+
+            // Método de entrega: guardar selección (domicilio | punto)
+            (function() {
+                const radios = document.querySelectorAll('input[name="delivery"]');
+                const preview = document.getElementById('deliveryAddressPreview');
+                const setDelivery = function() {
+                    const checked = document.querySelector('input[name="delivery"]:checked');
+                    CheckoutState.delivery = checked ? checked.value : 'domicilio';
+                    // Opcional: atenuar vista de dirección si es retiro en punto
+                    if (preview) {
+                        if (CheckoutState.delivery === 'punto') {
+                            preview.style.opacity = '0.6';
+                        } else {
+                            preview.style.opacity = '1';
+                        }
+                    }
+                };
+                radios.forEach(r => r.addEventListener('change', setDelivery));
+                setDelivery(); // inicial
+            })();
+
+            // Paso 1
+            document.getElementById('toStep2').addEventListener('click', () => {
+                showStep('stepAddress');
+            });
+            document.getElementById('btnEditAddress').addEventListener('click', (e) => {
+                e.preventDefault();
+                showStep('stepAddress');
+            });
+
+            // Paso 2
+            document.getElementById('btnAddAddress').addEventListener('click', () => {
+                document.getElementById('newAddressForm').classList.remove('hidden');
+            });
+            document.getElementById('cancelNewAddress').addEventListener('click', () => {
+                document.getElementById('newAddressForm').classList.add('hidden');
+            });
+            document.getElementById('saveNewAddress').addEventListener('click', () => {
+                const street = document.getElementById('addrStreet').value.trim();
+                const city = document.getElementById('addrCity').value.trim();
+                const dept = document.getElementById('addrDept').value.trim();
+                const zip = document.getElementById('addrZip').value.trim();
+                const notes = document.getElementById('addrNotes').value.trim();
+                if (!street || !city || !dept) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Completa calle, ciudad y departamento'
+                    });
+                    return;
+                }
+                CheckoutState.address = {
+                    street,
+                    city,
+                    dept,
+                    zip,
+                    notes
+                };
+                document.getElementById('deliveryAddressPreview').textContent = `${street} - ${city}, ${dept}`;
+                loadAddresses();
+                refreshMap();
+                document.getElementById('newAddressForm').classList.add('hidden');
+                showStep('stepMap');
+            });
+            document.getElementById('toStep3').addEventListener('click', () => {
+                showStep('stepMap');
+            });
+
+            // Paso 3
+            document.getElementById('skipMap').addEventListener('click', () => {
+                showStep('stepSchedule');
+            });
+            document.getElementById('toStep4').addEventListener('click', () => {
+                showStep('stepSchedule');
+            });
+
+            // Paso 4
+            document.getElementById('toStep5').addEventListener('click', () => {
+                if (!isLoggedIn()) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Debes iniciar sesión',
+                        text: 'Para continuar con la compra, inicia sesión.',
+                        confirmButtonText: 'Iniciar sesión'
+                    }).then(() => {
+                        sessionStorage.setItem('postLoginRedirect', window.location.pathname);
+                        window.location.href = '../login/login.html?returnUrl=' + encodeURIComponent(window.location.pathname);
+                    });
+                    return;
+                }
+                showStep('stepPayment');
+            });
+
+            // Paso 5 – selección de método
+            document.querySelectorAll('input[name="pay"]').forEach(r => {
+                r.addEventListener('change', () => {
+                    CheckoutState.payMethod = r.value;
+                    if (r.value === 'paypal') {
+                        ensurePayPal();
+                    } else {
+                        document.getElementById('paypalButtons').classList.add('hidden');
+                    }
+                });
+            });
+            document.getElementById('finishCheckout').addEventListener('click', () => {
+                if (!isLoggedIn()) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Debes iniciar sesión',
+                        text: 'Para finalizar la compra, inicia sesión.',
+                        confirmButtonText: 'Iniciar sesión'
+                    }).then(() => {
+                        sessionStorage.setItem('postLoginRedirect', window.location.pathname);
+                        window.location.href = '../login/login.html?returnUrl=' + encodeURIComponent(window.location.pathname);
+                    });
+                    return;
+                }
+                if (!CheckoutState.payMethod) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Selecciona un método de pago'
+                    });
+                    return;
+                }
+                if (CheckoutState.payMethod !== 'paypal') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Pedido confirmado',
+                        text: 'Te enviaremos las instrucciones de pago.'
+                    });
+                    try {
+                        window.PurchaseHistoryStore && window.PurchaseHistoryStore.record({
+                            method: CheckoutState.payMethod,
+                            total: CheckoutState.orderTotal
+                        });
+                    } catch (e) {}
+                }
+            });
+        });
+    </script>
+    <!-- Script de acciones del header (sesión/visibilidad) -->
+    <script src="../static/js/header_actions.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../static/js/index.js"></script>
+    <script src="../static/js/chatbot.js"></script>
+    <script src="../static/js/cart_badge.js"></script>
+    <script src="../static/js/history_favorites.js"></script>
+
+    <!-- Footer (igual al de otras páginas) -->
+    <footer class="footer">
+        <div class="footer-container">
+
+            <!-- Columna 1: Información de Contacto -->
+            <div class="footer-column">
+                <h4>INFORMACIÓN DE CONTACTO</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Dirección: OLAYA HERRERA</p>
+                <p><i class="fas fa-phone"></i> Teléfono: 301 5210177</p>
+                <p><i class="fas fa-envelope"></i> Email: districarnesnavarro@gmail.com</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Columna 2: Información -->
+            <div class="footer-column">
+                <h4>INFORMACIÓN</h4>
+                <ul>
+                    <li><i class="fas fa-info-circle"></i> Información Delivery</li>
+                    <li><i class="fas fa-shield-alt"></i> Políticas de Privacidad</li>
+                    <li><i class="fas fa-file-contract"></i> Términos y condiciones</li>
+                    <li><i class="fas fa-headset"></i> Contáctanos</li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Mi Cuenta -->
+            <div class="footer-column">
+                <h4>MI CUENTA</h4>
+                <ul>
+                    <li><i class="fas fa-user"></i> Mi cuenta</li>
+                    <li><i class="fas fa-history"></i> Historial de ordenes</li>
+                    <li><i class="fas fa-heart"></i> Lista de deseos</li>
+                    <li><i class="fas fa-newspaper"></i> Boletín</li>
+                    <li><i class="fas fa-undo"></i> Reembolsos</li>
+                </ul>
+            </div>
+
+            <!-- Columna 4: Boletín Informativo -->
+            <div class="footer-column">
+                <h4>BOLETÍN INFORMATIVO</h4>
+                <p>Suscríbete a nuestros boletines ahora y mantente al día con nuevas colecciones y ofertas exclusivas.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Ingresa el correo aquí..." required />
+                    <button type="submit">SUSCRÍBETE</button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Pie inferior -->
+        <div class="footer-bottom">
+            <div class="footer-logo">
+                <img src="../assets/icon/LOGO-DISTRICARNES.png" alt="Logo Districarnes" />
+                <span>DISTRICARNES HERMANOS NAVARROS</span>
+            </div>
+            <div class="payment-logos">
+                <i class="fab fa-cc-visa" title="Visa" style="font-size:28px;color:#1A1F71;margin-right:8px;"></i>
+                <i class="fab fa-cc-mastercard" title="Mastercard" style="font-size:28px;color:#EB001B;margin-right:8px;"></i>
+                <i class="fab fa-cc-paypal" title="PayPal" style="font-size:28px;color:#003087;margin-right:8px;"></i>
+                <i class="fab fa-cc-amex" title="American Express" style="font-size:28px;color:#2E77BC;margin-right:8px;"></i>
+                <i class="fab fa-cc-discover" title="Discover" style="font-size:28px;color:#FF6000;margin-right:8px;"></i>
+            </div>
+        </div>
+
+    </footer>
+    <script src="../static/js/loader.js" defer></script>
+    <script src="../static/js/session_guard.js" defer></script>
+    <script src="../static/js/network_guard.js" defer></script>
+</body>
+
+</html>

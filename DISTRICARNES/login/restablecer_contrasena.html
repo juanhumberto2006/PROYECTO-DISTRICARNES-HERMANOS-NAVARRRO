@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+  
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recuperar contraseña | Districarnes</title>
+  <link rel="icon" type="image/x-icon" href="../assets/icon/image-removebg-preview sin fondo (1).ico" />
+  <link rel="stylesheet" href="./css/login.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    /* Estilo inspirado en la captura, con body negro */
+    :root {
+      --blue: #0a74b7;
+      /* botón principal */
+      --blue-dark: #085f95;
+      --card: #e9e9e9;
+      /* tarjeta clara sobre fondo negro */
+    }
+
+    body {
+      background: #000;
+      color: #111;
+      font-family: Segoe UI, system-ui, -apple-system, Roboto, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column; /* apilar elementos verticalmente */
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+
+    .login-header {
+      width: 100vw;
+      max-width: none;
+      padding: 20px 24px;
+      background: linear-gradient(90deg, #5b0000, #ff0000);
+      color: #fff;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .55);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      box-sizing: border-box;
+    }
+    .login-header h1 { margin: 0; font-size: 1.6rem; }
+    .login-header .lead { margin: 6px 0 0; font-size: 0.95rem; opacity: 0.9; }
+
+    .container {
+      width: 100%;
+      max-width: 640px;
+      background: #ffffff00;
+      border-radius: 6px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .55);
+      padding: 28px;
+      margin-top: 16px; /* separar del header */
+    }
+
+    .title {
+      text-align: center;
+      color: #ff0000;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 18px;
+    }
+
+    label {
+      display: block;
+      color: #ffffff;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .input-wrap {
+      background: #ffffff93;
+      border-radius: 4px;
+      border: 1px solid #ff0000;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      border: none;
+      outline: none;
+      padding: 12px 14px;
+      font-size: 1rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column; /* vertical */
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .send-icon {
+      width: 100%;
+      background: #d5eaf7;
+      border: 1px solid #b8d7ec;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+
+    .send-icon span {
+      font-size: 22px;
+      color: #0a74b7;
+    }
+
+    .btn {
+      width: 100%;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-weight: 700;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: var(--blue-dark);
+    }
+
+    .link-back {
+      display: block;
+      text-align: center;
+      margin-top: 18px;
+      color: #0a74b7;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .link-back:hover {
+      text-decoration: underline;
+    }
+
+    .alert {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .alert.success {
+      display: block;
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #10b981;
+    }
+
+    .alert.error {
+      display: block;
+      background: #fee2e2;
+      color: #7f1d1d;
+      border: 1px solid #ef4444;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-header">
+    
+    <p class="lead">Ingresa tu dirección de correo electrónico para recibir un enlace para restablecer tu contraseña.
+    </p>
+  </div>
+  <div class="container" style="display:flex;flex-direction:column;align-items:center;">
+    <h1 class="title"><span style="color:white">Recuperar</span> Contraseña</h1>
+
+    <form id="resetForm">
+      <label for="email">Introduce tu dirección de correo electrónico</label>
+      <div class="input-wrap">
+        <input type="email" id="email" name="email" style="background-color:#000;color:#fff;" placeholder="tu@correo.com" autocomplete="email"
+          required />
+        <style>
+          #email::placeholder {
+            color: #666;
+            font-style: italic;
+            opacity: 0.8;
+          }
+        </style>
+      </div>
+      <div class="actions">
+       
+        <button style="background-color: red" class="btn" type="submit">Enviar</button>
+      </div>
+      <div id="alert" class="alert" role="alert"></div>
+    </form>
+
+    <a class="link-back" href="./login.html">Volver al inicio de sesión</a>
+  </div>
+
+  <script>
+    const form = document.getElementById('resetForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      try {
+        const resp = await fetch('../backend/php/request_password_reset.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ email })
+        });
+        const data = await resp.json();
+        Swal.fire({
+          position: 'top-end',
+          icon: data.success ? 'success' : 'error',
+          title: data.message || 'Solicitud procesada.',
+          html: data.reset_url ? `<div>${data.message || 'Solicitud procesada.'}<br><a href="${data.reset_url}" target="_blank" rel="noopener noreferrer" style="color: #0a74b7; text-decoration: underline;">Abrir enlace de restablecimiento ahora</a></div>` : null,
+          showConfirmButton: false,
+          timer: 15000,
+          timerProgressBar: true,
+          toast: true
+        });
+      } catch (err) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Error inesperado, intenta de nuevo.',
+          showConfirmButton: false,
+          timer: 15000,
+          timerProgressBar: true,
+          toast: true
+        });
+      }
+    });
+  </script>
+  <script src="../static/js/loader.js" defer></script>
+  <script src="../static/js/network_guard.js" defer></script>
+  </body>
+
+  </html>

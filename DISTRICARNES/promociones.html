@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DISTRICARNES - Promociones</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="shortcut icon" href="./assets/icon/image-removebg-preview sin fondo (1).ico" type="image/x-icon">
+    <link rel="stylesheet" href="./static/css/header_en_general.css" />
+    <link rel="stylesheet" href="./static/css/promociones.css" />
+    <link rel="stylesheet" href="./static/css/base.css" />
+    <link rel="stylesheet" href="./static/css/chatbot.css" />
+    <link rel="stylesheet" href="./css/ofertas.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="./static/css/responsive.css" />
+    <!-- Estilos de Boostrap 5 esto para el carrusel de imagenes que esta en las promociones -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class=" bg-black text-white ">
+    <!-- Header -->
+    <header class="header ">
+        <div class="header-content ">
+            <div class="logo ">
+                <img src="./assets/icon/LOGO-DISTRICARNES.png " alt="DISTRICARNES Logo ">
+            </div>
+
+            <!-- Buscador central estilo ML y pill promocional -->
+            <div class="ml-search">
+                <form action="productos.php" method="get">
+                    <input type="search" name="q" id="site-search" placeholder="Buscar productos, marcas y más…" />
+                    <button type="submit" aria-label="Buscar"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+
+
+            <!-- Enlaces rápidos + botón de carrito (siempre visibles) -->
+            <div id="quickLinks" class="ml-actions">
+                <a id="cartButton" class="ml-icon-btn ml-icon-bounce" href="./carrito-de-compras/index.html" aria-label="Carrito">
+                    <i class="bi bi-cart"></i>
+                    <span class="ml-badge" id="cartCount">0</span>
+                </a>
+                <!-- Botones de acceso y registro -->
+                <div id="authButtons" class="flex gap-3">
+                    <a href="./login/login.html" class="block">
+                        <button style="background-color: rgb(255, 0, 0); border-radius: 50px; color: white; border: 2px solid red;" onmouseover="this.style.borderColor='red'; this.style.backgroundColor='black'; this.style.color='white';" onmouseout="this.style.borderColor='red'; this.style.backgroundColor='red'; this.style.color='white';"
+                            class="bg-red-700 hover:bg-red-800 transition text-white text-sm font-semibold px-4 py-2 rounded">
+              <i class="bi bi-box-arrow-in-right" style="font-size: 1.5rem;"></i> INICAR SESIÓN
+            </button>
+                    </a>
+                    <a href="./login/register.html" class="block">
+                        <button style="background-color: rgb(255, 0, 0); border-radius: 50px; color: white; border: 2px solid red;" onmouseover="this.style.borderColor='red'; this.style.backgroundColor='black'; this.style.color='white';" onmouseout="this.style.borderColor='red'; this.style.backgroundColor='red'; this.style.color='white';"
+                            class="bg-red-700 hover:bg-red-800 transition text-white text-sm font-semibold px-4 py-2 rounded">
+              <i class="bi bi-person-plus-fill" style="font-size: 1.5rem;"></i>
+              REGISTRARSE
+            </button>
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- Botones para usuario logueado (inicialmente ocultos) -->
+            <div id="userLoggedButtons" style="display: none; box-shadow: 0 0 20px rgba(0,0,0,0.8);">
+                <div class="user-profile-container">
+                    <button class="menu-button" onclick="toggleUserDropdown()" aria-expanded="false" aria-haspopup="true">
+            <span class="user-avatar" id="userAvatar"></span>
+            <span class="user-name" id="userName"></span>
+            <i class="fas fa-chevron-down dropdown-arrow"></i>
+          </button>
+
+                    <!-- User Dropdown Menu -->
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-info-dropdown">
+                            <div class="user-avatar-large" id="userAvatarLarge"></div>
+                            <div class="user-details">
+                                <h4 id="userFullName"></h4>
+                                <p id="userEmail"></p>
+                                <span class="user-role" id="userRole"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="menu-divider"></div>
+
+                        <div class="menu-items">
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-user"></i>
+                                <span>Mi Perfil</span>
+                            </a>
+
+
+                            <a href="./historial.html" class="menu-item">
+                                <i class="fas fa-clock"></i> Historial de compra
+                            </a>
+                            <a href="./favoritos.html" class="menu-item">
+                                <i class="fas fa-heart"></i> Mis favoritos
+                            </a>
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-edit"></i>
+                                <span>Editar Perfil</span>
+                            </a>
+                            <a href="#" class="menu-item">
+                                <i class="fas fa-key"></i>
+                                <span>Cambiar Contraseña</span>
+                            </a>
+
+                            <a href="admin/admin_settings.html" class="menu-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Configuración</span>
+                            </a>
+
+
+                            <div class="menu-divider"></div>
+
+                            <a href="#" class="menu-item logout" onclick="logout()">
+                                <i class="fas fa-sign-out-alt" style="color: red;"></i>
+                                <span style="color: red;">Cerrar Sesión</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="nav-menu" id="navMenu">
+                <style>
+                    /* Contenedor centrado en la página */
+                    
+                    .nav-menu {
+                        display: flex;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 6rem;
+                        /* Increased spacing */
+                        width: 100%;
+                        max-width: 960px;
+                        /* ancho máximo del nav centrado */
+                        margin: 0 auto;
+                        /* centra horizontalmente dentro del header */
+                        box-sizing: border-box;
+                        padding: 0.25rem 0.5rem;
+                        text-align: center;
+                    }
+                    /* Asegura que los enlaces y botones queden centrados visualmente */
+                    
+                    .nav-menu>a,
+                    .nav-menu>div {
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    
+                    .nav-menu a {
+                        text-decoration: none;
+                        color: inherit;
+                        padding: 0.35rem 0.75rem;
+                        font-family: 'Montserrat', sans-serif;
+                        /* Applied Montserrat font */
+                    }
+                    /* Mantener los botones de auth alineados y centrados */
+                    
+                    #authButtons {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        justify-content: center;
+                    }
+                    /* En móvil, permitir que los elementos se apilen centrados */
+                    
+                    @media (max-width: 768px) {
+                        .nav-menu {
+                            justify-content: center;
+                            padding: 0.5rem;
+                        }
+                        /* Hacer los botones más compactos en móvil */
+                        #authButtons {
+                            width: 100%;
+                            justify-content: center;
+                            gap: 0.5rem;
+                        }
+                    }
+                </style>
+
+                <!-- Botones de navegación -->
+                <a href="./index.html">Inicio</a>
+                <a href="./productos.php">Productos</a>
+                <a href="./promociones.html" class="active">Ofertas</a>
+                <a href="./contacto.html">Contacto</a>
+                <a href="./sobre_nosotros.html">Quienes Somos</a>
+                <!-- Estilos y funcionalidad mejorados PARA EL MENU DEL USUARIO LOGUEADO -->
+                <style>
+                    /* Contenedor principal con fondo negro y separación de bordes */
+                    
+                    #userLoggedButtons {
+                        background-color: #000000;
+                        padding: 1rem;
+                        border-radius: 10px;
+                        margin: 0.5rem;
+                    }
+                    
+                    .user-profile-container {
+                        position: relative;
+                        display: inline-block;
+                    }
+                    
+                    .menu-button {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        background: linear-gradient(135deg, #000000 0%, #000000 100%);
+                        border: 2px solid #000000;
+                        border-radius: 50px;
+                        padding: 0.75rem 1.5rem;
+                        color: #ffffff;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                    }
+                    
+                    .menu-button:hover {
+                        border-color: #ff0000;
+                        background: linear-gradient(135deg, #000000 0%, #000000 100%);
+                        box-shadow: 0 6px 25px rgba(255, 0, 0, 0.25);
+                        transform: translateY(-2px);
+                    }
+                    
+                    .menu-button:active {
+                        transform: translateY(0);
+                    }
+                    
+                    .user-avatar {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                        font-size: 1.1rem;
+                        color: white;
+                        box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
+                    }
+                    
+                    .user-name {
+                        font-size: 0.95rem;
+                        color: #f0f0f0;
+                        max-width: 120px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    
+                    .dropdown-arrow {
+                        margin-left: 0.5rem;
+                        transition: transform 0.3s ease;
+                        color: #ff0000;
+                    }
+                    
+                    .menu-button[aria-expanded="true"] .dropdown-arrow {
+                        transform: rotate(180deg);
+                    }
+                    
+                    .user-dropdown {
+                        position: absolute;
+                        top: calc(100% + 12px);
+                        right: 0;
+                        background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+                        border: 2px solid #333;
+                        border-radius: 16px;
+                        min-width: 280px;
+                        max-width: 320px;
+                        opacity: 0;
+                        visibility: hidden;
+                        transform: translateY(-10px);
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                        z-index: 1000;
+                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                        backdrop-filter: blur(10px);
+                    }
+                    
+                    .user-dropdown.active {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateY(0);
+                    }
+                    
+                    .user-info-dropdown {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        padding: 1.5rem;
+                        border-bottom: 1px solid #333;
+                    }
+                    
+                    .user-avatar-large {
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                        font-size: 1.5rem;
+                        color: white;
+                        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+                    }
+                    
+                    .user-details h4 {
+                        color: #ffffff;
+                        margin: 0 0 0.25rem 0;
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                    }
+                    
+                    .user-details p {
+                        color: #cccccc;
+                        margin: 0 0 0.5rem 0;
+                        font-size: 0.85rem;
+                    }
+                    
+                    .user-role {
+                        background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+                        color: white;
+                        padding: 0.25rem 0.75rem;
+                        border-radius: 20px;
+                        font-size: 0.75rem;
+                        font-weight: 600;
+                        display: inline-block;
+                    }
+                    
+                    .menu-items {
+                        padding: 0.5rem 0;
+                    }
+                    
+                    .menu-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        padding: 0.875rem 1.5rem;
+                        color: #e0e0e0;
+                        text-decoration: none;
+                        transition: all 0.2s ease;
+                        border-radius: 8px;
+                        margin: 0 0.5rem;
+                    }
+                    
+                    .menu-item:hover {
+                        background: rgba(255, 0, 0, 0.1);
+                        color: #ffffff;
+                        transform: translateX(4px);
+                    }
+                    
+                    .menu-item.logout {
+                        color: #ff6b6b;
+                    }
+                    
+                    .menu-item.logout:hover {
+                        background: rgba(255, 0, 0, 0.15);
+                        color: #ff4444;
+                    }
+                    
+                    .menu-item i {
+                        width: 20px;
+                        text-align: center;
+                        color: #ff0000;
+                    }
+                    
+                    .menu-divider {
+                        height: 1px;
+                        background: linear-gradient(90deg, transparent 0%, #333 50%, transparent 100%);
+                        margin: 0.5rem 1.5rem;
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .user-dropdown {
+                            right: -10px;
+                            min-width: 260px;
+                        }
+                        .menu-button {
+                            padding: 0.625rem 1.25rem;
+                        }
+                        .user-name {
+                            max-width: 80px;
+                        }
+                    }
+                </style>
+
+                <script>
+                    // Función mejorada para toggle del dropdown
+                    function toggleUserDropdown() {
+                        const dropdown = document.getElementById('userDropdown');
+                        const button = document.querySelector('.menu-button');
+                        const isOpen = dropdown.classList.contains('active');
+
+                        // Cerrar todos los dropdowns primero
+                        document.querySelectorAll('.user-dropdown').forEach(d => d.classList.remove('active'));
+                        document.querySelectorAll('.menu-button').forEach(b => b.setAttribute('aria-expanded', 'false'));
+
+                        if (!isOpen) {
+                            dropdown.classList.add('active');
+                            button.setAttribute('aria-expanded', 'true');
+                        }
+                    }
+
+                    document.addEventListener('click', function(event) {
+                        const container = document.querySelector('.user-profile-container');
+                        if (!container.contains(event.target)) {
+                            const dd = document.getElementById('userDropdown');
+                            if (dd) dd.classList.remove('active');
+                            const btn = document.querySelector('.menu-button');
+                            if (btn) btn.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    document.addEventListener('keydown', function(event) {
+                        if (event.key === 'Escape') {
+                            const dd = document.getElementById('userDropdown');
+                            if (dd) dd.classList.remove('active');
+                            const btn = document.querySelector('.menu-button');
+                            if (btn) btn.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    function updateUserProfile(userData) {
+                        if (!userData) return;
+                        const name = userData.name || userData.nombres_completos || 'Usuario';
+                        const initials = (name.charAt(0) || 'U').toUpperCase();
+                        const avatar = document.getElementById('userAvatar');
+                        const userName = document.getElementById('userName');
+                        const avatarLarge = document.getElementById('userAvatarLarge');
+                        const fullName = document.getElementById('userFullName');
+                        const email = document.getElementById('userEmail');
+                        const role = document.getElementById('userRole');
+
+                        if (avatar) avatar.textContent = initials;
+                        if (userName) userName.textContent = name;
+                        if (avatarLarge) avatarLarge.textContent = initials;
+                        if (fullName) fullName.textContent = userData.fullName || name;
+                        if (email) email.textContent = userData.email || userData.correo_electronico || '';
+                        if (role) role.textContent = userData.role || userData.rol || 'Usuario';
+                    }
+
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // placeholder para posibles inicializaciones
+                    });
+
+                    // Modal y sesión
+                    function closeModal() {
+                        const modal = document.getElementById('welcomeModal');
+                        if (modal) modal.style.display = 'none';
+                    }
+
+                    window.addEventListener('load', function() {
+                        var modalEl = document.getElementById('welcomeModal');
+                        if (modalEl) modalEl.style.display = 'flex';
+                        if (window.AuthSystem && typeof AuthSystem.checkUserSession === 'function') {
+                            AuthSystem.checkUserSession();
+                        } else if (typeof checkUserSession === 'function') {
+                            checkUserSession();
+                        }
+                    });
+
+                    function checkUserSession() {
+                        const userData = localStorage.getItem('userData');
+                        const sessionData = sessionStorage.getItem('currentSession');
+
+                        if (userData || sessionData) {
+                            const raw = JSON.parse(userData || sessionData);
+                            if (raw && raw.isLoggedIn) {
+                                const currentUser = raw.user ? raw.user : raw;
+                                const authButtons = document.getElementById('authButtons');
+                                const userLoggedButtons = document.getElementById('userLoggedButtons');
+                                if (authButtons) authButtons.style.display = 'none';
+                                if (userLoggedButtons) userLoggedButtons.style.display = 'block';
+
+                                const displayName = currentUser.nombres_completos || currentUser.nombre || currentUser.correo_electronico || currentUser.email || 'Usuario';
+                                const displayEmail = currentUser.correo_electronico || currentUser.email || '';
+                                const displayRole = currentUser.rol || '';
+                                const initials = (displayName.charAt(0) || 'U').toUpperCase();
+
+                                const userAvatar = document.getElementById('userAvatar');
+                                const userName = document.getElementById('userName');
+                                const userAvatarLarge = document.getElementById('userAvatarLarge');
+                                const userFullName = document.getElementById('userFullName');
+                                const userEmail = document.getElementById('userEmail');
+                                const userRole = document.getElementById('userRole');
+
+                                if (userAvatar) userAvatar.textContent = initials;
+                                if (userName) userName.textContent = displayName;
+                                if (userAvatarLarge) userAvatarLarge.textContent = initials;
+                                if (userFullName) userFullName.textContent = displayName;
+                                if (userEmail) userEmail.textContent = displayEmail;
+                                if (userRole) userRole.textContent = displayRole ? displayRole.charAt(0).toUpperCase() + displayRole.slice(1) : '';
+                            }
+                        }
+                    }
+                </script>
+            </nav>
+
+            <button class="mobile-toggle " id="mobileToggle " aria-label="Toggle menu ">
+        <i class="fas fa-bars "></i>
+      </button>
+        </div>
+    </header>
+
+
+    <!--Carrusel de imagens de promociones -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="./static/images/promociones-ofertas-disponibles/promo-4.webp" class="d-block w-100" alt="First slide">
+            </div>
+            <div class="carousel-item">
+                <img src="./static/images/promociones-ofertas-disponibles/promo-2.webp" class="d-block w-100" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+                <img src="./static/images/promociones-ofertas-disponibles/promo-3.webp" class="d-block w-100" alt="Third slide">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+    </div>
+    <br><br>
+    <style>
+        .carousel-item {
+            height: 600px;
+            /* ← Ajusta este valor (200px, 250px, 300px, etc.) */
+        }
+        
+        .carousel-item img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <!--Aqui estan las terjetasd de las promociones -->
+    <!--Estas ofertas seran llamadas desde la  base de datos-->
+
+
+    <div class="product-grid">
+        <!-- Producto 1 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://www.lanacional.co/cdn/shop/products/PuntadeAnca-Cerdo_1_1200x.jpg?v=1685397444" alt="Punta de anca de cerdo">
+                <div class="discount-badge">-15%</div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Punta de anca de cerdo (1.500 a 1.700 gr)</div>
+                <div class="product-category">Cerdo</div>
+                <div class="product-price">
+                    <span class="original-price">$76.800</span>
+                    <span class="current-price">$64.900</span>
+                </div>
+                <div class="quantity-selector">
+                    <button class="quantity-btn">-</button>
+                    <input type="text" class="quantity-input" value="1">
+                    <button class="quantity-btn">+</button>
+                </div>
+                <button class="add-to-cart" style="background-color: #ff0000;">AÑADIR AL CARRITO</button>
+            </div>
+        </div>
+
+        <!-- Producto 2 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://www.justoperu.com.pe/wp-content/uploads/2021/08/Hamburguesa-de-carne-de-res-y-cerdo-congelada-1.jpg" alt="Hamburguesa Res y Cerdo">
+                <div class="discount-badge">-15%</div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Hamburguesa Res y Cerdo Hecho a mano x 150 Gr c/u (paquete x 4 und)</div>
+                <div class="product-category">Cerdo, Hamburguesas Edición Especial, Res</div>
+                <div class="product-price">
+                    <span class="original-price">$28.050</span>
+                    <span class="current-price">$23.850</span>
+                </div>
+                <div class="quantity-selector">
+                    <button class="quantity-btn">-</button>
+                    <input type="text" class="quantity-input" value="1">
+                    <button class="quantity-btn">+</button>
+                </div>
+                <button class="add-to-cart" style="background-color: #ff0000;">AÑADIR AL CARRITO</button>
+            </div>
+        </div>
+
+        <!-- Producto 3 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://img.freepik.com/foto-gratis/vista-frontal-deliciosa-hamburguesa-queso-carne-tocino_140725-8959.jpg" alt="Hamburguesa Res y Tocineta">
+                <div class="discount-badge">-15%</div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Hamburguesa Res y Tocineta Hecho a mano x 150 Gr c/u (paquete x 4 und)</div>
+                <div class="product-category">Hamburguesas Edición Especial, Res</div>
+                <div class="product-price">
+                    <span class="original-price">$28.050</span>
+                    <span class="current-price">$23.850</span>
+                </div>
+                <div class="quantity-selector">
+                    <button class="quantity-btn">-</button>
+                    <input type="text" class="quantity-input" value="1">
+                    <button class="quantity-btn">+</button>
+                </div>
+                <button class="add-to-cart" style="background-color: #ff0000;">AÑADIR AL CARRITO</button>
+            </div>
+        </div>
+
+        <!-- Producto 4 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGJ1cmdlcnxlbnwwfHwwfHx8MA%3D%3D" alt="Hamburguesa Res y Chorizo">
+                <div class="discount-badge">-15%</div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Hamburguesa Res y Chorizo Rioja Hecho a mano x 150 Gr c/u (paquete x 4 und)</div>
+                <div class="product-category">Hamburguesas Edición Especial, Res</div>
+                <div class="product-price">
+                    <span class="original-price">$30.900</span>
+                    <span class="current-price">$26.200</span>
+                </div>
+                <div class="quantity-selector">
+                    <button class="quantity-btn">-</button>
+                    <input type="text" class="quantity-input" value="1">
+                    <button class="quantity-btn">+</button>
+                </div>
+                <button class="add-to-cart" style="background-color: #ff0000;">AÑADIR AL CARRITO</button>
+            </div>
+        </div>
+
+        <!-- Producto 5 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGJ1cmdlcnxlbnwwfHwwfHx8MA%3D%3D" alt="Hamburguesa Res Hecho a mano">
+                <div class="discount-badge">-15%</div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Hamburguesa Res Hecho a mano x 150 Gr c/u (paquete x 4 und)</div>
+                <div class="product-category">Hamburguesas Edición Especial, Res</div>
+                <div class="product-price">
+                    <span class="original-price">$28.050</span>
+                    <span class="current-price">$23.850</span>
+                </div>
+                <div class="quantity-selector">
+                    <button class="quantity-btn">-</button>
+                    <input type="text" class="quantity-input" value="1">
+                    <button class="quantity-btn">+</button>
+                </div>
+                <button class="add-to-cart" style="background-color: #ff0000;">AÑADIR AL CARRITO</button>
+            </div>
+        </div>
+
+        <!-- Producto 6 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://resvolucion.com/wp-content/uploads/2020/06/lomo-fino-de-res.jpg" alt="Lomo Fino Res Premium Limpio">
+                <div class="discount-badge">-7%</div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Lomo Fino Res Premium Limpio Entero 2.200-2.300</div>
+                <div class="product-category">Res</div>
+                <div class="product-price">
+                    <span class="original-price">$156.900</span>
+                    <span class="current-price">$146.000</span>
+                </div>
+                <div class="quantity-selector">
+                    <button class="quantity-btn">-</button>
+                    <input type="text" class="quantity-input" value="1">
+                    <button class="quantity-btn">+</button>
+                </div>
+                <button class="add-to-cart" style="background-color: #ff0000;">AÑADIR AL CARRITO</button>
+            </div>
+        </div>
+
+        <!-- Producto 7 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="https://www.chedraui.com.mx/medias/7502223770335-00-CH1200Wx1200H?context=bWFzdGVyfGltYWdlc3wzMTM0MjN8aW1hZ2UvanBlZ3xpbWFnZXMvaDE4L2hiMy85ODM3MTEyMjAyOTc0LmpwZ3w1ZDA2MDgwZmEyYjUyZTRkYjUwMTgwMGEyZDA3ZDE1ZjY4NzYxNTM3Y2U5Y2QxYjQ0ODAwYjcyNDI5YmY3Y2Vh"
+                    alt="Molida de Pavo">
+                <div class="discount-badge">-31%</div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Molida de Pavo (Pq x 500 gr)</div>
+                <div class="product-category">Pavo</div>
+                <div class="product-price">
+                    <span class="original-price">$34.500</span>
+                    <span class="current-price">$23.900</span>
+                </div>
+                <div class="quantity-selector">
+                    <button class="quantity-btn">-</button>
+                    <input type="text" class="quantity-input" value="1">
+                    <button class="quantity-btn">+</button>
+                </div>
+                <button class="add-to-cart" style="background-color: #ff0000;">AÑADIR AL CARRITO</button>
+            </div>
+        </div>
+
+        <!-- Producto 8 (Especial con estrellas) -->
+        <div class="product-card special-product">
+            <div class="product-image">
+                <img src="https://resvolucion.com/wp-content/uploads/2020/06/lomo-fino-de-res.jpg" alt="Lomo Fino de Res Limpio Premium Porcionado">
+                <div class="discount-badge">-9%</div>
+            </div>
+            <div class="product-info">
+                <div class="product-title">Lomo Fino de Res Limpio Premium Porcionado (2.200 - 2.300)</div>
+                <div class="product-category">Res</div>
+                <div class="product-price">
+                    <span class="original-price">$165.000</span>
+                    <span class="current-price">$150.000</span>
+                </div>
+                <div class="stars">
+                    ★★★★★
+                </div>
+                <button class="add-to-cart" style="background-color: #ff0000;">SELECCIONAR OPCIONES</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!--footer-->
+    <footer class="footer">
+        <div class="footer-container">
+
+            <!-- Columna 1: Información de Contacto -->
+            <div class="footer-column">
+                <h4>INFORMACIÓN DE CONTACTO</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Dirección: OLAYA HERRERA</p>
+                <p><i class="fas fa-phone"></i> Teléfono: 301 5210177</p>
+                <p><i class="fas fa-envelope"></i> Email: districarnesnavarro@gmail.com</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Columna 2: Información -->
+            <div class="footer-column">
+                <h4>INFORMACIÓN</h4>
+                <ul>
+                    <li><i class="fas fa-info-circle"></i> Información Delivery</li>
+                    <li><i class="fas fa-shield-alt"></i> Políticas de Privacidad</li>
+                    <li><i class="fas fa-file-contract"></i> Términos y condiciones</li>
+                    <li><i class="fas fa-headset"></i> Contáctanos</li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Mi Cuenta -->
+            <div class="footer-column">
+                <h4>MI CUENTA</h4>
+                <ul>
+                    <li><i class="fas fa-user"></i> Mi cuenta</li>
+                    <li><i class="fas fa-history"></i> Historial de ordenes</li>
+                    <li><i class="fas fa-heart"></i> Lista de deseos</li>
+                    <li><i class="fas fa-newspaper"></i> Boletín</li>
+                    <li><i class="fas fa-undo"></i> Reembolsos</li>
+                </ul>
+            </div>
+
+            <!-- Columna 4: Boletín Informativo -->
+            <div class="footer-column">
+                <h4>BOLETÍN INFORMATIVO</h4>
+                <p>Suscríbete a nuestros boletines ahora y mantente al día con nuevas colecciones y ofertas exclusivas.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Ingresa el correo aquí..." required />
+                    <button type="submit" style="background-color: #ff0000;">SUSCRÍBETE</button> </form>
+            </div>
+
+        </div>
+
+        <!-- Pie inferior -->
+        <div class="footer-bottom">
+            <div class="footer-logo">
+                <!-- ⚠️ REEMPLAZA ESTA IMAGEN CON TU LOGO REAL -->
+                <img src="./assets/icon/LOGO-DISTRICARNES.png" alt="Logo Districarnes" />
+                <span>DISTRICARNES HERMANOS NAVARROS</span>
+            </div>
+            <div class="payment-logos">
+                <i class="fab fa-cc-visa" title="Visa" style="font-size:28px;color:#1A1F71;margin-right:8px;"></i>
+                <i class="fab fa-cc-mastercard" title="Mastercard" style="font-size:28px;color:#EB001B;margin-right:8px;"></i>
+                <i class="fab fa-cc-paypal" title="PayPal" style="font-size:28px;color:#003087;margin-right:8px;"></i>
+                <i class="fab fa-cc-amex" title="American Express" style="font-size:28px;color:#2E77BC;margin-right:8px;"></i>
+                <i class="fab fa-cc-discover" title="Discover" style="font-size:28px;color:#FF6000;margin-right:8px;"></i>
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- CHAT BOT -->
+    <div class="chatbot-toggle" onclick="toggleChatbot()" title="Abrir chat DISTRICARNES" aria-label="Abrir chat DISTRICARNES">
+        <i class="fas fa-robot"></i>
+    </div>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <div class="header-info">
+                <div class="bot-avatar"><i class="fas fa-robot"></i></div>
+                <h3>DISTRICARNES HERMANOS NAVARRO</h3>
+                <p>Asistente Virtual</p>
+                <p>Tu especialista en carnes premium</p>
+            </div>
+            <button class="close-btn" onclick="toggleChatbot()" aria-label="Cerrar chat">
+          <i class="fas fa-times"></i>
+        </button>
+        </div>
+        <div class="chatbot-messages">
+            <div class="message bot-message">
+                ¡Hola! 🥩 Soy tu asistente de DISTRICARNES. ¿En qué puedo ayudarte hoy?
+                <div class="menu-options">
+                    <div class="menu-option">
+                        <i class="fas fa-drumstick-bite"></i> Ver productos cárnicos
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-cut"></i> Tipos de cortes
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-clock"></i> Horarios y ubicación
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-tags"></i> Precios y ofertas
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-info-circle"></i> Sobre nosotros
+                    </div>
+                    <div class="menu-option">
+                        <i class="fas fa-phone"></i> Contactar
+                    </div>
+                </div>
+                <div class="message-timestamp">10:01 AM</div>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <div class="input-container">
+                <input type="text" class="chat-input" placeholder="¿Qué deseas saber sobre nuestras carnes?" onkeypress="handleKeyPress(event)" autocomplete="off" />
+                <button class="voice-btn" title="Entrada de voz (No implementado)">
+            <i class="fas fa-microphone"></i>
+          </button>
+                <button class="send-btn" onclick="sendMessage()">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+            </div>
+            <div class="quick-actions">
+                <button class="quick-action" onclick="handleQuickAction('productos')">
+            <i class="fas fa-drumstick-bite"></i> Ver Productos
+          </button>
+                <button class="quick-action" onclick="handleQuickAction('horarios')">
+            <i class="fas fa-clock"></i> Horarios
+          </button>
+                <button class="quick-action" onclick="handleQuickAction('contacto')">
+            <i class="fas fa-phone"></i> Contacto
+          </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de autenticación global -->
+    <script src="./static/js/header_actions.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./static/js/cart_badge.js"></script>
+    <script src="./static/js/history_favorites.js"></script>
+    <script src="./static/js/index.js"></script>
+    <script src="./static/js/chatbot.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.AuthSystem && typeof AuthSystem.checkUserSession === 'function') {
+                AuthSystem.checkUserSession();
+            }
+        });
+    </script>
+    <script src="./static/js/cart_utils.js"></script>
+    <script src="./static/js/loader.js" defer></script>
+    <script src="./static/js/session_guard.js" defer></script>
+    <script src="./static/js/network_guard.js" defer>
+    </script>
+    <!-- Global Auth Utilities -->
+    <script src="./static/js/auth_utils.js" defer></script>
+
+    <!-- Carga y render de ofertas en tiempo real -->
+    <script src="./static/js/promociones.js" defer></script>
+    <!-- Java script para las animaciones del carrusel de las imagenes -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

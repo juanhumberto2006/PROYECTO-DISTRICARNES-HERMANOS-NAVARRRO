@@ -1,0 +1,159 @@
+/* ===== RESET Y VARIABLES ===== */
+
+ :root {
+    --primary: red;
+    --secondary: #000000;
+    --light: #f5f5f5;
+    --dark: #3b3b3b;
+    --text: #ffffff;
+    --accent: #ff0000;
+    --border: #ddd;
+    --hover: #e8f5e8;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+/* ===== HEADER ===== */
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: red;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+nav a:hover,
+.nav-menu a.active {
+    color: red;
+    text-decoration: underline;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+    color: red;
+}
+
+
+/*Contactanos*/
+
+.contact-section {
+    display: flex;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 40px 20px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.contact-info {
+    flex: 1;
+    padding-right: 40px;
+}
+
+.contact-info h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.contact-info p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #cccccc;
+}
+
+.contact-info .tagline {
+    font-style: italic;
+    color: #ff0000;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.contact-form {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 30px;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444;
+    background: #111;
+    color: white;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+button {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #b90e0e;
+}
+
+.learn-more {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: 2px solid white;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.learn-more:hover {
+    background-color: #ca0808;
+    color: black;
+}

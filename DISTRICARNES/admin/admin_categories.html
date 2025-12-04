@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Categorías - DistriCarnes Admin</title>
+    <link rel="icon" type="image/x-icon" href="../assets/icon/image-removebg-preview sin fondo (1).ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: #000000;
+            padding: 20px;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-240px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 50%;
+            margin-right: 15px;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-weight: 400;
+            margin-bottom: 2px;
+        }
+
+        .nav-link span {
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+        }
+
+        
+
+        .nav-link:hover, .nav-link.active {            background: #ff0000;
+            color: white;
+        }
+
+        .nav-link i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 20px;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.expanded {
+            margin-left: 40px;
+        }
+
+        .header {
+            background: #1a1a1a;
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.4rem;
+            margin-right: 16px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .menu-toggle:hover {
+            background: #333;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            background: #0f0f0f;
+            border: 1px solid #333;
+            padding: 10px 40px 10px 12px;
+            border-radius: 6px;
+            color: white;
+            width: 280px;
+            transition: all 0.2s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #ff0000;
+            background: #1a1a1a;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255,255,255,0.6);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notifications {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notifications i {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+            transition: color 0.3s ease;
+        }
+
+        .notifications:hover i {
+            color: #ff0000;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff0000;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+            position: relative;
+        }
+
+        .user-profile:hover {
+            background: #333;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 280px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+            margin-top: 8px;
+        }
+
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .user-info-dropdown {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar-large {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .user-details h4 {
+            margin: 0;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .user-details p {
+            margin: 5px 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .user-role {
+            background: linear-gradient(45deg, #ff0000, #ff0000);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 20px;
+        }
+
+        .menu-items {
+            padding: 10px 0;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:hover {
+            background: #333;
+            color: white;
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .menu-item.logout {
+            color: #e61515;
+        }
+
+        .menu-item.logout:hover {
+            background: rgba(255, 107, 107, 0.1);
+            border-left-color: #e61515;
+        }
+
+        #userMenuArrow {
+            transition: transform 0.3s ease;
+        }
+
+        #userMenuArrow.rotated {
+            transform: rotate(180deg);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #e61515;
+        }
+
+        .stat-card:hover {
+            border-color: #e61515;
+            transform: translateY(-2px);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-title {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon.sales {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+        }
+
+        .stat-icon.orders {
+            background: linear-gradient(45deg, #4299e1, #3182ce);
+        }
+
+        .stat-icon.inventory {
+            background: linear-gradient(45deg, #ed8936, #dd6b20);
+        }
+
+        .stat-icon.customers {
+            background: linear-gradient(45deg, #9f7aea, #805ad5);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .stat-change {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+        }
+
+        .stat-change.positive {
+            color: #48bb78;
+        }
+
+        .stat-change.negative {
+            color: #e61515;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container, .activity-feed {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #ff0000;
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: #0f0f0f;
+            border-radius: 6px;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 1.1rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .activity-icon.sale {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+        }
+
+        .activity-icon.order {
+            background: linear-gradient(45deg, #4299e1, #3182ce);
+        }
+
+        .activity-icon.user {
+            background: linear-gradient(45deg, #9f7aea, #805ad5);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            color: white;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .activity-time {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .action-btn {
+            background: #ff0000;
+            color: white;
+            padding: 16px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .action-btn:hover {
+            background: #ff000060;
+            transform: translateY(-1px);
+        }
+
+        .action-btn i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .search-box input {
+                width: 200px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+      <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #000; color: #fff; overflow-x: hidden; }
+        .sidebar { position: fixed; left: 0; top: 0; width: 280px; height: 100vh; background: #000; padding: 20px; z-index: 1000; box-shadow: 4px 0 15px rgba(0,0,0,0.3); transition: transform 0.3s ease; overflow-y: auto; }
+        .sidebar.collapsed { transform: translateX(-240px); }
+        /* Oculta la barra lateral al hacer scroll */
+        @media (max-width: 768px){
+            body.sidebar-hidden .sidebar { transform: translateX(-100%); }
+        }
+        .logo { display: flex; align-items: center; margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.2); }
+        .logo img { width: 100%; height: 50%; margin-right: 15px; }
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 10px; }
+        .nav-link { display: flex; align-items: center; padding: 15px 20px; color: rgba(255,255,255,0.9); text-decoration: none; border-radius: 10px; transition: all 0.3s ease; font-weight: 500; }
+        .nav-link:hover, .nav-link.active { background:#ff0000; color: white; transform: translateX(5px); }
+        .nav-link i { margin-right: 15px; width: 20px; text-align: center; }
+        .main-content { margin-left: 280px; padding: 20px; min-height: 100vh; transition: margin-left 0.3s ease; }
+        .main-content.expanded { margin-left: 40px; }
+        .header { background: #000; padding: 20px 30px; border-radius: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+        .menu-toggle { background: none; border: none; color: white; font-size: 1.5rem; margin-right: 20px; cursor: pointer; padding: 10px; border-radius: 8px; }
+        .header h1 { font-size: 2rem; font-weight: 700; background: linear-gradient(45deg, #ff0000, #ff0000); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .header-actions { display: flex; gap: 15px; }
+        .btn { padding: 12px 18px; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
+        .btn-primary { background: linear-gradient(45deg, #ff0000, #ff0000); color: white; }
+        .btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
+        .search-filter-bar { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; margin-bottom: 20px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+        .search-box { flex: 1; min-width: 300px; position: relative; }
+        .search-box input { width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 12px 45px 12px 15px; border-radius: 25px; color: white; }
+        .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.6); }
+        .category-cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .category-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+        .category-card-header { display: flex; justify-content: space-between; align-items: center; }
+        .category-card-title { font-weight: 600; color: #fff; font-size: 1rem; }
+        .category-card-counts { display: flex; gap: 8px; flex-wrap: wrap; color: #ddd; font-size: 0.9rem; }
+        .chip { border: 1px solid rgba(255,255,255,0.2); border-radius: 999px; padding: 2px 8px; }
+        .category-card-actions { margin-top: 6px; }
+        .btn-see { background: linear-gradient(45deg, #ff0000, #ff0000); color: #fff; border: none; border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+        .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .product-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; overflow: hidden; }
+        .product-image { position: relative; height: 170px; background: #111; display: flex; align-items: center; justify-content: center; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; }
+        .product-status { position: absolute; left: 10px; top: 10px; background: rgba(0,0,0,0.6); color:#fff; padding: 4px 8px; border-radius: 999px; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.2); }
+        .status-low-stock { background: #8b5cf6; }
+        .status-active { background: #10b981; }
+        .status-inactive { background: #ef4444; }
+        .product-info { padding: 12px; }
+        .product-title { font-weight: 600; color: #fff; margin-bottom: 6px; }
+        .product-category { color: #ddd; font-size: 0.9rem; }
+        .product-price { color: #fff; font-weight: 600; margin-top: 6px; }
+        @media (max-width: 1024px){ .products-grid, .category-cards-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width: 640px){ .products-grid, .category-cards-grid { grid-template-columns: 1fr; } }
+    </style>
+    <script>
+        // Verificación de sesión admin
+        (function(){
+            try {
+                var raw = localStorage.getItem('userData') || sessionStorage.getItem('currentSession');
+                var data = raw ? JSON.parse(raw) : null;
+                var user = data && data.user ? data.user : data;
+                if (!user || user.rol !== 'admin') {
+                    window.location.href = '../login/login.html';
+                }
+            } catch(e) { window.location.href = '../login/login.html'; }
+        })();
+    </script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="logo">
+            <img src="../assets/icon/LOGO-DISTRICARNES.png" alt="DistriCarnes">
+        </div>
+        
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="./admin_dashboard.html" class="nav-link ">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_users.html" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                    <a href="./admin_products.html" class="nav-link">
+                    <i class="fas fa-box"></i>
+                    <span>Productos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                    <a href="./admin_categories.html"class="nav-link active">
+                    <i class="fas fa-tags"></i>
+                    <span>Categorias</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_orders.html" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Pedidos</span>
+                </a>
+            </li>   
+            <li class="nav-item">
+                <a href="./admin_inventory.html" class="nav-link">
+                    <i class="fas fa-warehouse"></i>
+                    <span>Inventario</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_reports.html" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reportes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_promotions.html" class="nav-link">
+                    <i class="fas fa-percent"></i>
+                    <span>Promociones</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="./admin_settings.html" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <h1>Gestión de Categorías</h1>
+            </div>
+            <div class="header-actions">
+                <a href="admin_products.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Volver a Productos</a>
+                <button id="btnAddCategory" class="btn btn-primary"><i class="fas fa-plus"></i> Agregar Categoría</button>
+            </div>
+        </header>
+
+        <div class="search-filter-bar">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar por categoría o producto">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+
+        <!-- Tarjetas de categorías -->
+        <section>
+            <h2 style="font-size:1.1rem;margin-bottom:10px;">Categorías</h2>
+            <div id="categoryCardsGrid" class="category-cards-grid"></div>
+        </section>
+
+        <!-- Productos de la categoría seleccionada -->
+        <section style="margin-top: 20px;">
+            <h2 id="categoryProductsTitle" style="font-size:1.1rem;margin-bottom:10px;">Productos</h2>
+            <div id="categoryProductsGrid" class="products-grid"></div>
+        </section>
+    </main>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const searchInput = document.getElementById('searchInput');
+        const categoryCardsGrid = document.getElementById('categoryCardsGrid');
+        const categoryProductsGrid = document.getElementById('categoryProductsGrid');
+        const categoryProductsTitle = document.getElementById('categoryProductsTitle');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+        });
+
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('collapsed');
+            mainContent.classList.add('expanded');
+            menuToggle.addEventListener('click', () => { sidebar.classList.toggle('active'); });
+        }
+
+        let adminCategories = [];
+        let allProducts = [];
+        let currentCategory = '';
+
+        function normalizeRow(row){
+            return {
+                id: row.id_producto || row.id || row.ID || row.codigo,
+                nombre: row.nombre || row.name || 'Producto',
+                precio: Number(row.precio_venta || row.precio || row.precio_base || row.price || 0),
+                imagen: row.imagen || row.image || '',
+                categoria: (row.categoria || row.category || ''),
+                subcategoria: (row.subcategoria || row.subcategory || ''),
+                stock: Number(row.stock || row.total_stock_lotes || row.existencias || 0),
+                stock_minimo: Number(row.stock_minimo || 0),
+                estado: (row.estado ?? row.activo ?? 'activo')
+            };
+        }
+
+        async function fetchCategories(){
+            try{
+                const res = await fetch('../backend/php/get_categories.php');
+                const data = await res.json();
+                adminCategories = (data && data.categories) ? data.categories : [];
+            }catch(e){ console.error('Error cargando categorías', e); adminCategories = []; }
+        }
+
+        async function fetchAllProducts(){
+            try{
+                const res = await fetch('../backend/php/get_products.php');
+                const data = await res.json();
+                allProducts = (data && data.products ? data.products : []).map(normalizeRow);
+            }catch(e){ console.error('Error cargando productos', e); allProducts = []; }
+        }
+
+        function renderCategoryCards(){
+            categoryCardsGrid.innerHTML = '';
+            const lc = s => (s||'').toLowerCase();
+            const term = lc(searchInput.value);
+            adminCategories
+                .filter(cat => lc(cat.display).includes(term) || lc(cat.name).includes(term))
+                .forEach(cat => {
+                    const list = allProducts.filter(p => lc(p.categoria).includes(lc(cat.name)));
+                    const total = (typeof cat.product_count === 'number') ? cat.product_count : list.length;
+                    const activeCount = list.filter(p => {
+                        const estadoText = (typeof p.estado === 'string') ? p.estado.toLowerCase() : (Number(p.estado)===1?'activo':'inactivo');
+                        return estadoText === 'activo' || estadoText === 'active' || Number(p.estado)===1;
+                    }).length;
+                    const inactiveCount = total - activeCount;
+                    const lowStockCount = list.filter(p => p.stock_minimo && Number(p.stock) <= Number(p.stock_minimo)).length;
+
+                    const card = document.createElement('div');
+                    card.className = 'category-card';
+                    card.innerHTML = `
+                        <div class="category-card-header">
+                            <div class="category-card-title">${cat.display}</div>
+                            <div class="chip">Total: ${total}</div>
+                        </div>
+                        <div class="category-card-counts">
+                            <span class="chip">Activos: ${activeCount}</span>
+                            <span class="chip">Inactivos: ${inactiveCount}</span>
+                            <span class="chip">Bajo stock: ${lowStockCount}</span>
+                        </div>
+                        <div class="category-card-actions">
+                            <button class="btn-see"><i class="fas fa-eye"></i> Ver productos de la categoría</button>
+                        </div>
+                    `;
+                    card.querySelector('.btn-see').addEventListener('click', () => {
+                        currentCategory = cat.name;
+                        showCategoryProducts(cat.display, cat.name, cat.id);
+                        document.getElementById('categoryProductsGrid').scrollIntoView({behavior:'smooth'});
+                    });
+                    categoryCardsGrid.appendChild(card);
+                });
+        }
+
+        async function showCategoryProducts(titleText, catName, catId){
+            categoryProductsTitle.textContent = `Productos - ${titleText}`;
+            categoryProductsGrid.innerHTML = '';
+            try{
+                const params = new URLSearchParams();
+                params.set('categoria', catName);
+                if (catId) params.set('categoria_id', catId);
+                const res = await fetch('../backend/php/get_products.php?' + params.toString());
+                const data = await res.json();
+                const items = (data && data.products ? data.products : []).map(normalizeRow);
+                renderProductsGrid(items);
+            }catch(e){ console.error('Error cargando productos por categoría', e); }
+        }
+
+        function renderProductsGrid(list){
+            categoryProductsGrid.innerHTML = '';
+            const term = (searchInput.value||'').toLowerCase();
+            list
+                .filter(p => p.nombre.toLowerCase().includes(term) || (p.categoria||'').toLowerCase().includes(term))
+                .forEach(p => {
+                    const isLowStock = Number(p.stock_minimo) && Number(p.stock) <= Number(p.stock_minimo);
+                    const estadoText = (typeof p.estado === 'string') ? p.estado.toLowerCase() : (Number(p.estado)===1?'activo':'inactivo');
+                    const imgSrc = p.imagen ? p.imagen : '../assets/icon/LOGO-DISTRICARNES.png';
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <div class="product-image">
+                            ${imgSrc ? `<img src="${imgSrc}" alt="${p.nombre}">` : `<i class="fas fa-image"></i>`}
+                            ${isLowStock ? `<span class="product-status status-low-stock">Stock Bajo</span>` : (estadoText === 'activo' || estadoText==='active' || Number(p.estado)===1) ? `<span class="product-status status-active">Activo</span>` : `<span class="product-status status-inactive">Inactivo</span>`}
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${p.nombre}</h3>
+                            <p class="product-category">${p.categoria || 'Sin categoría'}</p>
+                            <div class="product-price">$${(p.precio||0).toFixed(0)}</div>
+                        </div>
+                    `;
+                    categoryProductsGrid.appendChild(card);
+                });
+        }
+
+        searchInput.addEventListener('input', () => {
+            renderCategoryCards();
+            if (currentCategory) {
+                const current = adminCategories.find(c=>c.name===currentCategory);
+                showCategoryProducts(current?.display || currentCategory, currentCategory, current?.id);
+            }
+        });
+
+        (async function init(){
+            await fetchCategories();
+            await fetchAllProducts();
+            renderCategoryCards();
+        })();
+
+        // Crear categoría desde SweetAlert
+        const btnAddCategory = document.getElementById('btnAddCategory');
+        btnAddCategory.addEventListener('click', async () => {
+            const { value: nombre } = await Swal.fire({
+                title: 'Agregar categoría',
+                input: 'text',
+                inputLabel: 'Nombre de la categoría',
+                inputPlaceholder: 'Ej. Pollo',
+                confirmButtonText: 'Guardar',
+                cancelButtonText: 'Cancelar',
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value || !value.trim()) {
+                        return 'Ingresa un nombre válido';
+                    }
+                }
+            });
+            if (!nombre) return;
+
+            try{
+                const form = new FormData();
+                form.append('action','create');
+                form.append('nombre', nombre.trim());
+                const resp = await fetch('../backend/php/admin_categories_manage.php', { method:'POST', body: form });
+                const data = await resp.json();
+                if (data && data.ok) {
+                    await fetchCategories();
+                    renderCategoryCards();
+                    Swal.fire({ icon: 'success', title: 'Categoría creada', timer: 1200, showConfirmButton: false });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'No se pudo crear', text: (data && data.message) || 'Error desconocido' });
+                }
+            }catch(e){
+                Swal.fire({ icon: 'error', title: 'Error', text: 'Falló la solicitud' });
+            }
+        });
+    </script>
+    <script src="../js/auth.js"></script>
+</body>
+<script src="../static/js/session_guard.js" defer></script>
+<script src="../static/js/network_guard.js" defer></script>
+</html>
